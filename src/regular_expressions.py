@@ -83,8 +83,8 @@ def turn_1b(res: SimpleNamespace):
     s = 'S: what kind of smartphone do you have?'
     u = input(s + '\nU: ')
     phone_added = regex_matcher(res.re_phone, u)
-    res.in_phone_name=phone_added[1]
-    res.in_phone_company=phone_added[0]
+    res.in_phone_name = phone_added[1]
+    res.in_phone_company = phone_added[0]
     turn_1a(res)
 
 def turn_1c(res: SimpleNamespace):
@@ -97,19 +97,19 @@ def turn_2a(res: SimpleNamespace):
     r = res.d_iphone.get(res.in_phone_year, None)
     res.in_phone_version = None
 
-    if r: ##if there are phone models coming out that year, perform dictionary look up for up to that month
-        v = next((models for month, models in r if month <= res.in_phone_month), None) #iterating with next()
-        if v:
+    if r: ##if there are phone models coming out that year that month
+        v = next((models for month, models in r if month <= res.in_phone_month), None)
+        if v: ##if use has given the month of the year
             res.in_phone_version = v[0]
             s = 'S: oh, are you using iphone {}?'.format(' or '.join(v))
             u = input(s + '\nU: ')
 
             yn = regex_matcher(res.re_yn, u)
             if yn[1]: res.in_phone_version = None ## guessed the wrong version
-        else:
+        else: ## when user did not give out the month of the year
             s = 'S: which version of iphone is your model?'
             u = input(s + '\nU: ')
-    else: ##if the from date's year is unknown
+    else: ##if there are no phone models released during the year given by user
         s = 'S: which version of iphone is your model?'
         u = input(s + '\nU: ')
 
@@ -119,7 +119,7 @@ def turn_2a(res: SimpleNamespace):
 
 
 def turn_3a(res: SimpleNamespace):
-    old =2020-res.d_iphone_v[res.in_phone_version]
+    old = 2020-res.d_iphone_v[res.in_phone_version]
     s = 'S: iphone {} is about {} years old'.format(res.in_phone_version, old)
     print(s)
 
@@ -131,14 +131,20 @@ if __name__ == '__main__':
     res.re_yn = re.compile(r'(?:\s|^)(yes|yeah)|(no|not really)(?:\s|,|\.|$)')
     res.re_phone = re.compile(r'(?:\s|^)(apple|google|samsung)|(iphone|pixel|galaxy|android)(?:\s|,|\.|$)')
     res.re_duration = re.compile(r'(?:\s|^)(\d+)(?:\s|-)+(month|year)')
-    ### always have a year, month is optional
-    res.re_from_date = re.compile(r'(?:\s|^)(?:since|from)\s(?:(january|february|march|april|may|june|july|august|september|october|november|december)\s)?(\d{2,4})')
+    res.re_from_date = re.compile(
+        r'(?:\s|^)(?:since|from)\s(?:(january|february|march|april|may|june|july|august|september|october|november|december)\s)?(\d\d{2,4})')
     res.re_iphone_version = re.compile(r'(?:\s|^)(?:iphone|version)\s(\d+s?(?: (?:plus|max))?)(?:\s|,|\.|$)')
 
     # dictionaries
-    res.d_month_to_number = {month: i for i, month in enumerate(['january','february','march','april','may','june','july','august','september','october','november','december'], 1)}
-    res.d_iphone = {2019: [(9, ['11', '11 pro', '11 pro max'])], 2018: [(9, ['10s', '10s max'])], 2017: [(11, ['10']), (9, ['8', '8 plus'])], 2016: [(9, ['7', '7 plus'])], 2015: [(9, ['6s', '6s plus'])], 2014: [(9, ['6', '6 plus'])]}
-    res.d_iphone_v = {'11': 2019, '11 pro': 2019, '11 pro max': 2019, '10s': 2018, '10s max': 2018, '10': 2017, '8': 2017, '8 plus': 2017, '7': 2016, '7 plus': 2016, '6s': 2015, '6s plus': 2015, '6': 2014, '6 plus': 2014}
+    res.d_month_to_number = {month: i for i, month in enumerate(
+        ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november',
+         'december'], 1)}
+    res.d_iphone = {2019: [(9, ['11', '11 pro', '11 pro max'])], 2018: [(9, ['10s', '10s max'])],
+                    2017: [(11, ['10']), (9, ['8', '8 plus'])], 2016: [(9, ['7', '7 plus'])],
+                    2015: [(9, ['6s', '6s plus'])], 2014: [(9, ['6', '6 plus'])]}
+    res.d_iphone_v = {'11': 2019, '11 pro': 2019, '11 pro max': 2019, '10s': 2018, '10s max': 2018, '10': 2017,
+                      '8': 2017, '8 plus': 2017, '7': 2016, '7 plus': 2016, '6s': 2015, '6s plus': 2015, '6': 2014,
+                      '6 plus': 2014}
 
     # run
     turn_0(res)
