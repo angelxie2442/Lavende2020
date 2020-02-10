@@ -28,7 +28,6 @@ ont_dict = {
                       "salamander",
                       "frog"
                       ]
-
               }
            }
 
@@ -42,7 +41,7 @@ df.add_system_transition(State.START, State.PROMPT, '"Enter an animal"')
 df.add_user_transition(State.PROMPT, State.MAMMAL, r'<$animal={cat,dog}>')
 df.add_user_transition(State.PROMPT, State.BIRD, r'<$animal={parrot,dove,crow}>')
 df.add_user_transition(State.PROMPT, State.REPTILE, r'<$animal={snake,turtle,alligator,lizard}>')
-df.add_user_transition(State.PROMPT,State.AMPHIBIAN, r'<$animal=#ONT(ontamphibian)>')
+df.add_user_transition(State.PROMPT,State.AMPHIBIAN, r'<$animal=[!#ONT(ontamphibian)]>')
 df.add_system_transition(State.MAMMAL, State.PROMPT, '[! $animal " is a mammal, enter another animal"]')
 df.add_system_transition(State.BIRD, State.PROMPT, '[! $animal " is a bird, enter another animal"]')
 df.add_system_transition(State.REPTILE, State.PROMPT, '[! $animal " is a reptile, enter another animal"]')
