@@ -33,25 +33,24 @@ def antonyms(word: str, pos: Optional[str] = None) -> Set[str]:
 
 def lch_paths(word_0: str, word_1: str) -> List[List[Synset]]:
     paths=[]
-    ##combination of senses of word0 and word1
+    lchs=set()
     senses_0=wn.synsets(word_0)
     senses_1=wn.synsets(word_1)
-    print(senses_0)
-    print(senses_1)
     for syn_0 in senses_0:
         for syn_1 in senses_1:
-            lch=syn_0.lowest_common_hypernyms(syn_1)
-            for h in lch:
-                paths.extend(h.hypernym_paths())
-    return np.unique(paths)
+            ##Different combination of senses of word0 and word1
+            for lch in syn_0.lowest_common_hypernyms(syn_1):
+                if lch is not None:
+                    ##add any new lch to the set of lchs
+                    lchs.add(lch)
+    ##for each unique lch, find all possible paths to roots of that lch
+    for h in list(lchs):
+        paths.extend(h.hypernym_paths())
+    return paths
     pass
 
 
 if __name__ == '__main__':
-    print(antonyms('man', pos='n'))
-    s=0
-    for path in lch_paths('girl', 'cat'):
-       s=s+1
-       print(path)
-       print(str(s))
-
+    print(antonyms('buy', pos='v'))
+    for path in lch_paths('dog', 'cat'):
+        print(path)
