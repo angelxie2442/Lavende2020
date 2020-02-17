@@ -28,7 +28,7 @@ def antonyms(word: str, pos: Optional[str] = None) -> Set[str]:
                     for ant in l.antonyms(): ##each antonym of that synonym
                         if ant is not None:
                             ants.add(ant)
-    return ants
+    return list(ants)
     pass
 
 def lch_paths(word_0: str, word_1: str) -> List[List[Synset]]:
