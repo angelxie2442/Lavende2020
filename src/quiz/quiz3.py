@@ -16,6 +16,7 @@
 from typing import Set, Optional, List
 from nltk.corpus import wordnet as wn
 from nltk.corpus.reader import Synset
+import numpy as np
 
 
 def antonyms(word: str, pos: Optional[str] = None) -> Set[str]:
@@ -35,19 +36,22 @@ def lch_paths(word_0: str, word_1: str) -> List[List[Synset]]:
     ##combination of senses of word0 and word1
     senses_0=wn.synsets(word_0)
     senses_1=wn.synsets(word_1)
-    print(senses_1)
     print(senses_0)
+    print(senses_1)
     for syn_0 in senses_0:
         for syn_1 in senses_1:
             lch=syn_0.lowest_common_hypernyms(syn_1)
             for h in lch:
                 paths.extend(h.hypernym_paths())
-    return paths
+    return np.unique(paths)
     pass
 
 
 if __name__ == '__main__':
     print(antonyms('man', pos='n'))
-    for path in lch_paths('dog', 'cat'):
+    s=0
+    for path in lch_paths('girl', 'cat'):
+       s=s+1
        print(path)
+       print(str(s))
 
