@@ -179,7 +179,6 @@ knowledge = KnowledgeBase()
 knowledge.load_json(foodapp_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=knowledge)
 
-
 df.add_system_transition(State.START, State.PROMPT_0, r'[!"Do you use any food apps?"]')
 df.add_user_transition(State.PROMPT_0, State.TURN_0_yes, r'<$TURN_0_yes_response={[!#ONT(ontyes)],[!#ONT(ontdelivery)],[!#ONT(ontrating)],[!#ONT(onttype)]}>')
 
