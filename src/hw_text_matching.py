@@ -135,26 +135,36 @@ foodapp_dict ={
         "ontyes":
             [
             "yes",
+            "Yes",
+            "YES",
             "yeah",
             "yea",
             "sure",
             "Of Course",
             "of course",
-            "Sure"
+            "Sure",
             ],
         "ontno":
             [
             "no",
             "not really",
             "nope",
-            "don\'t",
-            "none"
+            "don't",
+            "none",
+            "No",
+            "NO",
+            "Nope",
+            "nope",
+            "Nah",
+            "nah"
+
             ],
         "ontreason": ##related to features of food apps themselves
             [
                 "delivery speed",
                 "speed",
                 "slow",
+                "fast",
                 "service",
                 "delivery",
                 "discount",
