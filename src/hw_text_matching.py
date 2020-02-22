@@ -235,17 +235,17 @@ df.add_system_transition(State.TURN_5B, State.THE_END_2, r'[!"OK. If there are n
 
 ###### Currently using food apps
 df.add_system_transition(State.TURN_1A, State.PROMPT_2A, r'[!"Enter the name of one food app you are using"]')
-df.add_user_transition(State.PROMPT_2A, State.TURN_2A, r'<$TURN_2A_DICT={[!#ONT(ontdelivery)],[! #ONT(ontrating)]}>')
-df.add_system_transition(State.TURN_2A, State.PROMPT_3A, r'[! Do you enjoy using $TURN_2B_DICT "?"]')
+df.add_user_transition(State.PROMPT_2A, State.TURN_2A, r'<$TURN_2A_DICT={[!#ONT(ontdelivery)],[!#ONT(ontrating)]}>')
+df.add_system_transition(State.TURN_2A, State.PROMPT_3A, r'[! Do you enjoy using $TURN_2A_DICT "?"]')
 
 df.add_user_transition(State.PROMPT_3A, State.TURN_4A, r'<$TURN_3A_Yes=[!#ONT(ontyes)]>')
-df.add_system_transition(State.TURN_4A, State.PROMPT_4, r'[!"Great! What do you like about" $TURN_2B_DICT "?"]')
+df.add_system_transition(State.TURN_4A, State.PROMPT_4, r'[!"Great! What do you like about" $TURN_2A_DICT "?"]')
 df.add_user_transition(State.PROMPT_3A, State.TURN_4B, r'<$TURN_3A_No=[!#ONT(ontno)]>')
-df.add_system_transition(State.TURN_4B, State.PROMPT_4, r'[! "Sorry to hear that. What do you not like about" $TURN_2B_DICT "?"]')
+df.add_system_transition(State.TURN_4B, State.PROMPT_4, r'[! "Sorry to hear that. What do you not like about" $TURN_2A DICT "?"]')
 df.add_user_transition(State.PROMPT_4, State.TURN_5A, r'<$TURN_4=[!#ONT(ontreason)]>')
 
 df.add_user_transition(State.TURN_5_Comment, State.TURN_5A,r'/[A-Z a-z]+/')##corner
-df.add_system_transition(State.TURN_5A, State.PROMPT_5A, r'[! "Then do you think" $TURN_2B_DICT "could improve in any how ?"]')
+df.add_system_transition(State.TURN_5A, State.PROMPT_5A, r'[! "Then do you think" $TURN_2A_DICT "could improve in any how ?"]')
 df.add_user_transition(State.PROMPT_5A, State.TURN_6, r'<$TURN_5={[!#ONT(ontyes)],[! #ONT(ontno)]}>')
 df.add_system_transition(State.TURN_6, State.PROMPT_6, r'[!"Will you consider trying a new food app?"]')
 
