@@ -180,7 +180,7 @@ df.add_system_transition(State.SOCIAL_prep_no, State.SOCIAL_end, r'[!"Haha are y
 df.set_error_successor(State.SOCIAL1, State.SOCIAL2_no)
 df.add_system_transition(State.SOCIAL2_no, State.SOCIAL3, r'[!"Besides stressed or anxious, how else do you feel about this upcoming" $STRESSOR_SOCIAL "?"]')
 df.add_user_transition(State.SOCIAL3, State.SOCIAL_feeling,'[$feeling=#POS(adj)]')
-df.add_system_transition(State.SOCIAL_feeling,State.SOCIAL_feeling_cont,r'[!"I usually feel" $feeling "about"$STRESSOR_SOCIAL"too. I also like to imagine getting other\'s admiration or become popular after"$STRESSOR_SOCIAL". Are you like that too?"]')
+df.add_system_transition(State.SOCIAL_feeling,State.SOCIAL_feeling_cont,r'[!"I usually feel" $feeling "about"$STRESSOR_SOCIAL"too. And I enjoy getting people\'s attention and approval when I talk. Are you like that too?"]')
 ######high narci tendency
 df.add_user_transition(State.SOCIAL_feeling_cont,State.SOCIAL_NARCI,r'[!#ONT(ontyes)]')
 df.add_system_transition(State.SOCIAL_NARCI, State.SOCIAL_people, r'[!"Wow.It is likely that we are pretty similar type of people."]')
