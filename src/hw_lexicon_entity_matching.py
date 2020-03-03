@@ -55,6 +55,7 @@ class State(Enum):
     PROMPT_MOOD_ERR = auto()
     PROMPT_STRESSOR_ERR = auto()
     PROMPT_WHO_ERR = auto()
+    Unknown_MOOD = auto()
     SOCIAL_prep_yes1 = auto()
     NAME = auto()
     FAMILY = auto()
@@ -430,7 +431,20 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
 Angel's Part: Social stressor
 '''
 ##Social Stressor Section
-df.add_system_transition(State.START, State.PROMPT_STRESSOR, '"What are you stressed about?"')
+df.add_system_transition(State.START, State.PROMPT_MOOD, '"Hi there, how are you doing today?"')
+df.set_error_successor(State.PROMPT_MOOD, State.PROMPT_MOOD_ERR)
+df.add_system_transition(State.PROMPT_MOOD_ERR, State.PROMPT_STRESSOR, '"Umm...you know what? Recently, I am learning about stressful things. I will be happy if you can tell me something you are stressed about."')
+
+df.add_user_transition(State.PROMPT_MOOD, State.GOOD_MOOD, "[$mood=#ONT(ontpositive)]")
+df.add_user_transition(State.PROMPT_MOOD, State.BAD_MOOD, "[$mood=#ONT(ontnegative)]")
+
+df.add_system_transition(State.GOOD_MOOD, State.PROMPT_STRESSOR,
+                         r'[!"I am glad you are feeling"$mood"! Umm...you know what? Recently, I am learning about stressful things. I will be happy if you can tell me something you are stressed about."]')
+df.add_system_transition(State.BAD_MOOD, State.PROMPT_STRESSOR,
+                         r'[!"Ohh...I am sorry that you are feeling"$mood"... What are you stressed about?"]')
+
+
+# df.add_system_transition(State.START, State.PROMPT_STRESSOR, '"What are you stressed about?"')
 df.add_user_transition(State.PROMPT_STRESSOR, State.SOCIAL0, r'<$STRESSOR_SOCIAL=[!#ONT(ontsocial)]>')
 df.add_system_transition(State.SOCIAL0, State.SOCIAL1, r'[! "Yeah..."$STRESSOR_SOCIAL"is often stressful. Do you always feel stressed about it?"]')
 
@@ -563,13 +577,13 @@ Nelson's Part: Relationship stressor
 # df.add_system_transition(State.START, State.PROMPT_STRESSOR, '"Hi there, how are you doing today?"')
 # df.set_error_successor(State.PROMPT_STRESSOR, State.PROMPT_STRESSOR_ERR)
 #
-# df.add_user_transition(State.PROMPT_STRESSOR, State.GOOD_MOOD, "[{$mood=#ONT(ontpositive)}]")
-# df.add_user_transition(State.PROMPT_STRESSOR, State.BAD_MOOD, "[{$mood=#ONT(ontnegative)}]")
+# df.add_user_transition(State.PROMPT_STRESSOR, State.GOOD_MOOD, "[$mood=#ONT(ontpositive)]")
+# df.add_user_transition(State.PROMPT_STRESSOR, State.BAD_MOOD, "[$mood=#ONT(ontnegative)]")
 #
 # df.add_system_transition(State.GOOD_MOOD, State.PROMPT_MOOD,
-#                          r'[!I am glad you are feeling $mood"!" Is it because of your friends or family"?"]')
+#                          r'[!"I am glad you are feeling"$mood"! Is it because of your friends or family?"]')
 # df.add_system_transition(State.BAD_MOOD, State.PROMPT_MOOD,
-#                          r'[!Ohh...I am sorry that you are feeling "$mood"... Is it about your relationship"?"]')
+#                          r'[!"Ohh...I am sorry that you are feeling"$mood"... Is it about your relationship?"]')
 # df.set_error_successor(State.PROMPT_MOOD, State.PROMPT_MOOD_ERR)
 #
 # # Transition to relationship
