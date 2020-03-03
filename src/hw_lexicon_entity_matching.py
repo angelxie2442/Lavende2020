@@ -489,7 +489,7 @@ df.add_system_transition(State.SOCIAL_activity_ERR, State.SOCIAL_suggest_comedy,
 # df.add_system_transition(State.SOCIAL_destress,State.SOCIAL_destress_activity,r'[!"What do you plan to do to help you de-stress?"]')
 
 df.add_user_transition(State.SOCIAL_destress_activity, State.SOCIAL_activity,r'<[$activity=#POS(noun,verb)]>')
-df.add_system_transition(State.SOCIAL_activity,State.SOCIAL_suggest_comedy, r'[! $activity "sounds very stress relieving. Peronally I likes to watch comedies. Do you like comedy?"]')
+df.add_system_transition(State.SOCIAL_activity,State.SOCIAL_suggest_comedy, r'[!" "$activity"sounds very stress relieving. Peronally I likes to watch comedies. Do you like comedy?"]')
 
 
 ########comedies
@@ -562,9 +562,9 @@ df.add_system_transition(State.SOCIAL_NOT_NARCI, State.SOCIAL_gain, r'[!"What do
 
 ### ERR
 df.set_error_successor(State.SOCIAL_gain, State.SOCIAL_gain_ERR)
-df.add_system_transition(State.SOCIAL_gain_ERR, State.SOCIAL_end, '"Yes, you have a really good point! I hope that one day I can be as thoughtful as you"')
+df.add_system_transition(State.SOCIAL_gain_ERR, State.SOCIAL_end, '"Yes, you have a really good point! I hope that one day I can be as thoughtful as you."')
 df.add_user_transition(State.SOCIAL_gain,State.SOCIAL_value,'[$social_value={#POS(verb,noun)}]')
-df.add_system_transition(State.SOCIAL_value,State.SOCIAL_end,r'[!"I see. It is amazing that you like to" $valued_thing ". Self-development is important. I hope you meet some quality people that will benefit your self-development at"$Social_Stressor"."]')
+df.add_system_transition(State.SOCIAL_value,State.SOCIAL_end,r'[!"I see. It is amazing that you like to" $social_value". Self-development is important and I hope you meet some quality people that will benefit your self-development at" $STRESSOR_SOCIAL"."]')
 ##
 
 ###Stressor Prompt Error Section
