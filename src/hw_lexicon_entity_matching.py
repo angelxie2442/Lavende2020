@@ -524,7 +524,7 @@ df.add_system_transition(State.SOCIAL_neurotic_no,State.SOCIAL_people,r'[!"Is th
 df.set_error_successor(State.SOCIAL_people, State.SOCIAL_people_ERR)
 df.add_system_transition(State.SOCIAL_people_ERR, State.SOCIAL_end, '"I can tell that you are a very social person. I am sure everyone will be happy to see you"')
 
-df.add_user_transition(State.SOCIAL_people,State.SOCIAL_people_name,'[$social_people=#POS(person)]')
+df.add_user_transition(State.SOCIAL_people,State.SOCIAL_people_name,'[$social_people=#NER(person)]')
 df.add_system_transition(State.SOCIAL_people_name,State.SOCIAL_end,r'[!"I can tell that you are a very social person. I am sure "$social_people" will be happy to see you at" $Social_Stressor"."]')
 ########do not replay traumatic experience in mind
 df.add_user_transition(State.SOCIAL_trauma_replay, State.SOCIAL_topic, r'<[!#ONT(ontno)]>')
