@@ -15,6 +15,16 @@ class State(Enum):
     PROMPT2_notbad = auto()
     PROMPT2_bad = auto()
     PROMPT2_err = auto()
+    PROMPT3=auto()
+    PROMPT3_often = auto()
+    PROMPT3_sometimes = auto()
+    PROMPT3_never = auto()
+    PROMPT3_err = auto()
+    PROMPT4= auto()
+    PROMPT4_yes = auto()
+    PROMPT4_no = auto()
+    PROMPT4_err = auto()
+    PROMPT5 = auto()
 
 
 
@@ -51,6 +61,14 @@ stress_dict ={
                 "hardly ever",
                 "not so often",
                 "not very often",
+                "not always",
+                "not so frequently",
+                "not very frequently",
+                "not constantly",
+                "don't constantly",
+                "don't often",
+                "don't frequently",
+                "don't always"
                 "from time to time",
                 "once in a while",
                 "quarterly",
@@ -179,6 +197,10 @@ stress_dict ={
                 'elated', 'lovely', 'worthy',
                 'emphatic', 'loving', 'zealous',
                 'enchanting', 'loyal', 'zestful',
+                'well','smooth','awesome',
+                "not bad","not too bad", "wasn't too bad",
+                "wasn't bad","isn't bad","isn't too bad",
+                "isn't very bad"
             ],
         'ontnegative':
             ['afraid',
@@ -202,6 +224,8 @@ stress_dict ={
              'timid',
              'troubled',
              'tired',
+             'awful',
+             'terrible',
              'worried',
              'aggressive',
              'bellicose',
@@ -402,7 +426,13 @@ stress_dict ={
              'painful',
              'terrifying',
              'tragic',
-             'unctuous'
+             'unctuous',
+             "not well",
+             "not very well",
+             "not so well",
+             "didn't go well",
+             "wasn't well",
+             "isn't good"
             ]
     }
 }
@@ -421,18 +451,32 @@ df.add_system_transition(State.PROMPT1_often,State.PROMPT2,r'[!"Oh...it must be 
 df.add_system_transition(State.PROMPT1_sometimes,State.PROMPT2,r'[!"That is totally normal! I sometimes feel stressed about "$S_S"too. How did your most recent"$S_S"go last time?"]')
 df.add_system_transition(State.PROMPT1_never,State.PROMPT4,r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
 
-df.add_user_transition(State.Prompt2,State.PROMPT2_notbad,)
-df.add_user_transition(State.Prompt2,State.PROMPT2_bad,)
+df.add_user_transition(State.PROMPT2,State.PROMPT2_notbad,r'<{[!#ONT(ontpositive)]}>')
+df.add_user_transition(State.PROMPT2,State.PROMPT2_bad,r'<{[!#ONT(ontnegative)]}>')
 df.add_system_transition(State.PROMPT2_notbad,State.PROMPT3,r'[!"Then I am pretty sure this time it will go just fine too. Just curious, how often do you feel stressed about it?"]')
-df.add_system_transition(State.Prompt2_bad,State.PROMPT3,r'[!"Yeah...sometimes"$S_S" can be really bad. I know how it feels when things get out of control. Just curious, how often do you feel stressed about it?"]')
+df.add_system_transition(State.PROMPT2_bad,State.PROMPT3,r'[!"Yeah...sometimes"$S_S"can be really bad. I know how it feels when things get out of control. Just curious, how often do you feel stressed about it?"]')
+
+df.add_user_transition(State.PROMPT3,State.PROMPT3_often,r'<{[!#ONT(ontoften)]}>')
+df.add_user_transition(State.PROMPT3,State.PROMPT3_sometimes,r'<{[!#ONT(ontsometimes)]}>')
+df.add_user_transition(State.PROMPT3,State.PROMPT3_never,r'<{[!#ONT(ontnever)]}>')
+df.add_system_transition(State.PROMPT3_often,State.PROMPT4,r'[!"I see...but no pain no gain right? The stress could bring out our best performance. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_sometimes,State.PROMPT4,r'[!"You know some amount of stress is helpful. Believe it or not, it can help you be more effecient, motivated, and stuffs.Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_never,State.PROMPT4,r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
+
+df.add_user_transition(State.PROMPT4,State.PROMPT4_yes,)
+df.add_user_transition(State.PROMPT4,State.PROMPT4_no,)
+df.add_system_transition(State.PROMPT4_yes,State.PROMPT5,r'[!"Do you wanna participate in this"$S_S"then?"]')
+df.add_system_transition(State.PROMPT4_no,State.PROMPT6,r'[!"What made you wanna participate in it?"]')
 
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
 df.set_error_successor(State.PROMPT2, State.PROMPT2_err)
+df.set_error_successor(State.PROMPT3, State.PROMPT3_err)
+df.set_error_successor(State.PROMPT4, State.PROMPT4_err)
 df.add_system_transition(State.PROMPT1_err,State.PROMPT1,r'[!"Sorry. I did not get it. Is it more like very often, sometimes, or never?"]')
 df.add_system_transition(State.PROMPT2_err,State.PROMPT3,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
-
-
+df.add_system_transition(State.PROMPT3_err,State.PROMPT4,r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT4_err,State.PROMPT5,r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
 
 if __name__ == '__main__':
     df.run(debugging=False)
