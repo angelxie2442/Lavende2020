@@ -12,8 +12,9 @@ class State(Enum):
     PROMPT1_never = auto()
     PROMPT1_err = auto()
     PROMPT2=auto()
-    PROMPT3 = auto()
-    PROMPT4 = auto()
+    PROMPT2_notbad = auto()
+    PROMPT2_bad = auto()
+    PROMPT2_err = auto()
 
 
 
@@ -411,21 +412,29 @@ knowledge.load_json(stress_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM,kb=knowledge)
 df.add_system_transition(State.START, State.PROMPT0,r'[!"What are you stressed about?"]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re,r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"How often do you participate in"$S_S"?"]')
-df.add_user_transition(State.PROMPT1, State.PROMPT1_often, r'<{[!#ONT(ontoften)],/((?:\s|^)(once|twice|three\stimes|four\stimes|1\stimes|2\stimes|3\stimes|4\stimes)\s(every|per|a)(\s)?((one|1|two|2|three|3)?\s(hour+s?|day+s?|week+s?|month+s?))|((one|1|two|2)?\s(month+s?))(?:\s|,|\.|$))/}>')
-df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes, r'<{[!#ONT(ontsometimes)]}>')
-df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'<{[!#ONT(ontnever)]}>')
 
-df.add_system_transition(State.PROMPT1_often,State.PROMPT2,r'[!"hihithatsoklah"]')
-df.add_user_transition(State.PROMPT2,State.PROMPT3,r'/[A-Z a-z]+/')
-df.add_system_transition(State.PROMPT3,State.PROMPT4,r'[!"hihithatsoklah"]')
+df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"How often do you participate in"$S_S"?"]')
+df.add_user_transition(State.PROMPT1, State.PROMPT1_often, r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes, r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'<{[!#ONT(ontnever)]}>')
+df.add_system_transition(State.PROMPT1_often,State.PROMPT2,r'[!"Oh...it must be really hard for you. I get stressed about"$S_S"too, but the stress gradually decreases everytime I do it. How did your most recent" $S_S "go?"]')
+df.add_system_transition(State.PROMPT1_sometimes,State.PROMPT2,r'[!"That is totally normal! I sometimes feel stressed about "$S_S"too. How did your most recent"$S_S"go last time?"]')
+df.add_system_transition(State.PROMPT1_never,State.PROMPT4,r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
+
+df.add_user_transition(State.Prompt2,State.PROMPT2_notbad,)
+df.add_user_transition(State.Prompt2,State.PROMPT2_bad,)
+df.add_system_transition(State.PROMPT2_notbad,State.PROMPT3,r'[!"Then I am pretty sure this time it will go just fine too. Just curious, how often do you feel stressed about it?"]')
+df.add_system_transition(State.Prompt2_bad,State.PROMPT3,r'[!"Yeah...sometimes"$S_S" can be really bad. I know how it feels when things get out of control. Just curious, how often do you feel stressed about it?"]')
+
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
-df.add_system_transition(State.PROMPT1_err,State.PROMPT1,r'[!"Sorry. I did not get it. Is is more like very often, sometimes, or never?"]')
-######
+df.set_error_successor(State.PROMPT2, State.PROMPT2_err)
+df.add_system_transition(State.PROMPT1_err,State.PROMPT1,r'[!"Sorry. I did not get it. Is it more like very often, sometimes, or never?"]')
+df.add_system_transition(State.PROMPT2_err,State.PROMPT3,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
 
 
-# TODO: create your own dialogue manager
-df.run(debugging=False)
+
+if __name__ == '__main__':
+    df.run(debugging=False)
 
 
