@@ -32,6 +32,9 @@ class State(Enum):
     PROMPT6_re = auto()
     PROMPT6_err =auto()
     PROMPT7 = auto()
+    PROMPT7_err = auto()
+    PROMPT7_ex = auto()
+    PROMPT7_in = auto()
 
 
 
@@ -485,8 +488,12 @@ df.add_user_transition(State.PROMPT5,State.PROMPT5_no,r'<{[!#ONT(ontno)]}>')
 df.add_system_transition(State.PROMPT5_yes,State.PROMPT6,r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you have to go...but on the bright side,you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
 
-df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'[$reason={[#POS(verb) #POS(verb) #POS(noun)],[#POS(verb) #POS(verb)],[#POS(verb) #POS(noun)],[#POS(verb)]}]')
+df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'[$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(noun)]}]')
 df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you like to"$reason".This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
+
+df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, '[$enjoy={[#POS(verb) #POS(noun)],[#POS(verb)]}]')
+df.add_system_transition(State.PROMPT7_ex,State.PROMPT7_err,r'[!"blablabla"$enjoy]')
+
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
 df.set_error_successor(State.PROMPT2, State.PROMPT2_err)
