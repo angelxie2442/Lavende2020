@@ -452,16 +452,19 @@ stress_dict ={
             ],
             'ontextro':
             [
-                "people",
-                "share",
-                "sharing",
-                "new people"
+                "meeting new people",
+                "leading a conversation",
+                "influencing others",
+                "public speaking",
+                "sharing ideas",
+                "socializing"
             ],
             'ontintro':
             [
-                "listen",
-                "learn",
-                "new things"
+                "listening to others' ideas ",
+                "learning new things",
+                "participating in a conversation",
+                "expanding my horizon"
             ]
     }
 }
@@ -509,6 +512,21 @@ df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#ONT(ontextr
 df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#ONT(ontintro)]}>')
 df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love to meet people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!"]')
+
+#repetitive physical activities
+df.add_user_transition(State.PROMPT8,State.PROMPT8_exercising,)
+#music, art, dance, cooking, writing
+df.add_user_transition(State.PROMPT8,State.PROMPT8_creating,)
+#competitive sports games or video games
+df.add_user_transition(State.PROMPT8,State.PROMPT8_games,)
+#eating
+df.add_user_transition(State.PROMPT8,State.PROMPT8_food,)
+#socializing
+df.add_user_transition(State.PROMPT8,State.PROMPT8_partying,)
+#washing dishes and folding clothes could be therapeutic for some people
+df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,)
+#reading books/listening to music/watching netflix
+df.add_user_transition(State.PROMPT8,State.PROMPT8_reading,)
 
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
