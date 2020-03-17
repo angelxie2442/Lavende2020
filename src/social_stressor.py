@@ -35,6 +35,7 @@ class State(Enum):
     PROMPT7_err = auto()
     PROMPT7_ex = auto()
     PROMPT7_in = auto()
+    PROMPT8 = auto()
 
 
 
@@ -448,6 +449,19 @@ stress_dict ={
              "didn't go well",
              "wasn't well",
              "isn't good"
+            ],
+            'ontextro':
+            [
+                "people",
+                "share",
+                "sharing",
+                "new people"
+            ],
+            'ontintro':
+            [
+                "listen",
+                "learn",
+                "new things"
             ]
     }
 }
@@ -491,8 +505,10 @@ df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you
 df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
 df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you "$reason".This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
 
-df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, '[$enjoy={[#POS(verb) #POS(noun)],[#POS(verb)]}]')
-df.add_system_transition(State.PROMPT7_ex,State.PROMPT7_err,r'[!"blablabla"$enjoy]')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#ONT(ontextro)]}>')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#ONT(ontintro)]}>')
+df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
+df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love to meet people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!"]')
 
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
@@ -501,13 +517,14 @@ df.set_error_successor(State.PROMPT3, State.PROMPT3_err)
 df.set_error_successor(State.PROMPT4, State.PROMPT4_err)
 df.set_error_successor(State.PROMPT5, State.PROMPT5_err)
 df.set_error_successor(State.PROMPT6, State.PROMPT6_err)
+df.set_error_successor(State.PROMPT7, State.PROMPT7_err)
 df.add_system_transition(State.PROMPT1_err,State.PROMPT1,r'[!"Sorry. I did not get it. Is it more like very often, sometimes, or never?"]')
 df.add_system_transition(State.PROMPT2_err,State.PROMPT3,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
 df.add_system_transition(State.PROMPT3_err,State.PROMPT4,r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT4_err,State.PROMPT5,r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
 df.add_system_transition(State.PROMPT5_err,State.PROMPT5,r'[!"Um is that a yes?"]')
 df.add_system_transition(State.PROMPT6_err,State.PROMPT7,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
-
+df.add_system_transition(State.PROMPT7_err,State.PROMPT8,r'[!"Interesting! I have never thought of that before. Why don\'t we stop talking about stressful things. What is your favorite de-stess activity?"]')
 
 if __name__ == '__main__':
     df.run(debugging=False)
