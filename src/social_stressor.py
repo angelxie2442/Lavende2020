@@ -30,12 +30,25 @@ class State(Enum):
     PROMPT5_err = auto()
     PROMPT6 = auto()
     PROMPT6_re = auto()
+    PROMPT6_other= auto()
     PROMPT6_err =auto()
     PROMPT7 = auto()
     PROMPT7_err = auto()
     PROMPT7_ex = auto()
     PROMPT7_in = auto()
     PROMPT8 = auto()
+    PROMPT8_chores= auto()
+    PROMPT8_games = auto()
+    PROMPT8_music = auto()
+    PROMPT8_art = auto()
+    PROMPT8_food = auto()
+    PROMPT8_sports = auto()
+    PROMPT8_dance = auto()
+    PROMPT8_readwatch = auto()
+    PROMPT8_onlinesocial = auto()
+    PROMPT8_social = auto()
+    PROMPT8_err= auto()
+    PROMPT9 = auto()
 
 
 
@@ -132,7 +145,6 @@ stress_dict ={
                 "carnival",
                 "dance",
                 "talk",
-                "social media",
                 "gathering"
             ],
         "ontyes":
@@ -454,17 +466,89 @@ stress_dict ={
             [
                 "meeting new people",
                 "leading a conversation",
+                "leading conversations",
+                "initiating a conversation",
+                "initiating conversations",
+                "making new friends",
+                "making friends",
                 "influencing others",
+                "changing other people's opinions",
                 "public speaking",
                 "sharing ideas",
-                "socializing"
+                "sharing",
+                "socializing",
+                "communicating with other people",
+                "the opportunity to socialize",
+                "networking",
+                "connecting with people",
+                "establishing connection with other people",
+                "connecting with other people",
+                "communicating",
+                "connecting with people",
+                "connecting with others",
+                "getting people's attention",
+                "getting people's approval",
+                "having people's attention",
+                "having people's approval",
+                "public speaking",
+                "making people laugh",
+                "entertaining people",
+                "entertaining others",
+                "entertaining other people"
             ],
-            'ontintro':
+            'ontintro': ##probably enjoy talking in a more structured setting and enjoy things/experience/content
             [
                 "listening to others' ideas ",
                 "learning new things",
+                "enjoying myself",
+                "learning",
                 "participating in a conversation",
-                "expanding my horizon"
+                "expanding my horizon",
+                "getting to know people better",
+                "getting to know them better",
+                "getting to know other people better",
+                "games"
+                "listening to others",
+                "learning from others",
+                "learning from others' ideas",
+                "listening to speeches",
+                "listening to a speech",
+                "being with my friends",
+                "hanging out with my friends",
+                "spending time with my friends",
+                "bonding with people I know",
+                "hanging out with people I know",
+                "talking to my friends",
+                "getting to know my friends better",
+                "dancing",
+                "ice-skating",
+                "eating",
+                "drinking",
+                "singing",
+                "food",
+                "music",
+                "deep conversation",
+                "playing on my phone",
+                "internet surfing"
+            ],
+            'ontveryintro':
+            [
+                "don't think I will enjoy",
+                "do not think I will enjoy",
+                "I will not enjoy",
+                "I won't enjoy",
+                "nothing",
+                "none",
+                "don't know",
+                "don't really know"
+            ],
+            'ontexternal':
+            [
+                "have better things to do",
+                "have something to do",
+                "find something to do",
+                "kill time",
+                "distract myself"
             ]
     }
 }
@@ -506,27 +590,27 @@ df.add_system_transition(State.PROMPT5_yes,State.PROMPT6,r'[!"Great! What made y
 df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you have to go...but on the bright side,you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
 
 df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
-df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you "$reason".This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
+df.add_user_transition(State.PROMPT6,State.PROMPT6_other,r'<$External={[!#ONT(ontexternal)]}>')
+df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you "$reason".This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? What part about this"$S_S"that you will enjoy the most?"]')
+df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"If I were you, I would have thought that"$S_S"is a great option to"$External"! Any part about this"$S_S"do you hope that you will enjoy the most?"]')
 
 df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#ONT(ontextro)]}>')
 df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#ONT(ontintro)]}>')
 df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love to meet people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!"]')
 
-#repetitive physical activities
-df.add_user_transition(State.PROMPT8,State.PROMPT8_exercising,)
-#music, art, dance, cooking, writing
-df.add_user_transition(State.PROMPT8,State.PROMPT8_creating,)
-#competitive sports games or video games
-df.add_user_transition(State.PROMPT8,State.PROMPT8_games,)
-#eating
-df.add_user_transition(State.PROMPT8,State.PROMPT8_food,)
-#socializing
-df.add_user_transition(State.PROMPT8,State.PROMPT8_partying,)
-#washing dishes and folding clothes could be therapeutic for some people
-df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,)
-#reading books/listening to music/watching netflix
-df.add_user_transition(State.PROMPT8,State.PROMPT8_reading,)
+
+df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,r'<$enjoy={[!#ONT(ontchores)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_games,r'<$enjoy={[!#ONT(ontgames)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_music,r'<$enjoy={[!#ONT(ontmusic)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_art,r'<$enjoy={[!#ONT(ontart)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_food,r'<$enjoy={[!#ONT(ontfood)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_sports,r'<$enjoy={[!#ONT(ontsports)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_dance,r'<$enjoy={[!#ONT(ontdance)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_shopping,r'<$enjoy={[!#ONT(ontshopping)]}>')
+df.add_user_transition(State.PROMPT8, State.PROMPT8_readwatch,r'<$enjoy={[!#ONT(ontreadwatch)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_onlinesocial,r'<$enjoy={[!#ONT(ontonlinesocial)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_social,r'<$enjoy={[!#ONT(ontsocial)]}>')
 
 ###### error cases
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
@@ -536,6 +620,7 @@ df.set_error_successor(State.PROMPT4, State.PROMPT4_err)
 df.set_error_successor(State.PROMPT5, State.PROMPT5_err)
 df.set_error_successor(State.PROMPT6, State.PROMPT6_err)
 df.set_error_successor(State.PROMPT7, State.PROMPT7_err)
+df.set_error_successor(State.PROMPT8, State.PROMPT8_err)
 df.add_system_transition(State.PROMPT1_err,State.PROMPT1,r'[!"Sorry. I did not get it. Is it more like very often, sometimes, or never?"]')
 df.add_system_transition(State.PROMPT2_err,State.PROMPT3,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
 df.add_system_transition(State.PROMPT3_err,State.PROMPT4,r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
@@ -543,7 +628,7 @@ df.add_system_transition(State.PROMPT4_err,State.PROMPT5,r'[!"Mmhmm. Do you want
 df.add_system_transition(State.PROMPT5_err,State.PROMPT5,r'[!"Um is that a yes?"]')
 df.add_system_transition(State.PROMPT6_err,State.PROMPT7,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
 df.add_system_transition(State.PROMPT7_err,State.PROMPT8,r'[!"Interesting! I have never thought of that before. Why don\'t we stop talking about stressful things. What is your favorite de-stess activity?"]')
-
+df.add_user_transition(State.PROMPT8_err, State.PROMPT9, r'[!"I personally like to organize my rooms and fold my clothes. It is so therapeutic and helps me become more mindful. You should try that too haha!"]')
 if __name__ == '__main__':
     df.run(debugging=False)
 
