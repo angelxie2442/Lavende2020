@@ -600,10 +600,14 @@ df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are
 df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love to meet people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!"]')
 
 
-df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,r'<$enjoy={[!#ONT(ontchores)]}>')
+df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,r'<$activity={[!#ONT(ontchores)]}>')
+df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,r'[!"Same man same! Isn\'t it so therapeutic to"$activity"I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_games,r'<$enjoy={[!#ONT(ontgames)]}>')
+df.add_system_transition(State.PROMPT8_games,State.PROMPT9,r'[!"Oh I didn\'t know you are a gamer! I hope you do realize what an intelligent and interesting person you are. We should play some"$activity"together sometime!"]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_music,r'<$enjoy={[!#ONT(ontmusic)]}>')
+df.add_system_transition(State.PROMPT8_music,State.PROMPT9,r'[!"Of course, It is always so therapeutic to"$activity". I hope you do realize what an emotionally intelligent and geniune person you are. Now I am gonna go listen to some top hits, see ya!"]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_art,r'<$enjoy={[!#ONT(ontart)]}>')
+df.add_system_transition(State.PROMPT8_art,State.PROMPT9,r'[!"I did not know that you are artist! I hope you do realize what an emotionally intelligent and geniune person you are. Now I am gonna go indulge myself in some watercolor paintinting, see ya!"]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_food,r'<$enjoy={[!#ONT(ontfood)]}>')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_sports,r'<$enjoy={[!#ONT(ontsports)]}>')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_dance,r'<$enjoy={[!#ONT(ontdance)]}>')
