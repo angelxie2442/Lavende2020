@@ -36,6 +36,7 @@ class State(Enum):
     PROMPT7_err = auto()
     PROMPT7_ex = auto()
     PROMPT7_in = auto()
+    PROMPT7_inin = auto()
     PROMPT8 = auto()
     PROMPT8_chores= auto()
     PROMPT8_games = auto()
@@ -44,6 +45,7 @@ class State(Enum):
     PROMPT8_food = auto()
     PROMPT8_sports = auto()
     PROMPT8_dance = auto()
+    PROMPT8_shopping =auto()
     PROMPT8_readwatch = auto()
     PROMPT8_onlinesocial = auto()
     PROMPT8_social = auto()
@@ -116,6 +118,13 @@ stress_dict ={
         "ontsocial":
             [
                 "mixer",
+                "gathering",
+                "debate",
+                "mock trial",
+                "trip",
+                "date",
+                "asking a girl out",#action
+                "asking a guy out",#action
                 "dating",
                 "dancing",
                 "night out",
@@ -130,9 +139,10 @@ stress_dict ={
                 "social",
                 "conversation",
                 "meeting",
-                "nightclubs",
                 "performance",
-                "theatre",
+                "piano performance",
+                "dance performance",
+                "theatre performance",
                 "bowling",
                 "ice-skating",
                 "retreat",
@@ -145,7 +155,7 @@ stress_dict ={
                 "carnival",
                 "dance",
                 "talk",
-                "gathering"
+                "ice-cream social",
             ],
         "ontyes":
             [
@@ -544,11 +554,19 @@ stress_dict ={
             ],
             'ontexternal':
             [
-                "have better things to do",
-                "have something to do",
-                "find something to do",
-                "kill time",
-                "distract myself"
+                "don't have better things to do",
+                "do not have better things to do",
+                "don't have better plans",
+                "do not have better plans",
+                "have nothing to do",
+                "have nothing else to do",
+                "trying to find something to do",
+                "tryna find something to do",
+                "want to find something to do",
+                "want to kill time",
+                "wanna kill time",
+                "want to distract myself",
+                "wanna distract myself"
             ]
     }
 }
@@ -592,13 +610,14 @@ df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you
 df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
 df.add_user_transition(State.PROMPT6,State.PROMPT6_other,r'<$External={[!#ONT(ontexternal)]}>')
 df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you "$reason".This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
-df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"If I were you, I would have thought that"$S_S"is a great option to"$External"! Any part about this"$S_S"that you hope that you will enjoy the most?"]')
+df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"If I were you, I would have thought that"$S_S"is a great option if I"$External"too! Any part about this"$S_S"that you hope that you will enjoy the most?"]')
 
 df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#ONT(ontextro)]}>')
 df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#ONT(ontintro)]}>')
+df.add_user_transition(State.PROMPT7,State.PROMPT_inin, r'<{$enjoy=[!#ONT(ontveryintro)]}>')
 df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
-df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love meeting people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!"]')
-
+df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love meeting people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
+df.add_system_transition(State.PROMPT7_inin,State.PROMPT8,r'[!"I think that is totally ok. Maybe the"$S_S"will turn out way better than you think. You never know. Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 
 df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,r'[!"Same man same! Isn\'t it so therapeutic to"$activity"I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
