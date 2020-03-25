@@ -117,14 +117,18 @@ stress_dict ={
                 ],
         "ontsocial":
             [
+                "party",
+                "hanging out",
+                "clubs",
+                "clubbing",
                 "mixer",
                 "gathering",
                 "debate",
                 "mock trial",
                 "trip",
                 "date",
-                "asking a girl out",#action
-                "asking a guy out",#action
+                "asking a girl out",
+                "asking a guy out",
                 "dating",
                 "dancing",
                 "night out",
@@ -504,7 +508,9 @@ stress_dict ={
                 "making people laugh",
                 "entertaining people",
                 "entertaining others",
-                "entertaining other people"
+                "entertaining other people",
+                "vibe",
+                "vibes"
             ],
             'ontintro': ##probably enjoy talking in a more structured setting and enjoy things/experience/content
             [
@@ -567,6 +573,75 @@ stress_dict ={
                 "wanna kill time",
                 "want to distract myself",
                 "wanna distract myself"
+            ],
+            'ontshopping':[
+                "go shopping online",
+                "go shopping",
+                "spending money"
+            ],
+            'ontchores':[
+                "washing dishes",
+                "folding clothes",
+                "cleaning",
+                "organizing",
+                "doing chores"
+            ],
+            'ontgames':[
+                "video games",
+                "board games",
+                "basketball games",
+                "football games",
+                "volleyball games",
+                "tennis competition"
+
+            ],
+            'ontmusic':[
+                "listening to music",
+                "singing",
+                "composing",
+                "music composition",
+                "playing the piano",
+                "playing the guitar",
+                "playing the drum"
+            ],
+            'ontfood':[
+                "eating",
+                "cooking",
+                "making food",
+                "stress eating"
+            ],
+            'ontsports':[
+                "playing basketball",
+                "going for a run",
+                "playing tennis"
+            ],
+            'ontdance':[
+                "dancing",
+                "choreographing",
+                "doing cover dances"
+            ],
+            'ontreadwatch':[
+                "reading books",
+                "watching TV",
+                "netflix"
+            ],
+            'ontonlinesocial':[
+                "social media",
+                "facebook",
+                "twitter",
+                "instagram",
+                "ig",
+                "fb",
+                "tik tok"
+            ],
+            'ontart':[
+                "paining",
+                "watercolor",
+                "making art",
+                "making arts",
+                "taking photos",
+                "taking pictures",
+                "filming"
             ]
     }
 }
@@ -574,7 +649,7 @@ stress_dict ={
 knowledge = KnowledgeBase()
 knowledge.load_json(stress_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM,kb=knowledge)
-df.add_system_transition(State.START, State.PROMPT0,r'[!"Hi! My name is Lavende. I may not be the smartest thinker, but I am an excellent listener. Tell me what you\'re stressed about.]')
+df.add_system_transition(State.START, State.PROMPT0,r'[!"Hi! My name is Lavende. I may not be the smartest thinker, but I am an excellent listener. Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re,r'<$S_S=[!#ONT(ontsocial)]>')
 
 df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"How often do you participate in"$S_S"?"]')
@@ -614,7 +689,7 @@ df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"If I were you, 
 
 df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#ONT(ontextro)]}>')
 df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#ONT(ontintro)]}>')
-df.add_user_transition(State.PROMPT7,State.PROMPT_inin, r'<{$enjoy=[!#ONT(ontveryintro)]}>')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_inin, r'<{$enjoy=[!#ONT(ontveryintro)]}>')
 df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love meeting people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 df.add_system_transition(State.PROMPT7_inin,State.PROMPT8,r'[!"I think that is totally ok. Maybe the"$S_S"will turn out way better than you think. You never know. Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
@@ -634,7 +709,7 @@ df.add_system_transition(State.PROMPT8_sports, State.PROMPT9, r'[!"Oh yes! I am 
 df.add_user_transition(State.PROMPT8,State.PROMPT8_dance,r'<$activity={[!#ONT(ontdance)]}>')
 df.add_system_transition(State.PROMPT8_dance,State.PROMPT9,r'[!"I am a dancer too! Speaking of dancing, I gotta go choreograph for the song "Rewrite the Star".  We should choreograph together sometime in the future! See ya! "]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_shopping,r'<$activity={[!#ONT(ontshopping)]}>')
-df.add_system_transition(State.PROMPT8_shopping, State.PROMPT9,r'[!"Shopping is super duper relaxing for me too. I always end up feeling so guilty for spending money afterward lol but I guess it is worth it."]')
+df.add_system_transition(State.PROMPT8_shopping, State.PROMPT9,r'[!$activity"is super duper relaxing for me too. I always end up feeling so guilty for spending money afterward lol but I guess it is worth it."]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_readwatch,r'<$activity={[!#ONT(ontreadwatch)]}>')
 df.add_system_transition(State.PROMPT8_readwatch,State.PROMPT9,r'[!"Books and netflix are like my getaway house from all the stressful things. We should"$activity"sometime together!"]')
 df.add_user_transition(State.PROMPT8,State.PROMPT8_onlinesocial,r'<$activity={[!#ONT(ontonlinesocial)]}>')
