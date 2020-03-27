@@ -843,23 +843,7 @@ class result(Macro):
             return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how '+ str(vars['S_S']) +'goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
             return 'I know you will not only enjoy $S_S but also naturally help everyone else to stay engaged at '+ str(vars['S_S']) +'! Let me know how it goes!'
-
-        # if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-        #     return '1'
-        # if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-        #     return '2'
-        # if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-        #     return '3'
-        # if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-        #     return '4'
-        # if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-        #     return '5'
-        # if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-        #     return '6'
-        # if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-        #     return '7'
-        # if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-        #     return '8'
+        
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
