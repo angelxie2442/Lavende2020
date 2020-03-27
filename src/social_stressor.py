@@ -316,9 +316,9 @@ class o40(Macro):
             "first time"
         }
         if 'openness' in vars.keys():
-            vars['openness'] += 40
+            vars['openness'] += 20
         else:
-            vars['openness'] = 40
+            vars['openness'] = 20
         return never
 
 
@@ -446,9 +446,9 @@ class o_20(Macro):
             "nah"
         }
         if 'openness' in vars.keys():
-            vars['openness'] += 20
+            vars['openness'] += 60
         else:
-            vars['openness'] = 20
+            vars['openness'] = 60
         return no
 
 
@@ -470,9 +470,9 @@ class o_20_1(Macro):
             "do"
         }
         if 'openness' in vars.keys():
-            vars['openness'] -= 20
+            vars['openness'] += 60
         else:
-            vars['openness'] = -20
+            vars['openness'] = 60
         return yes
 
 
@@ -493,9 +493,9 @@ class o_n20_1(Macro):
             "nah"
         }
         if 'openness' in vars.keys():
-            vars['openness'] += 20
+            vars['openness'] -= 20
         else:
-            vars['openness'] = 20
+            vars['openness'] = -20
         return no
 
 
@@ -1428,15 +1428,29 @@ stress_dict = {
                 [
                     "go shopping online",
                     "go shopping",
-                    "spending money"
+                    "mall",
+                    "malls",
+                    "outlet",
+                    "shop",
+                    "buy",
+                    "buying",
+                    "purchase",
+                    "purchasing"
                 ],
             'ontchores':
                 [
                     "washing dishes",
                     "folding clothes",
+                    "laundry",
                     "cleaning",
+                    "clean",
                     "organizing",
-                    "doing chores"
+                    "doing chores",
+                    "wiping",
+                    "wipe",
+                    "mopping",
+                    "mop",
+                    "vaccum"
                 ],
             'ontgames':
                 [
@@ -1451,7 +1465,27 @@ stress_dict = {
                     "VR Games",
                     "Games",
                     "VR Game",
-                    "Game"
+                    "Game",
+                    "video games",
+                    "games",
+                    "LOL",
+                    "League of Legends",
+                    "league",
+                    "VR games",
+                    "VR Games",
+                    "Games",
+                    "2K18",
+                    "2K19",
+                    "2K20",
+                    "FIFA",
+                    "PC",
+                    "PS4",
+                    "Play Station",
+                    "Xbox",
+                    "xbox",
+                    "play station",
+                    "pc",
+                    "ps4"
                 ],
             'ontmusic':
                 [
@@ -1464,7 +1498,21 @@ stress_dict = {
                     "playing the drum",
                     "singing",
                     "listen to music",
-                    "music"
+                    "music",
+                    "hip hop",
+                    "rock",
+                    "pop music",
+                    "pop culture",
+                    "jazz",
+                    "heavy metal",
+                    "classical music",
+                    "country music",
+                    "rap",
+                    "study music",
+                    "studying music",
+                    "sleep music",
+                    "calm music",
+                    "calming music"
                 ],
             'ontfood':
                 [
@@ -1476,7 +1524,29 @@ stress_dict = {
                     "order takeout",
                     "snack",
                     "snacks",
-                    "snacking on"
+                    "snacking on",
+                     "frozen food",
+                    "dining",
+                    "restaurants",
+                     "restaurant",
+                    "eat out",
+                    "potluck",
+                    "food",
+                    "order Chinese",
+                    "order chinese",
+                    "order Japanese",
+                    "Order japanese",
+                    "order Italian",
+                    "Order italian",
+                    "pasta",
+                    "burger",
+                    "pizza",
+                    "sushi",
+                      "rice",
+                    "groceries",
+                    "stress baking",
+                    "bake",
+                    "baking"
 
                 ],
             'ontsports':
@@ -1513,7 +1583,9 @@ stress_dict = {
                     "sports",
                     "exercise",
                     "fencing",
-                    "wrestling"
+                    "wrestling",
+                    "weight lifting",
+                    "lifting"
                 ],
             'ontdance':
                 [
@@ -1523,9 +1595,22 @@ stress_dict = {
                 ],
             'ontreadwatch':
                 [
-                    "reading books",
-                    "watching TV",
-                    "netflix"
+                    "books",
+                    "TV",
+                    "netflix",
+                    "television",
+                     "Netflix",
+                    "Hulu",
+                    "hulu",
+                    "youtube",
+                    "Youtube",
+                    "Youtube videos",
+                     "news",
+                    "newspaper",
+                    "online article",
+                    "articles",
+                    "research paper",
+                    "scientific report",
                 ],
             'ontonlinesocial':
                 [
@@ -1535,7 +1620,25 @@ stress_dict = {
                     "instagram",
                     "ig",
                     "fb",
-                    "tik tok"
+                    "tik tok",
+                    "social media",
+                    "Facebook",
+                    "Twitter",
+                    "Instagram",
+                    "youtube",
+                    "Youtube",
+                    "snapchat",
+                    "ig",
+                    "fb",
+                    "tik tok",
+                    "Line",
+                    "line",
+                    "Kakao Talk",
+                    "kakao",
+                    "Messenger",
+                    "messenger",
+                    "WeChat",
+                     "wechat"
                 ],
             'ontart':
                 [
@@ -1556,7 +1659,16 @@ stress_dict = {
                     "drawings",
                     "paint",
                     "do my nails",
-                    "paint my nails"
+                    "paint my nails",
+                    "artsy",
+                    "photoshop",
+                    "album",
+                     "illustrator",
+                     "filter",
+                    "lighting",
+                    "shadow",
+                    "pose",
+                    "model"
                 ]
         }
 }
@@ -1576,7 +1688,7 @@ df.add_user_transition(State.PROMPT1, State.PROMPT1_often,
                        r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
 df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes,
                        r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')  # neuroticism =20
-df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'[!#o40]')  # opennes +40  V
+df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'[!#o40]')  # opennes +20  V
 df.add_system_transition(State.PROMPT1_often, State.PROMPT2,
                          r'[!"It must be really hard for you... I get stressed about"$S_S"sometimes, but the stress gradually decreases everytime. How did your most recent" $S_S "go?"]')
 df.add_system_transition(State.PROMPT1_sometimes, State.PROMPT2,
@@ -1602,11 +1714,11 @@ df.add_system_transition(State.PROMPT3_never, State.PROMPT4,
                          r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
 
 df.add_user_transition(State.PROMPT4, State.PROMPT4_yes, r'<{[!#o_n20]}>')  # openness-20  V
-df.add_user_transition(State.PROMPT4, State.PROMPT4_no, r'<{[!#o_20]}>')  # openness+20  V
+df.add_user_transition(State.PROMPT4, State.PROMPT4_no, r'<{[!#o_20]}>')  # openness+60  V
 df.add_system_transition(State.PROMPT4_yes, State.PROMPT5, r'[!"Do you wanna participate in this"$S_S"then?"]')
 df.add_system_transition(State.PROMPT4_no, State.PROMPT6, r'[!"What made you wanna attend this event?"]')
 
-df.add_user_transition(State.PROMPT5, State.PROMPT5_yes, r'<{[!#o_20_1]}>')  # openness+20  V
+df.add_user_transition(State.PROMPT5, State.PROMPT5_yes, r'<{[!#o_20_1]}>')  # openness+60  V
 df.add_user_transition(State.PROMPT5, State.PROMPT5_no, r'<{[!#o_n20_1]}>')  # openness-20  V
 df.add_system_transition(State.PROMPT5_yes, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT5_no, State.PROMPT7,
@@ -1673,7 +1785,6 @@ df.add_system_transition(State.SCORE, State.END, r'[!#result]')
 ###### error cases
 df.set_error_successor(State.PROMPT0, State.PROMPT0_err)
 df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
-df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
 df.set_error_successor(State.PROMPT2, State.PROMPT2_err)
 df.set_error_successor(State.PROMPT3, State.PROMPT3_err)
 df.set_error_successor(State.PROMPT4, State.PROMPT4_err)
@@ -1693,9 +1804,9 @@ df.add_system_transition(State.PROMPT5_err, State.PROMPT5, r'[!"Um is that a yes
 df.add_system_transition(State.PROMPT6_err, State.PROMPT7,
                          r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err, State.PROMPT8,
-                         r'[!"Interesting! I have never thought of that before. Why don\'t we stop talking about stressful things. What is your favorite de-stess activity?"]')
+                         r'[!"Interesting! Why don\'t we stop talking about stressful things. What is your favorite de-stess activity?"]')
 df.add_system_transition(State.PROMPT8_err, State.PROMPT9,
-                         r'[!"I personally like to organize my rooms. I sometimes even help my friends fold their clothes. It is so therapeutic to do those chores haha. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+                         r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
 
 if __name__ == '__main__':
     df.run(debugging=False)
