@@ -826,24 +826,40 @@ class result(Macro):
             vars['extroversion'] = 0
         if 'openness' not in vars.keys():
             vars['openness'] = 0
-        print(vars['neuroticsm'], vars['openness'], vars['extroversion'])
 
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'Playing it safe is certainly a good strategy. But sometimes a risky path can be worth pursuing for it is full of excitement and surprises. I wish you best of luck at ! let me know how it goes!'
+            return 'Playing it safe is certainly a good strategy. But sometimes a risky path can be worth pursuing for it is full of excitement and surprises. I wish you best of luck at ' + str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-            return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at , I am sure you will have such a great time. Let me know how it goes!'
+            return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at ' + str(vars['S_S']) +', I am sure you will have such a great time. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-            return 'I know you love stepping out of your comfort zone a lot. I am sure other people will love that side of you when they get to know you at . Let me know how it goes!'
+            return 'I know you love stepping out of your comfort zone a lot. I am sure other people will love that side of you when they get to know you at '+ str(vars['S_S']) +'. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-            return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at ! Let me know how it goes!'
+            return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at '+ str(vars['S_S']) +'! Let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'I feel so composed after talking to you. Whoever goes to  would be so lucky to meet you and learn about your perspective on things. I hope you have fun at $S_S! let me know how it goes!'
+            return 'I feel so composed after talking to you. Whoever goes to  would be so lucky to meet you and learn about your perspective on things. I hope you have fun at '+ str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-            return 'You will become really popular at  like you always do during any social situation. I hope that you get to become friends with people that are different from you at $S_S!'
+            return 'You will become really popular at  like you always do during any social situation. I hope that you get to become friends with people that are different from you at '+ str(vars['S_S']) +'!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how  goes!'
+            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how '+ str(vars['S_S']) +'goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-            return 'I know you will not only enjoy $S_S but also naturally help everyone else to stay engaged at ! Let me know how it goes!'
+            return 'I know you will not only enjoy $S_S but also naturally help everyone else to stay engaged at '+ str(vars['S_S']) +'! Let me know how it goes!'
+
+        # if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
+        #     return '1'
+        # if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
+        #     return '2'
+        # if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
+        #     return '3'
+        # if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
+        #     return '4'
+        # if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
+        #     return '5'
+        # if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
+        #     return '6'
+        # if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
+        #     return '7'
+        # if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
+        #     return '8'
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
