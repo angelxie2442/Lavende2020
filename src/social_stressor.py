@@ -1568,7 +1568,7 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'o_n20': o_n20(), 'o_20': o_20(), 'o_20_1': o_20_1(), 'o_n20_1': o_n20_1(), 'e80': e80(),
                           'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
-                         r'[!"Hi! My name is Lavende. Tell me what you are stressed about."]')
+                         r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 
 df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"$S_S"?"]')
