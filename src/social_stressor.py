@@ -798,7 +798,7 @@ class e40(Macro):
             "isn't good"
         }
         if 'extroversion' in vars.keys():
-            vars['extroversion'] =40
+            vars['extroversion'] = 40
         else:
             vars['extroversion'] = 40
         return negative
@@ -817,7 +817,33 @@ class printS(Macro):
             vars['openness']) + " Extroversion: " + str(vars['extroversion'])
         return score
 
+class result(Macro):
 
+    def run(self, ngrams, vars, args):
+        if 'neuroticsm' not in vars.keys():
+            vars['neuroticsm'] = 0
+        if 'extroversion' not in vars.keys():
+            vars['extroversion'] = 0
+        if 'openness' not in vars.keys():
+            vars['openness'] = 0
+        print(vars['neuroticsm'], vars['openness'], vars['extroversion'])
+
+        if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
+            return 'Playing it safe is certainly a good strategy. But sometimes a risky path can be worth pursuing for it is full of excitement and surprises. I wish you best of luck at ! let me know how it goes!'
+        if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
+            return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at , I am sure you will have such a great time. Let me know how it goes!'
+        if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
+            return 'I know you love stepping out of your comfort zone a lot. I am sure other people will love that side of you when they get to know you at . Let me know how it goes!'
+        if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
+            return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at ! Let me know how it goes!'
+        if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
+            return 'I feel so composed after talking to you. Whoever goes to  would be so lucky to meet you and learn about your perspective on things. I hope you have fun at $S_S! let me know how it goes!'
+        if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
+            return 'You will become really popular at  like you always do during any social situation. I hope that you get to become friends with people that are different from you at $S_S!'
+        if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
+            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how  goes!'
+        if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
+            return 'I know you will not only enjoy $S_S but also naturally help everyone else to stay engaged at ! Let me know how it goes!'
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
@@ -1540,7 +1566,7 @@ knowledge.load_json(stress_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=knowledge,
                   macros={"n20": n20(), "n_n20": n_n20(), 'o40': o40(), 'n70': n70(), 'n40': n40(), 'n10': n10(),
                           'o_n20': o_n20(), 'o_20': o_20(), 'o_20_1': o_20_1(), 'o_n20_1': o_n20_1(), 'e80': e80(),
-                          'e40': e40(), 'printS': printS()})
+                          'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! My name is Lavende. I may not be the smartest thinker, but I am an excellent listener. Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
@@ -1608,7 +1634,7 @@ df.add_system_transition(State.PROMPT7_in, State.PROMPT8,
 
 df.add_user_transition(State.PROMPT8, State.PROMPT8_chores, r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,
-                         r'[!"Same man same! Isn\'t it so therapeutic to make things clean and organized. I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
+                         r'[!"Same! Isn\'t it so therapeutic to make things clean and organized. I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_games, r'<$activity={[!#ONT(ontgames)]}>')
 df.add_system_transition(State.PROMPT8_games, State.PROMPT9,
                          r'[!"Oh I did not know you are a gamer! I hope you do realize what an intelligent and interesting person you are. We should play some"$activity"together sometime!"]')
@@ -1639,6 +1665,9 @@ df.add_system_transition(State.PROMPT8_onlinesocial, State.PROMPT9,
 df.add_user_transition(State.PROMPT8, State.PROMPT8_social, r'<$activity={[!#ONT(ontsocial)]}>')
 df.add_system_transition(State.PROMPT8_social, State.PROMPT9,
                          r'[!"Are a social butterfly lol. I am glad that you have other people to go to besides me when you are stressed."]')
+
+df.add_user_transition(State.PROMPT9, State.SCORE, r'</.*/>')
+df.add_system_transition(State.SCORE, State.END, r'[!#result]')
 
 #df.add_user_transition(State.PROMPT8, State.SCORE, r'</.*/>')
 #df.add_system_transition(State.SCORE, State.END, r'[!#printS]')
