@@ -623,7 +623,6 @@ class State(Enum):
     PROMPT7_err = auto()
     PROMPT7_ex = auto()
     PROMPT7_in = auto()
-    PROMPT7_inin = auto()
     PROMPT8 = auto()
     PROMPT8_chores = auto()
     PROMPT8_games = auto()
@@ -1349,8 +1348,8 @@ df.add_user_transition(State.PROMPT6,State.PROMPT6_other,r'<$External={[!#ONT(on
 df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"I would have thought that"$S_S"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
 
-df.add_user_transition(State.PROMPT7,State.PROMPT7_ex,r'')
-df.add_user_transition(State.PROMPT7,State.PROMPT7_in,r'')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_ex,)
+df.add_user_transition(State.PROMPT7,State.PROMPT7_in,)
 df.add_system_transition()
 df.add_system_transition()
 
