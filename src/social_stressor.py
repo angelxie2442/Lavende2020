@@ -828,7 +828,7 @@ class result(Macro):
             vars['openness'] = 0
 
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'Playing it safe is certainly a good strategy. But sometimes a risky path can be worth pursuing for it is full of excitement and surprises. I wish you best of luck at ' + str(vars['S_S']) +'! let me know how it goes!'
+            return 'I think you are a bit sensitive to stress, but I am sure that once you overcome the stress you will have a lot of fun! I wish you best of luck at ' + str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
             return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at ' + str(vars['S_S']) +', I am sure you will have such a great time. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
@@ -836,14 +836,14 @@ class result(Macro):
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
             return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at '+ str(vars['S_S']) +'! Let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'I feel so composed after talking to you. Whoever goes to  would be so lucky to meet you and learn about your perspective on things. I hope you have fun at '+ str(vars['S_S']) +'! let me know how it goes!'
+            return 'I feel so composed after talking to you. Whoever goes to '+ str(vars['S_S']) +' would be so lucky to meet you and learn about your perspective on things. I hope you have fun at '+ str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-            return 'You will become really popular at  like you always do during any social situation. I hope that you get to become friends with people that are different from you at '+ str(vars['S_S']) +'!'
+            return 'You will become really popular at '+ str(vars['S_S']) +' like you always do during any social situation. I hope that you get to become friends with people that are different from you at '+ str(vars['S_S']) +'!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how '+ str(vars['S_S']) +'goes!'
+            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how '+ str(vars['S_S']) +' goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-            return 'I know you will not only enjoy $S_S but also naturally help everyone else to stay engaged at '+ str(vars['S_S']) +'! Let me know how it goes!'
-        
+            return 'I know you will not only enjoy '+ str(vars['S_S']) +' but also naturally help everyone else to stay engaged at '+ str(vars['S_S']) +'! Let me know how it goes!'
+
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
@@ -1568,36 +1568,36 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'o_n20': o_n20(), 'o_20': o_20(), 'o_20_1': o_20_1(), 'o_n20_1': o_n20_1(), 'e80': e80(),
                           'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
-                         r'[!"Hi! My name is Lavende. I may not be the smartest thinker, but I am an excellent listener. Tell me what you are stressed about."]')
+                         r'[!"Hi! My name is Lavende. Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 
-df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"How often do you participate in"$S_S"?"]')
+df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"$S_S"?"]')
 df.add_user_transition(State.PROMPT1, State.PROMPT1_often,
                        r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
 df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes,
                        r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')  # neuroticism =20
 df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'[!#o40]')  # opennes +40  V
 df.add_system_transition(State.PROMPT1_often, State.PROMPT2,
-                         r'[!"Oh...it must be really hard for you. I get stressed about"$S_S"too, but the stress gradually decreases everytime I do it. How did your most recent" $S_S "go?"]')
+                         r'[!"It must be really hard for you... I get stressed about"$S_S"sometimes, but the stress gradually decreases everytime. How did your most recent" $S_S "go?"]')
 df.add_system_transition(State.PROMPT1_sometimes, State.PROMPT2,
-                         r'[!"That is totally normal! I sometimes feel stressed about"$S_S"too. How did your most recent"$S_S"go last time?"]')
+                         r'[!"That is totally normal! I sometimes feel stressed about"$S_S"too. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT1_never, State.PROMPT4,
                          r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
 
 df.add_user_transition(State.PROMPT2, State.PROMPT2_notbad, r'<{[!#n20]}>')  # neuroticism +20  V
 df.add_user_transition(State.PROMPT2, State.PROMPT2_bad, r'<{[!#n_n20]}>')  # neuroticism -20  V
 df.add_system_transition(State.PROMPT2_notbad, State.PROMPT3,
-                         r'[!"Then I am pretty sure this time it will go just fine too. Just curious, how often do you feel stressed about it?"]')
+                         r'[!"Then I am pretty sure this time will be just fine as well. Just curious, Do you always feel stressed about it?"]')
 df.add_system_transition(State.PROMPT2_bad, State.PROMPT3,
-                         r'[!"Yeah...sometimes"$S_S"can be really bad. I know how it feels when things get out of control. Just curious, how often do you feel stressed about it?"]')
+                         r'[!"Yeah...sometimes"$S_S"can be really bad. I know how it feels when things get out of control. Just curious, Do you always feel stressed about it?"]')
 
 df.add_user_transition(State.PROMPT3, State.PROMPT3_often, r'<{[!#n70]}>')  # neuroticism +70  V
 df.add_user_transition(State.PROMPT3, State.PROMPT3_sometimes, r'<{[!#n40]}>')  # neuroticism +40  V
 df.add_user_transition(State.PROMPT3, State.PROMPT3_never, r'<{[!#n10]}>')  # neuroticism +10  V
 df.add_system_transition(State.PROMPT3_often, State.PROMPT4,
-                         r'[!"I see...but no pain no gain right? The stress could bring out our best performance. Is this"$S_S"mandatory for you?"]')
+                         r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT3_sometimes, State.PROMPT4,
-                         r'[!"You know some amount of stress is helpful. Believe it or not, it can help you be more effecient, motivated, and stuffs.Is this"$S_S"mandatory for you?"]')
+                         r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more effecient and motivated. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT3_never, State.PROMPT4,
                          r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
 
@@ -1610,15 +1610,15 @@ df.add_user_transition(State.PROMPT5, State.PROMPT5_yes, r'<{[!#o_20_1]}>')  # o
 df.add_user_transition(State.PROMPT5, State.PROMPT5_no, r'<{[!#o_n20_1]}>')  # openness-20  V
 df.add_system_transition(State.PROMPT5_yes, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT5_no, State.PROMPT7,
-                         r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during any"$S_S"How about you, what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"$S_S". How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 df.add_user_transition(State.PROMPT6, State.PROMPT6_re,
                        '<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
 df.add_user_transition(State.PROMPT6, State.PROMPT6_other, r'<$External={[!#ONT(ontexternal)]}>')
 df.add_system_transition(State.PROMPT6_re, State.PROMPT7,
-                         r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT6_other, State.PROMPT7,
-                         r'[!"I would have thought that"$S_S"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I would have thought that"$S_S"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 
 
@@ -1627,44 +1627,42 @@ df.add_user_transition(State.PROMPT7, State.PROMPT7_in, r'<{[!#e40]}>')
 df.add_system_transition(State.PROMPT7_ex, State.PROMPT8,
                          r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 df.add_system_transition(State.PROMPT7_in, State.PROMPT8,
-                         r'[!"I guess we are not all that similar, but I love meeting people that are different from me!Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
-
-
+                         r'[!"I guess we are not all that similar, but I love meeting people that are different from me! Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
 
 
 df.add_user_transition(State.PROMPT8, State.PROMPT8_chores, r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,
-                         r'[!"Same! Isn\'t it so therapeutic to make things clean and organized. I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
+                         r'[!"Same! It feels so good when things are clean and organized, right?"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_games, r'<$activity={[!#ONT(ontgames)]}>')
 df.add_system_transition(State.PROMPT8_games, State.PROMPT9,
-                         r'[!"Oh I did not know you are a gamer! I hope you do realize what an intelligent and interesting person you are. We should play some"$activity"together sometime!"]')
+                         r'[!"Oh I did not know you are a gamer! We should definetely play"$activity"together sometime!"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_music, r'<$activity={[!#ONT(ontmusic)]}>')
 df.add_system_transition(State.PROMPT8_music, State.PROMPT9,
-                         r'[!"Of course, music is always so therapeutic. I hope you do realize what an emotionally intelligent and geniune person you are. Now I am gonna go listen to some top hits, see ya!"]')
+                         r'[!"Of course, listening to music is so stress-relieving, right? I love listening to pop music, do you?"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_art, r'<$activity={[!#ONT(ontart)]}>')
 df.add_system_transition(State.PROMPT8_art, State.PROMPT9,
-                         r'[!"I did not know that you are an artist! I hope you do realize what an emotionally intelligent and geniune person you are. Now I am gonna go indulge myself in some watercolor paintinting, see ya!"]')
+                         r'[!"I did not know that you are an artist! I hope I am more artistic... I am gonna go indulge myself in some watercolor painting later haha"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_food, r'<$activity={[!#ONT(ontfood)]}>')
 df.add_system_transition(State.PROMPT8_food, State.PROMPT9,
-                         r'[!"Are you like a professional foodie or something? You need to give me some recommendations for restaurants next time. I am starving. Gotta go eat now. Bye!"]')
+                         r'[!"Are you a professional foodie haha? You need to give me some recommendations for restaurants next time!"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_sports, r'<$activity={[!#ONT(ontsports)]}>')
 df.add_system_transition(State.PROMPT8_sports, State.PROMPT9,
-                         r'[!"Oh yes! I am very sporty too. Speaking of that, I gotta go ask my friends to see if they want to play basketball with me this weekend!"]')
+                         r'[!"Oh what a coincidence, my friend just ask me if I want to play"$activity"this weekend. You should join us!"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_dance, r'<$activity={[!#ONT(ontdance)]}>')
 df.add_system_transition(State.PROMPT8_dance, State.PROMPT9,
-                         r'[!"I am a dancer too! Oh shoot, I gotta go choreograph for "Rewrite the Star" now.  We should choreograph together sometime! See ya! "]')
+                         r'[!"Hey I am a dancer too! I am choreographing the song "Rewrite the Star"!"]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_shopping, r'<$activity={[!#ONT(ontshopping)]}>')
 df.add_system_transition(State.PROMPT8_shopping, State.PROMPT9,
                          r'[!"Shopping is super duper relaxing for me too. I always end up feeling so guilty for spending money afterward lol but I guess it is worth it."]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_readwatch, r'<$activity={[!#ONT(ontreadwatch)]}>')
 df.add_system_transition(State.PROMPT8_readwatch, State.PROMPT9,
-                         r'[!"I love staying indoors when I am stressed too. It really helps me stay calm."]')
+                         r'[!"I love staying indoors when I am stressed too. It really helps me to stay calm."]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_onlinesocial, r'<$activity={[!#ONT(ontonlinesocial)]}>')
 df.add_system_transition(State.PROMPT8_onlinesocial, State.PROMPT9,
-                         r'[!"Let me tell you how many hours I spend on social media every day. At least 5 hours. So addictive haha. Oh wait my friend just commented on my instagram story. Talk to you later!"]')
+                         r'[!"Guess how many hours I spend on social media every day. 5 hours! I bet you spend even longer than me."]')
 df.add_user_transition(State.PROMPT8, State.PROMPT8_social, r'<$activity={[!#ONT(ontsocial)]}>')
 df.add_system_transition(State.PROMPT8_social, State.PROMPT9,
-                         r'[!"Are a social butterfly lol. I am glad that you have other people to go to besides me when you are stressed."]')
+                         r'[!"You are such a social butterfly! I am glad that you have so many friends!"]')
 
 df.add_user_transition(State.PROMPT9, State.SCORE, r'</.*/>')
 df.add_system_transition(State.SCORE, State.END, r'[!#result]')
