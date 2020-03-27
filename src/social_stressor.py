@@ -372,7 +372,7 @@ class n40(Macro):
                 "once in a while",
                 "quarterly",
                 "yearly",
-                "anually",
+                "annually",
                 "every quarter",
                 "every semester",
                 "every year",
@@ -1342,19 +1342,17 @@ df.add_system_transition(State.PROMPT4_no,State.PROMPT6,r'[!"What made you wanna
 df.add_user_transition(State.PROMPT5,State.PROMPT5_yes,r'<{[!#o_20_1]}>') #openness+20  V
 df.add_user_transition(State.PROMPT5,State.PROMPT5_no,r'<{[!#o_n20_1]}>') #openness-20  V
 df.add_system_transition(State.PROMPT5_yes,State.PROMPT6,r'[!"Great! What made you wanna attend this event?"]')
-df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
+df.add_system_transition(State.PROMPT5_no,State.PROMPT7,r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during any"$S_S"How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 df.add_user_transition(State.PROMPT6,State.PROMPT6_re,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
 df.add_user_transition(State.PROMPT6,State.PROMPT6_other,r'<$External={[!#ONT(ontexternal)]}>')
-df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you"$reason". This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
-df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"If I were you, I would have thought that"$S_S"is a great option if I"$External"too! Any part about this"$S_S"that you hope that you will enjoy the most?"]')
+df.add_system_transition(State.PROMPT6_re,State.PROMPT7, r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
+df.add_system_transition(State.PROMPT6_other,State.PROMPT7, r'[!"I would have thought that"$S_S"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about u? what else do you feel about the upcoming"$S_S"?"]')
 
-df.add_user_transition(State.PROMPT7,State.PROMPT7_ex, r'<$enjoy={[!#e80]}>') #extraversion =80  V
-df.add_user_transition(State.PROMPT7,State.PROMPT7_in, r'<{$enjoy=[!#e40]}>') #extraversion =40  V
-df.add_user_transition(State.PROMPT7,State.PROMPT7_inin, r'<{$enjoy=[!#ONT(ontveryintro)]}>') #extraversion =0
-df.add_system_transition(State.PROMPT7_ex,State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. I personally enjoy"$enjoy"a lot. Okay. Why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
-df.add_system_transition(State.PROMPT7_in,State.PROMPT8,r'[!"I guess we are not all that similar, but I love meeting people that are different from me!"$S_S"is a good opportunity to learn from others and maybe I will enjoy"$enjoy"too!Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
-df.add_system_transition(State.PROMPT7_inin,State.PROMPT8,r'[!"I think that is totally ok. Maybe the"$S_S"will turn out way better than you think. You never know. Hey why don\'t we stop talking about stressful things. What is your favorite de-stress activity?"]')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_ex,r'')
+df.add_user_transition(State.PROMPT7,State.PROMPT7_in,r'')
+df.add_system_transition()
+df.add_system_transition()
 
 df.add_user_transition(State.PROMPT8,State.PROMPT8_chores,r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,r'[!"Same man same! Isn\'t it so therapeutic to make things clean and organized. I hope you do realize what an emotionally intelligent and geniune person you are. Enjoy yourself at"$S_S"! Bye!"]')
