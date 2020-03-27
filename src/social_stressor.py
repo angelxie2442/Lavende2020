@@ -1189,16 +1189,16 @@ stress_dict ={
             [
                 "video games",
                 "board games",
-                "basketball games",
-                "football games",
-                "volleyball games",
-                "tennis competition",
+                "game",
+                "video game",
                 "games",
                 "LOL",
                 "League of Legends",
                 "VR games",
                 "VR Games",
-                "Games"
+                "Games",
+                "VR Game",
+                "Game"
             ],
         'ontmusic':
             [
