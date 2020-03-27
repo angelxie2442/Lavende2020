@@ -1401,7 +1401,8 @@ df.add_system_transition(State.PROMPT4_err,State.PROMPT5,r'[!"Mmhmm. Do you want
 df.add_system_transition(State.PROMPT5_err,State.PROMPT5,r'[!"Um is that a yes?"]')
 df.add_system_transition(State.PROMPT6_err,State.PROMPT7,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. How about you? Any part about this"$S_S"that you will enjoy the most?"]')
 df.add_system_transition(State.PROMPT7_err,State.PROMPT8,r'[!"Interesting! I have never thought of that before. Why don\'t we stop talking about stressful things. What is your favorite de-stess activity?"]')
-df.add_user_transition(State.PROMPT8_err, State.PROMPT9, r'[!"I personally like to organize my rooms. I sometimes even help my friends fold their clothes. It is so therapeutic to do those chores haha. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+df.add_system_transition(State.PROMPT8_err, State.PROMPT9, r'[!"I personally like to organize my rooms. I sometimes even help my friends fold their clothes. It is so therapeutic to do those chores haha. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+
 
 if __name__ == '__main__':
     df.run(debugging=False)
