@@ -1695,7 +1695,6 @@ df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what social events you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
-
 df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"overwhelming?"]') ###added a new branch for nouns not predicted by our social event ontology
 df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
 df.add_user_transition(State.PROMPT1, State.PROMPT1_often,
