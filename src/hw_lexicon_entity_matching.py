@@ -817,8 +817,12 @@ class printS(Macro):
             vars['openness']) + " Extroversion: " + str(vars['extroversion'])
         return score
 
-class det_prompt0(Macro):
+class det_ss(Macro):
     def run(self, ngrams, vars, args):
+        if str(vars['S_S'])[0] is ('a' or "a" or 'e' or "e" or 'i' or "i" or 'o' or "o" or 'x' or "x"):
+            return 'an '+str(vars['S_S'])
+        else:
+            return 'a '+str(vars['S_S'])
 
 
 class result(Macro):
@@ -832,21 +836,21 @@ class result(Macro):
             vars['openness'] = 0
 
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'I think you are a bit sensitive to stress, but I am sure that once you overcome the stress you will have a lot of fun! I wish you best of luck at ' + str(vars['S_S']) +'! let me know how it goes!'
+            return 'I think you are a bit sensitive to stress, but I am sure that once you overcome the stress you will have a lot of fun! I wish you best of luck at the upcoming ' + str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-            return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at ' + str(vars['S_S']) +', I am sure you will have such a great time. Let me know how it goes!'
+            return 'You have such a bubbly personality. As long as you are being considerate and thoughtful about other people at the upcoming ' + str(vars['S_S']) +', I am sure you will have such a great time. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-            return 'I know you love stepping out of your comfort zone a lot. I am sure other people will love that side of you when they get to know you at '+ str(vars['S_S']) +'. Let me know how it goes!'
+            return 'I know you love stepping out of your comfort zone a lot. I am sure other people will love that side of you when they get to know you at the upcoming '+ str(vars['S_S']) +'. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-            return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at '+ str(vars['S_S']) +'! Let me know how it goes!'
+            return 'You have a really unique personality type. I admire your creativity and expressiveness. I hope you have fun at the upcoming '+ str(vars['S_S']) +'! Let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] <= 50:
-            return 'I feel so composed after talking to you. Whoever goes to '+ str(vars['S_S']) +' would be so lucky to meet you and learn about your perspective on things. I hope you have fun at '+ str(vars['S_S']) +'! let me know how it goes!'
+            return 'I feel so composed after talking to you. Whoever goes to the upcoming '+ str(vars['S_S']) +' would be so lucky to meet you and learn about your perspective on things. I hope you have fun at the upcoming '+ str(vars['S_S']) +'! let me know how it goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] <= 50 and vars['extroversion'] > 50:
-            return 'You will become really popular at '+ str(vars['S_S']) +' like you always do during any social situation. I hope that you get to become friends with people that are different from you at '+ str(vars['S_S']) +'!'
+            return 'You will become really popular at the upcoming '+ str(vars['S_S']) +' like you always do during any social situation. I hope that you get to become friends with people that are different from you at the upcoming '+ str(vars['S_S']) +'!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] <= 50:
-            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how '+ str(vars['S_S']) +' goes!'
+            return 'Just be your adventurous self as you always do before. People will love that side of you when they get to know you. Let me know how the upcoming '+ str(vars['S_S']) +' goes!'
         if vars['neuroticsm'] <= 50 and vars['openness'] > 50 and vars['extroversion'] > 50:
-            return 'I know you will not only enjoy '+ str(vars['S_S']) +' but also naturally help everyone else to stay engaged at '+ str(vars['S_S']) +'! Let me know how it goes!'
+            return 'I know you will not only enjoy the upcoming '+ str(vars['S_S']) +' but also naturally help everyone else to have a great time at the upcoming '+ str(vars['S_S']) +'! Let me know how it goes!'
 
 class State(Enum):
     START = auto()
@@ -1684,7 +1688,7 @@ stress_dict = {
 knowledge = KnowledgeBase()
 knowledge.load_json(stress_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=knowledge,
-                  macros={'det_prompt0': det_prompt0(),"n20": n20(), "n_n20": n_n20(), 'o40': o40(), 'n70': n70(), 'n40': n40(), 'n10': n10(),
+                  macros={'det_ss': det_ss(),"n20": n20(), "n_n20": n_n20(), 'o40': o40(), 'n70': n70(), 'n40': n40(), 'n10': n10(),
                           'o_n20': o_n20(), 'o_20': o_20(), 'o_20_1': o_20_1(), 'o_n20_1': o_n20_1(), 'e80': e80(),
                           'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
@@ -1692,17 +1696,17 @@ df.add_system_transition(State.START, State.PROMPT0,
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
 
-df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"$S_S"overwhelming?"]') ###added a new branch for nouns not predicted by our social event ontology
-df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"$S_S"?"]')
+df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"overwhelming?"]') ###added a new branch for nouns not predicted by our social event ontology
+df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
 df.add_user_transition(State.PROMPT1, State.PROMPT1_often,
                        r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
 df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes,
                        r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')  # neuroticism =20
 df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'[!#o40]')  # opennes +20  V
 df.add_system_transition(State.PROMPT1_often, State.PROMPT2,
-                         r'[!"It must be really hard for you... I get stressed about"$S_S"sometimes, but the stress gradually decreases every time. How did your most recent" $S_S "go?"]')
+                         r'[!"It must be really hard for you... I get stressed about"#det_ss"sometimes, but the stress gradually decreases every time. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT1_sometimes, State.PROMPT2,
-                         r'[!"That is totally normal! I sometimes feel stressed about"$S_S"too. How did your most recent"$S_S"go?"]')
+                         r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT1_never, State.PROMPT4,
                          r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
 
@@ -1711,7 +1715,7 @@ df.add_user_transition(State.PROMPT2, State.PROMPT2_bad, r'<{[!#n_n20]}>')  # ne
 df.add_system_transition(State.PROMPT2_notbad, State.PROMPT3,
                          r'[!"Then I am pretty sure this time will be just fine as well. Just curious, Do you always feel stressed about it?"]')
 df.add_system_transition(State.PROMPT2_bad, State.PROMPT3,
-                         r'[!"Yeah...sometimes"$S_S"can be really bad. I know how it feels when things get out of control. Just curious, Do you always feel stressed about it?"]')
+                         r'[!"Yeah...sometimes"#det_ss"can be really bad. I know how it feels when things get out of control. Just curious, Do you always feel stressed about it?"]')
 
 df.add_user_transition(State.PROMPT3, State.PROMPT3_often, r'<{[!#n70]}>')  # neuroticism +70  V
 df.add_user_transition(State.PROMPT3, State.PROMPT3_sometimes, r'<{[!#n40]}>')  # neuroticism +40  V
@@ -1732,15 +1736,15 @@ df.add_user_transition(State.PROMPT5, State.PROMPT5_yes, r'<{[!#o_20_1]}>')  # o
 df.add_user_transition(State.PROMPT5, State.PROMPT5_no, r'<{[!#o_n20_1]}>')  # openness-20  V
 df.add_system_transition(State.PROMPT5_yes, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT5_no, State.PROMPT7,
-                         r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"$S_S". How about you, what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"#det_ss". How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 df.add_user_transition(State.PROMPT6, State.PROMPT6_re,
                        '<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
 df.add_user_transition(State.PROMPT6, State.PROMPT6_other, r'<$External={[!#ONT(ontexternal)]}>')
 df.add_system_transition(State.PROMPT6_re, State.PROMPT7,
-                         r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT6_other, State.PROMPT7,
-                         r'[!"I would have thought that"$S_S"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
+                         r'[!"I would have thought that"#det_ss"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 
 
@@ -1815,7 +1819,7 @@ df.add_system_transition(State.PROMPT3_err, State.PROMPT4, r'[!"Yeah. I feel you
 df.add_system_transition(State.PROMPT4_err, State.PROMPT5, r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
 df.add_system_transition(State.PROMPT5_err, State.PROMPT5, r'[!"Um is that a yes?"]')
 df.add_system_transition(State.PROMPT6_err, State.PROMPT7,
-                         r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
+                         r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err, State.PROMPT8,
                          r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destess activity?"]')
 df.add_system_transition(State.PROMPT8_err, State.PROMPT9,
