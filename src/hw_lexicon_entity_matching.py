@@ -1814,13 +1814,13 @@ df.add_system_transition(State.PROMPT0_err, State.PROMPT0_a, r'[!"I am glad that
 df.add_user_transition(State.PROMPT0_a,State.PROMPT0_b,r'</.*/>')
 df.add_system_transition(State.PROMPT0_b,State.PROMPT8,r'[!"You know what? Talking about stressful things makes me more stressed. I need to do something to destress. What is your favorite destress activity?"]')
 ######
-df.add_system_transition(State.PROMPT1_err, State.PROMPT1,
-                         r'[!"Sorry. I did not get it. Is it more like very often, sometimes, or never?"]')
+df.add_system_transition(State.PROMPT1_err, State.PROMPT2,
+                         r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT2_err, State.PROMPT3,
                          r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
 df.add_system_transition(State.PROMPT3_err, State.PROMPT4, r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT4_err, State.PROMPT5, r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
-df.add_system_transition(State.PROMPT5_err, State.PROMPT5, r'[!"Um is that a yes?"]')
+df.add_system_transition(State.PROMPT5_err, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT6_err, State.PROMPT7,
                          r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err, State.PROMPT8,
