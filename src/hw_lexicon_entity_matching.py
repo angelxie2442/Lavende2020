@@ -819,7 +819,11 @@ class printS(Macro):
 
 class det_ss(Macro):
     def run(self, ngrams, vars, args):
-        if str(vars['S_S'])[0] is ('a' or "a" or 'e' or "e" or 'i' or "i" or 'o' or "o" or 'x' or "x"):
+        if str(vars['S_S'])==('wedding' or "wedding" or "gathering" or 'gathering' or 'meeting' or "meeting"):
+            return 'a '+str(vars['S_S'])
+        elif str(vars['S_S'])[-3:] == ('ing' or "ing"):
+            return str(vars['S_S'])
+        elif str(vars['S_S'])[0] is ('a' or "a" or 'e' or "e" or 'i' or "i" or 'o' or "o" or 'x' or "x"):
             return 'an '+str(vars['S_S'])
         else:
             return 'a '+str(vars['S_S'])
@@ -855,9 +859,9 @@ class result(Macro):
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
-    PROMPT0_re = auto()
+    PROMPT0_re = 2
     PROMPT0_err = auto() #user is stressed about nothing/unsure
-    PROMPT0_other = auto()
+    PROMPT0_other = 3
     PROMPT0_a =auto()
     PROMPT0_b =auto()
     PROMPT1 = auto()
@@ -973,14 +977,16 @@ stress_dict = {
                     "party",
                     "hanging out",
                     "clubbing",
+                    "dancing",
+                    "performing"
                     "mixer",
-                    'drinking',
-                    "gathering",
+                    "dating",
                     "debate",
                     "mock trial competition",
                     "trip",
+                    "wedding",#these end with ing but should be treated as nouns!!
+                    "gathering",#these end with ing but should be treated as nouns!!
                     "date",
-                    "gathering",
                     "night out",
                     "nightout",
                     "party",
@@ -990,7 +996,7 @@ stress_dict = {
                     "public speaking",
                     "social event",
                     "conversation",
-                    "meeting",
+                    "meeting",#these end with ing but should be treated as nouns!!
                     "performance",
                     "piano performance",
                     "dance performance",
