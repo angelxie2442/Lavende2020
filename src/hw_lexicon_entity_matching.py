@@ -1028,7 +1028,8 @@ stress_dict = {
                     "Sure",
                     "i guess",
                     "i think so",
-                    "do"
+                    "for sure",
+                    "certainly"
                 ],
             "ontno":
                 [
