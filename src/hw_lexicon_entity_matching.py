@@ -819,11 +819,11 @@ class printS(Macro):
 
 class det_ss(Macro):
     def run(self, ngrams, vars, args):
-        if str(vars['S_S'])==('wedding' or "wedding" or "gathering" or 'gathering' or 'meeting' or "meeting"):
+        if str(vars['S_S']) == 'wedding' or str(vars['S_S']) == "wedding" or str(vars['S_S']) == "gathering" or str(vars['S_S']) == 'gathering' or str(vars['S_S']) == 'meeting' or str(vars['S_S'])=="meeting":
             return 'a '+str(vars['S_S'])
-        elif str(vars['S_S'])[-3:] == ('ing' or "ing"):
+        elif str(vars['S_S'])[-3:] == 'ing' or str(vars['S_S'])[-3:] == "ing":
             return str(vars['S_S'])
-        elif str(vars['S_S'])[0] is ('a' or "a" or 'e' or "e" or 'i' or "i" or 'o' or "o" or 'x' or "x"):
+        elif str(vars['S_S'])[0] == 'a' or str(vars['S_S'])[0] == "a" or str(vars['S_S'])[0] == 'e' or str(vars['S_S'])[0] == "e" or str(vars['S_S'])[0] == 'i' or str(vars['S_S'])[0] ==  "i" or str(vars['S_S'])[0] == 'o' or str(vars['S_S'])[0] == "o" or str(vars['S_S'])[0] == 'x' or str(vars['S_S'])[0] == "x":
             return 'an '+str(vars['S_S'])
         else:
             return 'a '+str(vars['S_S'])
@@ -859,9 +859,9 @@ class result(Macro):
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
-    PROMPT0_re = 2
+    PROMPT0_re = auto()
     PROMPT0_err = auto() #user is stressed about nothing/unsure
-    PROMPT0_other = 3
+    PROMPT0_other = auto()
     PROMPT0_a =auto()
     PROMPT0_b =auto()
     PROMPT1 = auto()
@@ -984,8 +984,8 @@ stress_dict = {
                     "debate",
                     "mock trial competition",
                     "trip",
-                    "wedding",#these end with ing but should be treated as nouns!!
-                    "gathering",#these end with ing but should be treated as nouns!!
+                    "wedding",
+                    "gathering",
                     "date",
                     "night out",
                     "nightout",
@@ -996,7 +996,7 @@ stress_dict = {
                     "public speaking",
                     "social event",
                     "conversation",
-                    "meeting",#these end with ing but should be treated as nouns!!
+                    "meeting",
                     "performance",
                     "piano performance",
                     "dance performance",
@@ -1698,7 +1698,7 @@ df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what social events you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
-df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"overwhelming?"]') ###added a new branch for nouns not predicted by our social event ontology
+df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
 df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
 df.add_user_transition(State.PROMPT1, State.PROMPT1_often,
                        r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
