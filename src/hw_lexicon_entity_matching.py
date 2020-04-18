@@ -859,6 +859,7 @@ class result(Macro):
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
+    PROMPT000 = auto()
     PROMPT0_re = auto()
     PROMPT0_err = auto() #user is stressed about nothing/unsure
     PROMPT0_other = auto()
@@ -1697,6 +1698,8 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what social events you are stressed about."]')
+df.add_system_transition(State.START, State.PROMPT000,
+                         r'[!"Hi! Tell me."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
 df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
@@ -1726,7 +1729,7 @@ df.add_user_transition(State.PROMPT3, State.PROMPT3_never, r'<{[!#n10]}>')  # ne
 df.add_system_transition(State.PROMPT3_often, State.PROMPT4,
                          r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT3_sometimes, State.PROMPT4,
-                         r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more effecient and motivated. Is this"$S_S"mandatory for you?"]')
+                         r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more efficient and motivated. Is this"$S_S"mandatory for you?"]')
 df.add_system_transition(State.PROMPT3_never, State.PROMPT4,
                          r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
 
@@ -1824,7 +1827,7 @@ df.add_system_transition(State.PROMPT5_err, State.PROMPT6, r'[!"Great! What made
 df.add_system_transition(State.PROMPT6_err, State.PROMPT7,
                          r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err, State.PROMPT8,
-                         r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destess activity?"]')
+                         r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
 df.add_system_transition(State.PROMPT8_err, State.PROMPT9,
                          r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
 
