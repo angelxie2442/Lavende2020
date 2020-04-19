@@ -885,57 +885,87 @@ class result(Macro):
 
 ############################################### school macros start here
 
-class school_n1(Macro):
-
+class school_n1_often(Macro):
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] += 40
+        else:
+            vars['neuroticsm'] = 40
+        return ''
+class school_n1_sometimes(Macro):
+    def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] += 20
         else:
             vars['neuroticsm'] = 20
-        return positive
-
-class school_n2(Macro):
-
+        return ''
+class school_n1_never(Macro):
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] += 0
+        else:
+            vars['neuroticsm'] = 0
+        return ''
 
-        }
+class school_n2_often(Macro):
+    def run(self, ngrams, vars, args):
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] += 40
+        else:
+            vars['neuroticsm'] = 40
+        return ''
+
+class school_n2_sometimes(Macro):
+    def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] += 20
         else:
             vars['neuroticsm'] = 20
-        return positive
+        return ''
+class school_n2_never(Macro):
+    def run(self, ngrams, vars, args):
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] -= 20
+        else:
+            vars['neuroticsm'] =-20
+        return ''
 
-class school_n3(Macro):
+class school_n3_well(Macro):
 
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] += 40
+        else:
+            vars['neuroticsm'] = 40
+        return ''
 
-        }
+class school_n3_bad(Macro):
+    def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] += 20
         else:
             vars['neuroticsm'] = 20
-        return positive
+        return ''
 
-class school_n4(Macro):
-
+class school_n4_much(Macro):
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
+            vars['neuroticsm'] += 40
         else:
-            vars['neuroticsm'] = 20
-        return positive
+            vars['neuroticsm'] = 40
+        return ''
+
+class school_n4_lil(Macro):
+
+        def run(self, ngrams, vars, args):
+            positive = {
+                'admirable', 'energetic', 'lucky',
+            }
+            if 'neuroticsm' in vars.keys():
+                vars['neuroticsm'] += 20
+            else:
+                vars['neuroticsm'] = 20
+            return ''
 
 class school_e1_mentor1(Macro):
 
@@ -1941,8 +1971,9 @@ knowledge.load_json(stress_dict)
 df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=knowledge,
                   macros={'det_ss': det_ss(),"n20": n20(), "n_n20": n_n20(), 'o40': o40(), 'n70': n70(), 'n40': n40(), 'n10': n10(),
                           'o_n20': o_n20(), 'o_20': o_20(), 'o_20_1': o_20_1(), 'o_n20_1': o_n20_1(), 'e80': e80(),
-                          'e40': e40(), 'pron_reason': pron_reason(), 'printS': printS(), 'result':result(),'school_n1':school_n1(),
-                          'school_n2':school_n2(),'school_n3':school_n3(),'school_n4':school_n4(),
+                          'e40': e40(), 'pron_reason': pron_reason(), 'printS': printS(), 'result':result(),'school_n1_never':school_n1_never(),'school_n1_often':school_n1_often(),'school_n1_sometimes':school_n1_sometimes(),
+                          'school_n2_often':school_n2_often(), 'school_n2_sometimes':school_n2_sometimes(), 'school_n2_never':school_n2_never(),
+                          'school_n3_well':school_n3_well(),'school_n3_bad':school_n3_bad(),'school_n4_much':school_n4_much(),'school_n4_lil':school_n4_lil(),
                           'school_e3_studyspot1':school_e3_studyspot1(),'school_e3_studyspot2':school_e3_studyspot2(),
                           'school_e2_online1':school_e2_online1(),'school_e2_online2':school_e2_online2(),
                           'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2(),
@@ -2060,13 +2091,15 @@ df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpas
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"personally i wonder if i will ever figure out a way to balance school with personal life by the time I graduate. What goals do have for yourself in college?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
 
-df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,)
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
+df.add_system_transition(State.PROMPT_oolfre_often1,State.PROMPT_ooleventstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#det_ss"stressful?"]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,)
-df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,)
+df.add_user_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_ooleventstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#det_ss"stressful? "]')
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,r'[!"Wow."#school_n1_never"Are you excited about doing"#det_ss"for the first time ?"]')
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
-df.add_user_transition(State.PROMPT_oolfreq_err1,State.PROMPT_ooleventstressfr1,r'[!"I see I see. Just curious, how often do you feel stressed about"$S_S"?"]')
-
-
+df.add_user_transition(State.PROMPT_oolfreq_err1,State.PROMPT_ooleventstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#det_ss"?"]')
+df.add_system_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<[!#ONT(ontnegative)]>')
+df.add_system_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<[!#ONT(ontpositive)]>')
 
 ############
 
