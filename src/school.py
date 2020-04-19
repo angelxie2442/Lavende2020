@@ -2107,8 +2107,8 @@ df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_no1,
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_yes1,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
 df.set_error_successor(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_err1)
 df.add_system_transition(State.PROMPT_oolgoalalign_err1,State.PROMPT_oolstressfr1)
-df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr1,r'[!"Perhaps you could work on your time management then."#school_n4_"Dont put too much pressure on yourself though!  How often do you find"$S_S"overwhelming?"]')
-df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!""]')
+df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr1,r'[!"Perhaps you could work on your time management then."#school_n4_much"Dont put too much pressure on yourself though!  How often do you find"$S_S"overwhelming?"]')
+df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I gave up on my time management skills."#school_n4_lil"But I usually prioritize those tasks most related to my goals? How often do u find"$S_S"overwhelming?"]')
 ############
 
 
