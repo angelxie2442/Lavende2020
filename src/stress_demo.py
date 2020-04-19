@@ -1161,9 +1161,12 @@ class State(Enum):
     PROMPT_oolcovidworry1 = auto()
     PROMPT_oolcovidworry_severity1= auto()
     PROMPT_oolonline1 =auto()
-    PROMPT_oolonlinereason1 = auto()
+    PROMPT_oolonline_reasongood1 = auto()
+    PROMPT_oolonline_reasonbad1 = auto()
     PROMPT_oolhelp_person1=auto()
     PROMPT_oolhelp_yesno1=auto()
+    PROMPT_oolstudyspot1= auto()
+    PROMPT_oolzoom1=auto()
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
@@ -1176,6 +1179,8 @@ class State(Enum):
     PROMPT_oolonline_like_err1 = auto()
     PROMPT_oolhelp_person_err1 = auto()
     PROMPT_oolhelp_yesno_err1 = auto()
+    PROMPT_oolstudyspot_err1 = auto()
+    PROMPT_oolzoom_err1 = auto()
     #####user states
     PROMPT_oolstressfr_often1 = auto()
     PROMPT_oolstressfr_sometimes1 = auto()
@@ -1199,7 +1204,9 @@ class State(Enum):
     PROMPT_oolhelp_person_re1=auto()
     PROMPT_oolhelp_yes1 = auto()
     PROMPT_oolhelp_no1 = auto()
-
+    PROMPT_oolstudyspot_bedroom1 = auto()
+    PROMPT_oolstudyspot_livingroom1 = auto()
+    PROMPT_oolzoom_ =auto()
     #####user states
 
 
@@ -2012,7 +2019,85 @@ stress_dict = {
                 "coronavirus",
                 "health",
                 "cough"
-            ]
+            ],
+            'ontflexbad':[
+                "self discipline",
+                "self control",
+                "too much freedom",
+                "too flexible",
+                "too much flexibility",
+                "temptation",
+                "too many options",
+                "too many choices",
+                "lazy",
+                "laziness"
+            ],
+            'ontsocialbad':[
+                "participation",
+                "participate",
+                "connection",
+                "connect",
+                "discussion",
+                "discuss",
+                "ask questions",
+                "connected",
+                "fake",
+                "interaction",
+                "learn less",
+                "more written homework",
+                "more written assignments",
+                "more work",
+                "wordload"
+            ],
+            'ontprodbad':[
+                "concentrate",
+                "cencentration",
+                "focus",
+                "motivation",
+                "motivated",
+                "not productive",
+                "not as productive",
+                "low productivity",
+                "self control",
+                "less motivated",
+                "no longer feel motivated",
+
+            ],
+            'ontflexgood': [
+                "sleepin",
+                "sleep in",
+                "schedule",
+                "time",
+                "flexibility",
+                "flexible",
+                "pace",
+                "pacing",
+                "choice",
+                "choices",
+                "option",
+                "options"
+            ],
+            'ontsocialgood': [
+                "social stress",
+                "less participation",
+                "less discussion",
+                "participate",
+                "more comfortable participating",
+                "more comfortable asking questions",
+                "learn less"
+            ],
+            'ontprodgood': [
+                "more effeciently",
+                "effeciency",
+                "productivity",
+                "productive",
+                "focus more",
+                "focus better",
+                "concentrate better",
+                "focus better"
+            ],
+
+
         }
 }
 
@@ -2187,15 +2272,28 @@ df.add_system_transition(State.PROMPT_oolstressfr_never1,State.PROMPT_oolhelp_pe
 df.add_user_transition(State.PROMPT_oolhelp_person1,State.PROMPT_oolhelp_person_re1,r'<$mentor={[!#POS(noun)]}>')
 df.set_error_successor(State.PROMPT_oolhelp_person1,State.PROMPT_oolhelp_person_err1)
 df.add_system_transition(State.PROMPT_oolhelp_person_re1,State.PROMPT_oolhelp_yesno1,r'[!"Have"#school_e1_mentor1_person"you talked to your"$mentor"yet then?"]')
-df.add_system_transition(State.PROMPT_oolhelp_person_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor1_err"I am here and you dont see me as someone u can rely on? sigh... How was your experience with online learning?"]')
+df.add_system_transition(State.PROMPT_oolhelp_person_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor1_err"I am here and you dont see me as someone u can rely on? sigh... How is your experience with online learning?"]')
 df.add_user_transition(State.PROMPT_oolhelp_yesno1,State.PROMPT_oolhelp_yes1,r'<[!#ONT(ontyes)]>')
 df.set_error_successor(State.PROMPT_oolhelp_yesno1,State.PROMPT_oolhelp_yesno_err1)
-df.add_system_transition(State.PROMPT_oolhelp_yesno_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor2_no"I am here and you dont see me as someone u can rely on? sigh... How was your experience with online learning?"]')
-df.add_system_transition(State.PROMPT_oolhelp_yes1,State.PROMPT_oolonline1,r'["I hope talking with"$mentor"has been helpful to you."#school_e1_mentor2_yes"How is your experience with online learning so far?"]')
+df.add_system_transition(State.PROMPT_oolhelp_yesno_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor2_no"I am here and you dont see me as someone u can rely on? sigh... How is your experience with online learning?"]')
+df.add_system_transition(State.PROMPT_oolhelp_yes1,State.PROMPT_oolonline1,r'[!"I hope talking with"$mentor"has been helpful to you."#school_e1_mentor2_yes"How is your experience with online learning so far?"]')
 
 df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_bad1,r'<{[!#ONT(ontnegative)],"dislike","dont like","do not like","hate","depressed","depressing"}>')
-df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_well1,r'<{[!#ONT(ontnegative)],"dislike","dont like","do not like","hate","depressed","depressing"}>')
-df.set_error_successor(State.PROMPT_oolonline1,State.PROMPT_oolonline_err1,)
+df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_well1,r'<{[!#ONT(ontpositive)],"like","love"}>')
+df.set_error_successor(State.PROMPT_oolonline1,State.PROMPT_oolonline_err1)
+df.add_system_transition(State.PROMPT_oolonline_bad1,State.PROMPT_oolonline_reasonbad1,r'[!"Right? I do not get how some people think listening to some recorded lectures as real education."#school_e2_online1_dislike"What do you not like about it?"]')
+df.add_system_transition(State.PROMPT_oolonline_well1,State.PROMPT_oolonline_reasongood1,r'[!" Do you not miss your classmates? Are you heartless lol?."#school_e2_online1_like"jk. What do you enjoy the most about it?"]')
+df.add_system_transition(State.PROMPT_oolonline_err1,State.PROMPT_oolonlinereasonbad1,r'[!"Interesting! What part about online learning do you dislike then?"]')
+
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_flexibility1,r'<[!#ONT(ontflexbad)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_social1,r'<[!#ONT(ontsocialbad)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_productivity1,r'<[!#ONT(ontprodbad)]>')
+df.set_error_successor(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonline_dislike_err1)
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_flexibility1,r'<[!#ONT(ontflexgood)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_social1,r'<[!#ONT(ontsocialgood)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_productivity1,r'<[!#ONT(ontprodgood)]>')
+df.set_error_successor(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonline_like_err1)
+df.add_system_transition(State.PROMPT_oolonlinereason_flexibility1,State.PROMPT_)
 ############
 
 
