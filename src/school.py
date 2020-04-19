@@ -967,6 +967,7 @@ class school_n4_lil(Macro):
                 vars['neuroticsm'] = 20
             return ''
 
+
 class school_e1_mentor1(Macro):
 
     def run(self, ngrams, vars, args):
@@ -1121,6 +1122,7 @@ class State(Enum):
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
+    PROMPT_oolpast_err1 =auto()
     PROMPT_oolgoal_err1 = auto()
     PROMPT_oolgoalalign_err1 = auto()
     PROMPT_oolcovidworry_err1 = auto()
@@ -2080,18 +2082,24 @@ df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"personally i wonder if i will ever figure out a way to balance school with personal life by the time I graduate. What goals do have for yourself in college?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
-#schoolevent branch up to stress freq
+#schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfre_often1,State.PROMPT_oolstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#det_ss"stressful?"]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
-df.add_user_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_oolstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#det_ss"stressful? "]')
+df.add_system_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_oolstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#det_ss"stressful? "]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,r'<[!#ONT(ontnever)]>')
-df.add_user_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolstressfr1,r'[!"Wow."#school_n1_never"Are you excited about doing"#det_ss"for the first time ?"]')
+df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolstressfr1,r'[!"Wow."#school_n1_never"Are you excited about doing"#det_ss"for the first time ?"]')
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
-df.add_user_transition(State.PROMPT_oolfreq_err1,State.PROMPT_oolstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#det_ss"?"]')
-
+df.add_system_transition(State.PROMPT_oolfreq_err1,State.PROMPT_oolstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#det_ss"?"]')
+#schoolgeneral branch up to stress-freq prompt
 df.add_system_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<[!#ONT(ontnegative)]>')
 df.add_system_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<[!#ONT(ontpositive)]>')
+df.set_error_successor(State.PROMPT_oolpast1,State.PROMPT_oolpast_err1)
+df.add_system_transition(State.PROMPT_oolpast_err1,State.PROMPT_oolstressfr1,r'[!"Gotchu!"#school_n3_well"How often do you find"$S_S"stressful?"]')
+df.add_system_transition(State.PROMPT_oolpast_bad1,State.PROMPT_oolstressfr1,r'[!"It is possible that you are too unique to be in the current education system."#school_n3_bad"How often do you feel stressed about"#det_ss"?"]')
+df.add_system_transition(State.PROMPT_oolpast_well1,State.PROMPT_oolstressfr1,r'[!"So you have been on a hot winning streak?"#school_n3_well"Life is more fun with ups and downs though. Kidding.How often do you feel stressed about"#det_ss"?"]')
+#schooltime branch up to stress-freq prompt
+df.add_system_transition()
 
 ############
 
