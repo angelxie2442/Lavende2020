@@ -958,9 +958,6 @@ class school_n4_much(Macro):
 class school_n4_lil(Macro):
 
         def run(self, ngrams, vars, args):
-            positive = {
-                'admirable', 'energetic', 'lucky',
-            }
             if 'neuroticsm' in vars.keys():
                 vars['neuroticsm'] += 20
             else:
@@ -968,81 +965,124 @@ class school_n4_lil(Macro):
             return ''
 
 
-class school_e1_mentor1(Macro):
+class school_n_covidworried(Macro):
 
     def run(self, ngrams, vars, args):
-        positive = {
-                'admirable', 'energetic', 'lucky',
-
-        }
         if 'neuroticsm' in vars.keys():
-                vars['neuroticsm'] += 20
+            vars['neuroticsm'] += 60
         else:
-                vars['neuroticsm'] = 20
-        return positive
-class school_e1_mentor2(Macro):
+            vars['neuroticsm'] = 60
+        return ''
+
+class school_n_covidnotworr(Macro):
 
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] += 20
         else:
             vars['neuroticsm'] = 20
-        return positive
-
-class school_e2_online1(Macro):
-
-    def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
-        if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
-        else:
-            vars['neuroticsm'] = 20
-        return positive
-
-class school_e2_online2(Macro):
+        return ''
+class school_n_covidinfect(Macro):
 
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
+            vars['neuroticsm'] += 60
         else:
-            vars['neuroticsm'] = 20
-        return positive
+            vars['neuroticsm'] = 60
+        return ''
+
+class school_e1_mentor1_person(Macro):
+
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+                vars['extroversion'] += 40
+        else:
+                vars['extroversion'] = 40
+        return ''
+
+class school_e1_mentor1_err(Macro):
+
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+                vars['extroversion'] += 20
+        else:
+                vars['extroversion'] = 20
+        return ''
+class school_e1_mentor2_yes(Macro):
+
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
+        else:
+            vars['extroversion'] = 20
+        return ''
+class school_e1_mentor2_no(Macro):
+
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] -= 20
+        else:
+            vars['extroversion'] =-20
+        return ''
+
+class school_e2_online1_like(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
+        else:
+            vars['extroversion'] = 20
+        return ''
+class school_e2_online1_dislike(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 40
+        else:
+            vars['extroversion'] = 40
+        return ''
+class school_e2_online2_hiprod(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] -= 20
+        else:
+            vars['extroversion'] = -20
+        return ''
+
+class school_e2_online2_loprod(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
+        else:
+            vars['extroversion'] = 20
+        return ''
+class school_e2_online2_socialstress(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] -= 20
+        else:
+            vars['extroversion'] = -20
+        return ''
+class school_e2_online2_lesssocial(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
+        else:
+            vars['extroversion'] = 20
+        return ''
 class school_e3_studyspot1(Macro):
-
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
-        if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
         else:
-            vars['neuroticsm'] = 20
-        return positive
+            vars['extroversion'] = 20
+        return ''
 
 class school_e3_studyspot2(Macro):
-
     def run(self, ngrams, vars, args):
-        positive = {
-            'admirable', 'energetic', 'lucky',
-
-        }
-        if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 20
         else:
-            vars['neuroticsm'] = 20
-        return positive
+            vars['extroversion'] = 20
+        return ''
 
 ############################################### school macros end here
 
@@ -1132,7 +1172,8 @@ class State(Enum):
     PROMPT_oolgoalalign_err1 = auto()
     PROMPT_oolcovidworry_err1 = auto()
     PROMPT_oolonline_err1= auto()
-    PROMPT_oolonlinereason1 = auto()
+    PROMPT_oolonline_dislike_err1 = auto()
+    PROMPT_oolonline_like_err1 = auto()
     PROMPT_oolhelp_person_err1 = auto()
     PROMPT_oolhelp_yesno_err1 = auto()
     #####user states
@@ -1152,6 +1193,9 @@ class State(Enum):
     PROMPT_oolcovidworry_severityre1 = auto()
     PROMPT_oolonline_well1 = auto()
     PROMPT_oolonline_bad1 = auto()
+    PROMPT_oolonlinereason_productivity1 =auto()
+    PROMPT_oolonlinereason_social1 = auto()
+    PROMPT_oolonlinereason_flexibility1 = auto()
     PROMPT_oolhelp_person_re1=auto()
     PROMPT_oolhelp_yes1 = auto()
     PROMPT_oolhelp_no1 = auto()
@@ -1447,6 +1491,7 @@ stress_dict = {
                  'nervous',
                  'alarmed',
                  'anxious',
+                 'frustrating',
                  'apprehensive',
                  'cautious',
                  'concerned',
@@ -1980,8 +2025,12 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'school_n2_often':school_n2_often(), 'school_n2_sometimes':school_n2_sometimes(), 'school_n2_never':school_n2_never(),
                           'school_n3_well':school_n3_well(),'school_n3_bad':school_n3_bad(),'school_n4_much':school_n4_much(),'school_n4_lil':school_n4_lil(),
                           'school_e3_studyspot1':school_e3_studyspot1(),'school_e3_studyspot2':school_e3_studyspot2(),
-                          'school_e2_online1':school_e2_online1(),'school_e2_online2':school_e2_online2(),
-                          'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2(),
+                          'school_e2_online1_like':school_e2_online1_like(),'school_e2_online1_dislike':school_e2_online1_dislike(),
+                          'school_e2_online2_hiprod':school_e2_online2_hiprod(),'school_e2_online2_socialstress':school_e2_online2_socialstress(),
+                          'school_e2_online2_loprod': school_e2_online2_loprod(),'school_e2_online2_lesssocial': school_e2_online2_lesssocial(),
+                          'school_e1_mentor1_person':school_e1_mentor1_person(),'school_e1_mentor1_err':school_e1_mentor1_err(),
+                          'school_e1_mentor2_yes':school_e1_mentor2_yes(),'school_e1_mentor2_no':school_e1_mentor2_no(),
+                          'school_n_covidworried':school_n_covidworried(),'school_n_covidinfect':school_n_covidinfect,'school_n_covidnotworr':school_n_covidnotworr,
                           'ool_or_eer':ool_or_eer()})
 df.add_system_transition(State.START, State.PROMPT0_PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
@@ -2123,12 +2172,30 @@ df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1
 df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_infected1,'<{"tested positive","coughing","i have it","headache","cough","loss of taste","loss of smell","body ache","cough","coughs","fever","fatigue","chills","pains"}>')
 df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_no1,r'<[!#ONT(ontno)]>')
 df.set_error_successor(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_err1)
-df.add_system_transition(State.PROMPT_oolcovidworry_err1,State.PROMPT_oolonline1,r'[!"Honestly the rate of us getting infected is quite low as long as we stay at home. How is your experience with online learning so far?"]')
-df.add_system_transition(State.PROMPT_oolcovidworry_no1,State.PROMPT_oolonline1,r'[!"Someone is really confident with his immune system, huh? How is your experience with online learning so far?"]')
-df.add_system_transition(State.PROMPT_oolcovidworry_infected1,State.PROMPT_oolcovidworry_severity1,r'[!"Oh no. Sorry to hear that! How bad is it?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_err1,State.PROMPT_oolonline1,r'[!"Honestly the rate of us getting infected is quite low as long as we stay at home."#school_n_covidworried"How is your experience with online learning so far?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_no1,State.PROMPT_oolonline1,r'[!"Someone is really confident with his immune system, huh?"#school_n_covidnotworr"How is your experience with online learning so far?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_infected1,State.PROMPT_oolcovidworry_severity1,r'[!"Oh no."#school_n_covidinfect"Sorry to hear that! How bad are your symptoms?"]')
 df.add_user_transition(State.PROMPT_oolcovidworry_severity1,State.PROMPT_oolcovidworry_severityre1,r'</.*/>')
-df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think.I will pray for you and your family! Anything you do to destress from the thoughts of coronavirus?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think.I will pray for you and your family! How do you destress from the coronavirus situation?"]')
 #stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
+df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_never1,r'<[!#ONT(ontnever)]>')
+df.add_system_transition(State.PROMPT_oolstressfr_often1,State.PROMPT_oolhelp_person1,r'[!"Stress Addiction?"#school_n2_often"That makes the two of us.Anyone you can ask for help on"$S_S"?"]')
+df.add_system_transition(State.PROMPT_oolstressfr_sometimes1,State.PROMPT_oolhelp_person1,r'[!"You will have to teach me how to not get stressed constantly about"$S_S"."#school_n2_sometimes"Anyone you can ask for help on $S_S?"]')
+df.add_system_transition(State.PROMPT_oolstressfr_never1,State.PROMPT_oolhelp_person1,r'[!" Unfortunately life will keep getting harder."#school_n2_never"But hey you will also keep getting better at dealing with it.Anyone you can ask for help on"$S_S"?"]')
+df.add_user_transition(State.PROMPT_oolhelp_person1,State.PROMPT_oolhelp_person_re1,r'<$mentor={[!#POS(noun)]}>')
+df.set_error_successor(State.PROMPT_oolhelp_person1,State.PROMPT_oolhelp_person_err1)
+df.add_system_transition(State.PROMPT_oolhelp_person_re1,State.PROMPT_oolhelp_yesno1,r'[!"Have"#school_e1_mentor1_person"you talked to your"$mentor"yet then?"]')
+df.add_system_transition(State.PROMPT_oolhelp_person_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor1_err"I am here and you dont see me as someone u can rely on? sigh... How was your experience with online learning?"]')
+df.add_user_transition(State.PROMPT_oolhelp_yesno1,State.PROMPT_oolhelp_yes1,r'<[!#ONT(ontyes)]>')
+df.set_error_successor(State.PROMPT_oolhelp_yesno1,State.PROMPT_oolhelp_yesno_err1)
+df.add_system_transition(State.PROMPT_oolhelp_yesno_err1,State.PROMPT_oolonline1,r'[!"you guess so or know so..."#school_e1_mentor2_no"I am here and you dont see me as someone u can rely on? sigh... How was your experience with online learning?"]')
+df.add_system_transition(State.PROMPT_oolhelp_yes1,State.PROMPT_oolonline1,r'["I hope talking with"$mentor"has been helpful to you."#school_e1_mentor2_yes"How is your experience with online learning so far?"]')
+
+df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_bad1,r'<{[!#ONT(ontnegative)],"dislike","dont like","do not like","hate","depressed","depressing"}>')
+df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_well1,r'<{[!#ONT(ontnegative)],"dislike","dont like","do not like","hate","depressed","depressing"}>')
+df.set_error_successor(State.PROMPT_oolonline1,State.PROMPT_oolonline_err1,)
 ############
 
 
