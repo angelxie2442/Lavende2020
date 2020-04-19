@@ -2046,10 +2046,8 @@ df.add_user_transition(State.PROMPT8_1, State.PROMPT8_onlinesocial1, r'<$activit
 df.add_system_transition(State.PROMPT8_onlinesocial1, State.PROMPT9_1,r'[!"Guess how many hours I spend on social media every day. 5 hours! I bet you spend even longer than me."]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_social1, r'<$activity={[!#ONT(ontsocial)]}>')
 df.add_system_transition(State.PROMPT8_social1, State.PROMPT9_1,r'[!"You are such a social butterfly! I am glad that you have so many friends!"]')
-
 df.add_user_transition(State.PROMPT9_1, State.SCORE1, r'</.*/>')
 df.add_system_transition(State.SCORE1, State.END1, r'[!#result]')
-
 
 ###### error cases
 df.set_error_successor(State.PROMPT0_savage,State.PROMPT0_err1)
