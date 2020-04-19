@@ -1009,10 +1009,10 @@ class school_e3_studyspot2(Macro):
 class State(Enum):
     START = auto()
     PROMPT0 = auto()
-    PROMPT0_schoolevent = auto()
-    PROMPT0_schoolgeneral = auto()
-    PROMPT0_schooltime = auto()
-    PROMPT0_schoolcovid = auto()
+    PROMPT0_schoolevent_savage = auto()
+    PROMPT0_schoolgeneral_savage = auto()
+    PROMPT0_schooltime_savage = auto()
+    PROMPT0_schoolcovid_savage = auto()
     PROMPT0_re = auto()
     PROMPT0_err = auto() #user is stressed about nothing/unsure
     PROMPT0_other = auto()
@@ -1064,7 +1064,34 @@ class State(Enum):
     PROMPT8_err = auto()
     PROMPT9 = auto()
     END = auto()
-    SCORE = auto()
+    SCORE = auto() ###########
+    PRPOMT_ool_often =auto() ###these three freq user states will be shared with all freq user responses
+    PRPOMT_ool_sometimes = auto() ###
+    PRPOMT_ool_never = auto() ###
+    PROMPT_ooleventstressfr_sav = auto()#####
+    PROMPT_ooleventstressfr_agg = auto()
+    PROMPT_ooleventstressfr_opt = auto()
+    PROMPT_ooleventstressfr_err = auto()
+    PROMPT_oolgeneralstressfr_sav = auto()
+    PROMPT_oolgeneralstressfr_agg = auto()
+    PROMPT_oolgeneralstressfr_opt = auto()
+    PROMPT_oolgeneralstressfr_err = auto()
+    PROMPT_ooltimestressfr_sav = auto()
+    PROMPT_ooltimestressfr_agg = auto()
+    PROMPT_ooltimestressfr_opt = auto()
+    PROMPT_ooltimestressfr_err = auto() #####
+    PROMPT_oolfreq_sav =auto()#####
+    PROMPT_oolfreq_agg = auto()
+    PROMPT_oolfreq_opt = auto()
+    PROMPT_oolfreq_err = auto()
+    PROMPT_oolgoal = auto()
+    PROMPT_oolgoal_re = auto()
+    PROMPT_oolgoalalign = auto()
+    PROMPT_oolgoalalign_yes = auto()
+    PROMPT_oolgoalalign_no = auto()#####
+
+
+
 
 
 # TODO: create the ontology as needed
@@ -1892,11 +1919,13 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
 df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolevent, r'<$S_S=[!#ONT(ontschoolevent)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolgeneral, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schooltime, r'<$S_S=[!#ONT(ontschooltime)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolcovid, r'<$S_S=[!#ONT(ontschoolcovid)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
+
+df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_eventfreq,r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]')
 
 
 df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
