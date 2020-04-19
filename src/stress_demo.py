@@ -1120,6 +1120,10 @@ class State(Enum):
     PROMPT_oolgoalalign1 = auto()
     PROMPT_oolcovidworry1 = auto()
     PROMPT_oolcovidworry_severity1= auto()
+    PROMPT_oolonline1 =auto()
+    PROMPT_oolonlinereason1 = auto()
+    PROMPT_oolhelp_person1=auto()
+    PROMPT_oolhelp_yesno1=auto()
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
@@ -1127,6 +1131,10 @@ class State(Enum):
     PROMPT_oolgoal_err1 = auto()
     PROMPT_oolgoalalign_err1 = auto()
     PROMPT_oolcovidworry_err1 = auto()
+    PROMPT_oolonline_err1= auto()
+    PROMPT_oolonlinereason1 = auto()
+    PROMPT_oolhelp_person_err1 = auto()
+    PROMPT_oolhelp_yesno_err1 = auto()
     #####user states
     PROMPT_oolstressfr_often1 = auto()
     PROMPT_oolstressfr_sometimes1 = auto()
@@ -1139,13 +1147,16 @@ class State(Enum):
     PROMPT_oolgoal_re1 = auto()
     PROMPT_oolgoalalign_yes1 = auto()
     PROMPT_oolgoalalign_no1 = auto()
-    PROMPT_oolcovidworry_yes1 = auto()
+    PROMPT_oolcovidworry_no1 = auto()
     PROMPT_oolcovidworry_infected1 = auto()
     PROMPT_oolcovidworry_severityre1 = auto()
+    PROMPT_oolonline_well1 = auto()
+    PROMPT_oolonline_bad1 = auto()
+    PROMPT_oolhelp_person_re1=auto()
+    PROMPT_oolhelp_yes1 = auto()
+    PROMPT_oolhelp_no1 = auto()
+
     #####user states
-
-
-
 
 
 # TODO: create the ontology as needed
@@ -1973,9 +1984,8 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2(),
                           'ool_or_eer':ool_or_eer()})
 df.add_system_transition(State.START, State.PROMPT0_PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
-df.add_system_transition(State.START, State.PROMPT0_PROMPT0_agreeable,r'[!"Hi! Tell me what you are stressed about."]')
-df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other1, r'<$S_S={[!#POS(noun)]}>')
 
 
 df.add_system_transition(State.PROMPT0_other1, State.PROMPT3_1, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
@@ -2111,11 +2121,13 @@ df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr
 df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I gave up on my time management skills."#school_n4_lil"But I usually prioritize those tasks most related to my goals? How often do u find"$S_S"overwhelming?"]')
 #covid branch up to the onlinelearning
 df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_infected1,'<{"tested positive","coughing","i have it","headache","cough","loss of taste","loss of smell","body ache","cough","coughs","fever","fatigue","chills","pains"}>')
-df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_yes1,r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_no1,r'<[!#ONT(ontno)]>')
 df.set_error_successor(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_err1)
+df.add_system_transition(State.PROMPT_oolcovidworry_err1,State.PROMPT_oolonline1,r'[!"Honestly the rate of us getting infected is quite low as long as we stay at home. How is your experience with online learning so far?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_no1,State.PROMPT_oolonline1,r'[!"Someone is really confident with his immune system, huh? How is your experience with online learning so far?"]')
 df.add_system_transition(State.PROMPT_oolcovidworry_infected1,State.PROMPT_oolcovidworry_severity1,r'[!"Oh no. Sorry to hear that! How bad is it?"]')
 df.add_user_transition(State.PROMPT_oolcovidworry_severity1,State.PROMPT_oolcovidworry_severityre1,r'</.*/>')
-df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think."]')
+df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think.I will pray for you and your family! Anything you do to destress from the thoughts of coronavirus?"]')
 #stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
 ############
 
