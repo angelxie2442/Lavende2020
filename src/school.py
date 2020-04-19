@@ -2109,6 +2109,8 @@ df.set_error_successor(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_err1
 df.add_system_transition(State.PROMPT_oolgoalalign_err1,State.PROMPT_oolstressfr1,r'[!"That is ok."#school_n4_lil"How often do you find"$S_S"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr1,r'[!"Do not forget to stop and smell the flowers too!"#school_n4_much"Dont put too much pressure on yourself though!  How often do you find"$S_S"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I gave up on my time management skills."#school_n4_lil"But I usually prioritize those tasks most related to my goals? How often do u find"$S_S"overwhelming?"]')
+#stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
+#covid branch up to the onlinelearning
 ############
 
 
