@@ -1048,7 +1048,7 @@ class school_e3_studyspot2(Macro):
 
 class State(Enum):
     START = auto()
-    PROMPT0 = auto()
+    PROMPT0_savage = auto()
     PROMPT0_schoolevent_savage = auto()
     PROMPT0_schoolgeneral_savage = auto()
     PROMPT0_schooltime_savage = auto()
@@ -1061,56 +1061,56 @@ class State(Enum):
     PROMPT0_schoolgeneral_opt = auto()
     PROMPT0_schooltime_opt = auto()
     PROMPT0_schoolcovid_opt = auto()
-    PROMPT0_re = auto()
-    PROMPT0_err = auto() #user is stressed about nothing/unsure
-    PROMPT0_other = auto()
-    PROMPT0_a =auto()
-    PROMPT0_b =auto()
-    PROMPT1 = auto()
-    PROMPT1_often = auto()
-    PROMPT1_sometimes = auto()
-    PROMPT1_never = auto()
-    PROMPT1_err = auto()
-    PROMPT2 = auto()
-    PROMPT2_notbad = auto()
-    PROMPT2_bad = auto()
-    PROMPT2_err = auto()
-    PROMPT3 = auto()
-    PROMPT3_often = auto()
-    PROMPT3_sometimes = auto()
-    PROMPT3_never = auto()
-    PROMPT3_err = auto()
-    PROMPT4 = auto()
-    PROMPT4_yes = auto()
-    PROMPT4_no = auto()
-    PROMPT4_err = auto()
-    PROMPT5 = auto()
-    PROMPT5_yes = auto()
-    PROMPT5_no = auto()
-    PROMPT5_err = auto()
-    PROMPT6 = auto()
-    PROMPT6_re = auto()
-    PROMPT6_re_ppl = auto()
-    PROMPT6_other = auto()
-    PROMPT6_err = auto()
-    PROMPT7 = auto()
-    PROMPT7_err = auto()
-    PROMPT7_ex = auto()
-    PROMPT7_in = auto()
-    PROMPT8 = auto()
-    PROMPT8_chores = auto()
-    PROMPT8_games = auto()
-    PROMPT8_music = auto()
-    PROMPT8_art = auto()
-    PROMPT8_food = auto()
-    PROMPT8_sports = auto()
-    PROMPT8_dance = auto()
-    PROMPT8_shopping = auto()
-    PROMPT8_readwatch = auto()
-    PROMPT8_onlinesocial = auto()
-    PROMPT8_social = auto()
-    PROMPT8_err = auto()
-    PROMPT9 = auto()
+    PROMPT0_re1 = auto()
+    PROMPT0_err1 = auto() #user is stressed about nothing/unsure
+    PROMPT0_other1 = auto()
+    PROMPT0_a1 =auto()
+    PROMPT0_b1 =auto()
+    PROMPT1_1 = auto()
+    PROMPT1_often1 = auto()
+    PROMPT1_sometimes1 = auto()
+    PROMPT1_never1 = auto()
+    PROMPT1_err1 = auto()
+    PROMPT2_1 = auto()
+    PROMPT2_notbad1 = auto()
+    PROMPT2_bad1 = auto()
+    PROMPT2_err1 = auto()
+    PROMPT3_1 = auto()
+    PROMPT3_often1 = auto()
+    PROMPT3_sometimes1 = auto()
+    PROMPT3_never1 = auto()
+    PROMPT3_err1 = auto()
+    PROMPT4_1 = auto()
+    PROMPT4_yes1 = auto()
+    PROMPT4_no1 = auto()
+    PROMPT4_err1 = auto()
+    PROMPT5_1 = auto()
+    PROMPT5_yes1 = auto()
+    PROMPT5_no1 = auto()
+    PROMPT5_err1 = auto()
+    PROMPT6_1 = auto()
+    PROMPT6_re1 = auto()
+    PROMPT6_re_ppl1 = auto()
+    PROMPT6_other1 = auto()
+    PROMPT6_err1 = auto()
+    PROMPT7_1 = auto()
+    PROMPT7_err1 = auto()
+    PROMPT7_ex1 = auto()
+    PROMPT7_in1 = auto()
+    PROMPT8_1 = auto()
+    PROMPT8_chores1 = auto()
+    PROMPT8_games1 = auto()
+    PROMPT8_music1 = auto()
+    PROMPT8_art1 = auto()
+    PROMPT8_food1 = auto()
+    PROMPT8_sports1 = auto()
+    PROMPT8_dance1 = auto()
+    PROMPT8_shopping1 = auto()
+    PROMPT8_readwatch1 = auto()
+    PROMPT8_onlinesocial1 = auto()
+    PROMPT8_social1 = auto()
+    PROMPT8_err1 = auto()
+    PROMPT9_1 = auto()
     END = auto()
     SCORE = auto() ####################
     PROMPT_oolstressfr1 = auto()##### 1: savage 2: aggreable 3:optimistic
@@ -1119,6 +1119,7 @@ class State(Enum):
     PROMPT_oolgoal1 = auto()
     PROMPT_oolgoalalign1 = auto()
     PROMPT_oolcovidworry1 = auto()
+    PROMPT_oolcovidworry_severity1= auto()
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
@@ -1140,6 +1141,7 @@ class State(Enum):
     PROMPT_oolgoalalign_no1 = auto()
     PROMPT_oolcovidworry_yes1 = auto()
     PROMPT_oolcovidworry_infected1 = auto()
+    PROMPT_oolcovidworry_severityre1 = auto()
     #####user states
 
 
@@ -1970,114 +1972,114 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'school_e2_online1':school_e2_online1(),'school_e2_online2':school_e2_online2(),
                           'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2(),
                           'ool_or_eer':ool_or_eer()})
-df.add_system_transition(State.START, State.PROMPT0,
-                         r'[!"Hi! Tell me what you are stressed about."]')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
+df.add_system_transition(State.START, State.PROMPT0_PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
+df.add_system_transition(State.START, State.PROMPT0_PROMPT0_agreeable,r'[!"Hi! Tell me what you are stressed about."]')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
 
 
-df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
-df.add_system_transition(State.PROMPT0_re, State.PROMPT1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
-df.add_user_transition(State.PROMPT1, State.PROMPT1_often,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
-df.add_user_transition(State.PROMPT1, State.PROMPT1_sometimes,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')  # neuroticism =20
-df.add_user_transition(State.PROMPT1, State.PROMPT1_never, r'[!#o40]')  # opennes +20  V
-df.add_system_transition(State.PROMPT1_often, State.PROMPT2,r'[!"It must be really hard for you... I get stressed about"#det_ss"sometimes, but the stress gradually decreases every time. How did your most recent"$S_S"go?"]')
-df.add_system_transition(State.PROMPT1_sometimes, State.PROMPT2,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
-df.add_system_transition(State.PROMPT1_never, State.PROMPT4,r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
+df.add_system_transition(State.PROMPT0_other1, State.PROMPT3_1, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
+df.add_system_transition(State.PROMPT0_re1, State.PROMPT1_1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
+df.add_user_transition(State.PROMPT1_1, State.PROMPT1_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')  # neuroticism=40
+df.add_user_transition(State.PROMPT1_1, State.PROMPT1_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')  # neuroticism =20
+df.add_user_transition(State.PROMPT1_1, State.PROMPT1_never1, r'[!#o40]')  # opennes +20  V
+df.add_system_transition(State.PROMPT1_often1, State.PROMPT2_1,r'[!"It must be really hard for you... I get stressed about"#det_ss"sometimes, but the stress gradually decreases every time. How did your most recent"$S_S"go?"]')
+df.add_system_transition(State.PROMPT1_sometimes1, State.PROMPT2_1,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
+df.add_system_transition(State.PROMPT1_never1, State.PROMPT4_1,r'[!"Wow. It is your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
 
-df.add_user_transition(State.PROMPT2, State.PROMPT2_notbad, r'<{[!#n20]}>')  # neuroticism +20  V
-df.add_user_transition(State.PROMPT2, State.PROMPT2_bad, r'<{[!#n_n20]}>')  # neuroticism -20  V
-df.add_system_transition(State.PROMPT2_notbad, State.PROMPT3,r'[!"Then I am pretty sure this time will be just fine as well. Just curious, Do you always feel stressed about it?"]')
-df.add_system_transition(State.PROMPT2_bad, State.PROMPT3,r'[!"Yeah...sometimes"#det_ss"can be really bad. I know how it feels when things get out of control. Just curious, Do you always feel stressed about it?"]')
+df.add_user_transition(State.PROMPT2_1, State.PROMPT2_notbad1, r'<{[!#n20]}>')  # neuroticism +20  V
+df.add_user_transition(State.PROMPT2_1, State.PROMPT2_bad1, r'<{[!#n_n20]}>')  # neuroticism -20  V
+df.add_system_transition(State.PROMPT2_notbad1, State.PROMPT3_1,r'[!"Then I am pretty sure this time will be just fine as well. Just curious, Do you always feel stressed about it?"]')
+df.add_system_transition(State.PROMPT2_bad1, State.PROMPT3_1,r'[!"Yeah...sometimes"#det_ss"can be really bad. I know how it feels when things get out of control. Just curious, Do you always feel stressed about it?"]')
 
-df.add_user_transition(State.PROMPT3, State.PROMPT3_often, r'<{[!#n70]}>')  # neuroticism +70  V
-df.add_user_transition(State.PROMPT3, State.PROMPT3_sometimes, r'<{[!#n40]}>')  # neuroticism +40  V
-df.add_user_transition(State.PROMPT3, State.PROMPT3_never, r'<{[!#n10]}>')  # neuroticism +10  V
-df.add_system_transition(State.PROMPT3_often, State.PROMPT4,r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Is this"$S_S"mandatory for you?"]')
-df.add_system_transition(State.PROMPT3_sometimes, State.PROMPT4,r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more efficient and motivated. Is this"$S_S"mandatory for you?"]')
-df.add_system_transition(State.PROMPT3_never, State.PROMPT4, r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
+df.add_user_transition(State.PROMPT3_1, State.PROMPT3_often1, r'<{[!#n70]}>')  # neuroticism +70  V
+df.add_user_transition(State.PROMPT3_1, State.PROMPT3_sometimes1, r'<{[!#n40]}>')  # neuroticism +40  V
+df.add_user_transition(State.PROMPT3_1, State.PROMPT3_never1, r'<{[!#n10]}>')  # neuroticism +10  V
+df.add_system_transition(State.PROMPT3_often1, State.PROMPT4_1,r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_sometimes1, State.PROMPT4_1,r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more efficient and motivated. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_never1, State.PROMPT4_1, r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
 
-df.add_user_transition(State.PROMPT4, State.PROMPT4_yes, r'<{[!#o_n20]}>')  # openness-20  V
-df.add_user_transition(State.PROMPT4, State.PROMPT4_no, r'<{[!#o_20]}>')  # openness+60  V
-df.add_system_transition(State.PROMPT4_yes, State.PROMPT5, r'[!"Do you wanna participate in this"$S_S"then?"]')
-df.add_system_transition(State.PROMPT4_no, State.PROMPT6, r'[!"What made you wanna attend this event?"]')
+df.add_user_transition(State.PROMPT4_1, State.PROMPT4_yes1, r'<{[!#o_n20]}>')  # openness-20  V
+df.add_user_transition(State.PROMPT4_1, State.PROMPT4_no1, r'<{[!#o_20]}>')  # openness+60  V
+df.add_system_transition(State.PROMPT4_yes1, State.PROMPT5_1, r'[!"Do you wanna participate in this"$S_S"then?"]')
+df.add_system_transition(State.PROMPT4_no1, State.PROMPT6_1, r'[!"What made you wanna attend this event?"]')
 
-df.add_user_transition(State.PROMPT5, State.PROMPT5_yes, r'<{[!#o_20_1]}>')  # openness+60  V
-df.add_user_transition(State.PROMPT5, State.PROMPT5_no, r'<{[!#o_n20_1]}>')  # openness-20  V
-df.add_system_transition(State.PROMPT5_yes, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
-df.add_system_transition(State.PROMPT5_no, State.PROMPT7,r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"#det_ss". How about you, what else do you feel about the upcoming"$S_S"?"]')
+df.add_user_transition(State.PROMPT5_1, State.PROMPT5_yes1, r'<{[!#o_20_1]}>')  # openness+60  V
+df.add_user_transition(State.PROMPT5_1, State.PROMPT5_no1, r'<{[!#o_n20_1]}>')  # openness-20  V
+df.add_system_transition(State.PROMPT5_yes1, State.PROMPT6_1, r'[!"Great! What made you wanna attend this event?"]')
+df.add_system_transition(State.PROMPT5_no1, State.PROMPT7_1,r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"#det_ss". How about you, what else do you feel about the upcoming"$S_S"?"]')
 
-df.add_user_transition(State.PROMPT6, State.PROMPT6_re,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[#POS(verb), "it"],[!#POS(verb) "that"],[#POS(verb) #POS(verb) "that"],[#POS(verb) #POS(verb) "it"],[#POS(verb) #POS(part) #POS(verb) "it"],[#POS(verb) #POS(part) #POS(verb) "that"],[!"have to do it"],[!"have to do that"],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
-df.add_user_transition(State.PROMPT6, State.PROMPT6_re_ppl,'<$reason={[!#POS(noun),"will be there"], [!#POS(pron), #POS(noun),"will be there"], [!"there will be", #POS(noun)], [!"there will be", #POS(adj),#POS(noun)], [!"there will be", #POS(adv),#POS(adj),#POS(noun)]}>')
-df.add_user_transition(State.PROMPT6, State.PROMPT6_other, r'<$External={[!#ONT(ontexternal)]}>')
-df.add_system_transition(State.PROMPT6_re_ppl, State.PROMPT7,r'[!"I am glad that"$reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
-df.add_system_transition(State.PROMPT6_re, State.PROMPT7,r'[!"I am glad that you"#pron_reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
-df.add_system_transition(State.PROMPT6_other, State.PROMPT7,r'[!"I would have thought that"#det_ss"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
-
-
-
-df.add_user_transition(State.PROMPT7, State.PROMPT7_ex, r'<{[!#e80]}>')
-df.add_user_transition(State.PROMPT7, State.PROMPT7_in, r'<{[!#e40]}>')
-df.add_system_transition(State.PROMPT7_ex, State.PROMPT8,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
-df.add_system_transition(State.PROMPT7_in, State.PROMPT8,r'[!"I guess we are not all that similar, but I love meeting people that are different from me! Hey shall we stop talking about stressful things. What is your favorite destress activity?"]')
+df.add_user_transition(State.PROMPT6_1, State.PROMPT6_re1,'<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[#POS(verb), "it"],[!#POS(verb) "that"],[#POS(verb) #POS(verb) "that"],[#POS(verb) #POS(verb) "it"],[#POS(verb) #POS(part) #POS(verb) "it"],[#POS(verb) #POS(part) #POS(verb) "that"],[!"have to do it"],[!"have to do that"],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
+df.add_user_transition(State.PROMPT6_1, State.PROMPT6_re_ppl1,'<$reason={[!#POS(noun),"will be there"], [!#POS(pron), #POS(noun),"will be there"], [!"there will be", #POS(noun)], [!"there will be", #POS(adj),#POS(noun)], [!"there will be", #POS(adv),#POS(adj),#POS(noun)]}>')
+df.add_user_transition(State.PROMPT6_1, State.PROMPT6_other1, r'<$External={[!#ONT(ontexternal)]}>')
+df.add_system_transition(State.PROMPT6_re_ppl1, State.PROMPT7_1,r'[!"I am glad that"$reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
+df.add_system_transition(State.PROMPT6_re1, State.PROMPT7_1,r'[!"I am glad that you"#pron_reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
+df.add_system_transition(State.PROMPT6_other1, State.PROMPT7_1,r'[!"I would have thought that"#det_ss"is a great option if I"$External"too! This might sound weird but often I enjoy"$S_S"when everyone is focusing on me. Fo...fo...focus on me. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 
-df.add_user_transition(State.PROMPT8, State.PROMPT8_chores, r'<$activity={[!#ONT(ontchores)]}>')
-df.add_system_transition(State.PROMPT8_chores, State.PROMPT9,r'[!"Same! It feels so good when things are clean and organized, right?"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_games, r'<$activity={[!#ONT(ontgames)]}>')
-df.add_system_transition(State.PROMPT8_games, State.PROMPT9,r'[!"Oh I did not know you are a gamer! We should definetely play"$activity"together sometime!"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_music, r'<$activity={[!#ONT(ontmusic)]}>')
-df.add_system_transition(State.PROMPT8_music, State.PROMPT9,r'[!"Of course, listening to music is so stress-relieving, right? I love listening to pop music, do you?"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_art, r'<$activity={[!#ONT(ontart)]}>')
-df.add_system_transition(State.PROMPT8_art, State.PROMPT9,r'[!"I did not know that you are an artist! I hope I am more artistic... I am gonna go indulge myself in some watercolor painting later haha"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_food, r'<$activity={[!#ONT(ontfood)]}>')
-df.add_system_transition(State.PROMPT8_food, State.PROMPT9,r'[!"Are you a professional foodie haha? You need to give me some recommendations for restaurants next time!"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_sports, r'<$activity={[!#ONT(ontsports)]}>')
-df.add_system_transition(State.PROMPT8_sports, State.PROMPT9,r'[!"Oh what a coincidence, my friend just ask me if I want to play"$activity"this weekend. You should join us!"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_dance, r'<$activity={[!#ONT(ontdance)]}>')
-df.add_system_transition(State.PROMPT8_dance, State.PROMPT9,r'[!"Hey I am a dancer too! I am choreographing the song "Rewrite the Star"!"]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_shopping, r'<$activity={[!#ONT(ontshopping)]}>')
-df.add_system_transition(State.PROMPT8_shopping, State.PROMPT9,r'[!"Shopping is super duper relaxing for me too. I always end up feeling so guilty for spending money afterward lol but I guess it is worth it."]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_readwatch, r'<$activity={[!#ONT(ontreadwatch)]}>')
-df.add_system_transition(State.PROMPT8_readwatch, State.PROMPT9,r'[!"I love staying indoors when I am stressed too. It really helps me to stay calm."]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_onlinesocial, r'<$activity={[!#ONT(ontonlinesocial)]}>')
-df.add_system_transition(State.PROMPT8_onlinesocial, State.PROMPT9,r'[!"Guess how many hours I spend on social media every day. 5 hours! I bet you spend even longer than me."]')
-df.add_user_transition(State.PROMPT8, State.PROMPT8_social, r'<$activity={[!#ONT(ontsocial)]}>')
-df.add_system_transition(State.PROMPT8_social, State.PROMPT9,r'[!"You are such a social butterfly! I am glad that you have so many friends!"]')
 
-df.add_user_transition(State.PROMPT9, State.SCORE, r'</.*/>')
-df.add_system_transition(State.SCORE, State.END, r'[!#result]')
+df.add_user_transition(State.PROMPT7_1, State.PROMPT7_ex1, r'<{[!#e80]}>')
+df.add_user_transition(State.PROMPT7_1, State.PROMPT7_in1, r'<{[!#e40]}>')
+df.add_system_transition(State.PROMPT7_ex1, State.PROMPT8_1,r'[!"I feel like you are a very social person. Perhaps we are kinda similar haha. Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
+df.add_system_transition(State.PROMPT7_in1, State.PROMPT8_1,r'[!"I guess we are not all that similar, but I love meeting people that are different from me! Hey shall we stop talking about stressful things. What is your favorite destress activity?"]')
+
+
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_chores1, r'<$activity={[!#ONT(ontchores)]}>')
+df.add_system_transition(State.PROMPT8_chores1, State.PROMPT9_1,r'[!"Same! It feels so good when things are clean and organized, right?"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_games1, r'<$activity={[!#ONT(ontgames)]}>')
+df.add_system_transition(State.PROMPT8_games1, State.PROMPT9_1,r'[!"Oh I did not know you are a gamer! We should definetely play"$activity"together sometime!"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_music1, r'<$activity={[!#ONT(ontmusic)]}>')
+df.add_system_transition(State.PROMPT8_music1, State.PROMPT9_1,r'[!"Of course, listening to music is so stress-relieving, right? I love listening to pop music, do you?"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_art1, r'<$activity={[!#ONT(ontart)]}>')
+df.add_system_transition(State.PROMPT8_art1, State.PROMPT9_1,r'[!"I did not know that you are an artist! I hope I am more artistic... I am gonna go indulge myself in some watercolor painting later haha"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_food1, r'<$activity={[!#ONT(ontfood)]}>')
+df.add_system_transition(State.PROMPT8_food1, State.PROMPT9_1,r'[!"Are you a professional foodie haha? You need to give me some recommendations for restaurants next time!"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_sports1, r'<$activity={[!#ONT(ontsports)]}>')
+df.add_system_transition(State.PROMPT8_sports1, State.PROMPT9_1,r'[!"Oh what a coincidence, my friend just ask me if I want to play"$activity"this weekend. You should join us!"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_dance1, r'<$activity={[!#ONT(ontdance)]}>')
+df.add_system_transition(State.PROMPT8_dance1, State.PROMPT9_1,r'[!"Hey I am a dancer too! I am choreographing the song "Rewrite the Star"!"]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_shopping1, r'<$activity={[!#ONT(ontshopping)]}>')
+df.add_system_transition(State.PROMPT8_shopping1, State.PROMPT9_1,r'[!"Shopping is super duper relaxing for me too. I always end up feeling so guilty for spending money afterward lol but I guess it is worth it."]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_readwatch1, r'<$activity={[!#ONT(ontreadwatch)]}>')
+df.add_system_transition(State.PROMPT8_readwatch1, State.PROMPT9_1,r'[!"I love staying indoors when I am stressed too. It really helps me to stay calm."]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_onlinesocial1, r'<$activity={[!#ONT(ontonlinesocial)]}>')
+df.add_system_transition(State.PROMPT8_onlinesocial1, State.PROMPT9_1,r'[!"Guess how many hours I spend on social media every day. 5 hours! I bet you spend even longer than me."]')
+df.add_user_transition(State.PROMPT8_1, State.PROMPT8_social1, r'<$activity={[!#ONT(ontsocial)]}>')
+df.add_system_transition(State.PROMPT8_social1, State.PROMPT9_1,r'[!"You are such a social butterfly! I am glad that you have so many friends!"]')
+
+df.add_user_transition(State.PROMPT9_1, State.SCORE1, r'</.*/>')
+df.add_system_transition(State.SCORE1, State.END1, r'[!#result]')
 
 
 ###### error cases
-df.set_error_successor(State.PROMPT0,State.PROMPT0_err)
-df.set_error_successor(State.PROMPT1, State.PROMPT1_err)
-df.set_error_successor(State.PROMPT2, State.PROMPT2_err)
-df.set_error_successor(State.PROMPT3, State.PROMPT3_err)
-df.set_error_successor(State.PROMPT4, State.PROMPT4_err)
-df.set_error_successor(State.PROMPT5, State.PROMPT5_err)
-df.set_error_successor(State.PROMPT6, State.PROMPT6_err)
-df.set_error_successor(State.PROMPT7, State.PROMPT7_err)
-df.set_error_successor(State.PROMPT8, State.PROMPT8_err)
+df.set_error_successor(State.PROMPT0_savage,State.PROMPT0_err1)
+df.set_error_successor(State.PROMPT1_1, State.PROMPT1_err1)
+df.set_error_successor(State.PROMPT2_1, State.PROMPT2_err1)
+df.set_error_successor(State.PROMPT3_1, State.PROMPT3_err1)
+df.set_error_successor(State.PROMPT4_1, State.PROMPT4_err1)
+df.set_error_successor(State.PROMPT5_1, State.PROMPT5_err1)
+df.set_error_successor(State.PROMPT6_1, State.PROMPT6_err1)
+df.set_error_successor(State.PROMPT7_1, State.PROMPT7_err1)
+df.set_error_successor(State.PROMPT8_1, State.PROMPT8_err1)
 ######an independent branch for user that did not bring up a specific stressor
-df.add_system_transition(State.PROMPT0_err, State.PROMPT0_a, r'[!"I am glad that school is not stressful to you as it is to me. I personally often feel overwhelmed by my crazy workload in college."]')
-df.add_user_transition(State.PROMPT0_a,State.PROMPT0_b,r'</.*/>')
-df.add_system_transition(State.PROMPT0_b,State.PROMPT8,r'[!"You know what? Talking about stressful things makes me more stressed. I need to do something to destress. What is your favorite destress activity?"]')
+df.add_system_transition(State.PROMPT0_err1, State.PROMPT0_a1, r'[!"I am glad that school is not stressful to you as it is to me. I personally often feel overwhelmed by my crazy workload in college."]')
+df.add_user_transition(State.PROMPT0_a1,State.PROMPT0_b1,r'</.*/>')
+df.add_system_transition(State.PROMPT0_b1,State.PROMPT8_1,r'[!"You know what? Talking about stressful things makes me more stressed. I need to do something to destress. What is your favorite destress activity?"]')
 ######
-df.add_system_transition(State.PROMPT1_err, State.PROMPT2,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
-df.add_system_transition(State.PROMPT2_err, State.PROMPT3,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
-df.add_system_transition(State.PROMPT3_err, State.PROMPT4, r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
-df.add_system_transition(State.PROMPT4_err, State.PROMPT5, r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
-df.add_system_transition(State.PROMPT5_err, State.PROMPT6, r'[!"Great! What made you wanna attend this event?"]')
-df.add_system_transition(State.PROMPT6_err, State.PROMPT7,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
-df.add_system_transition(State.PROMPT7_err, State.PROMPT8,r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
-df.add_system_transition(State.PROMPT8_err, State.PROMPT9,r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+df.add_system_transition(State.PROMPT1_err1, State.PROMPT2_1,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
+df.add_system_transition(State.PROMPT2_err1, State.PROMPT3_1,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
+df.add_system_transition(State.PROMPT3_err1, State.PROMPT4_1, r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT4_err1, State.PROMPT5_1, r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
+df.add_system_transition(State.PROMPT5_err1, State.PROMPT6_1, r'[!"Great! What made you wanna attend this event?"]')
+df.add_system_transition(State.PROMPT6_err1, State.PROMPT7_1,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
+df.add_system_transition(State.PROMPT7_err1, State.PROMPT8_1,r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
+df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
 
 ############School_Savage
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>')
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>')
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1,r'[!"You only think of me when you have problems dont you？ Just Kidding. How often do you have a" $S_S "like that？"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"Personally i wonder if i will ever figure out a way to balance school with personal life by the time I graduate. What goals do have for yourself in college?"]')
@@ -2109,8 +2111,14 @@ df.set_error_successor(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_err1
 df.add_system_transition(State.PROMPT_oolgoalalign_err1,State.PROMPT_oolstressfr1,r'[!"That is ok."#school_n4_lil"How often do you find"$S_S"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr1,r'[!"Do not forget to stop and smell the flowers too!"#school_n4_much"Dont put too much pressure on yourself though!  How often do you find"$S_S"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I gave up on my time management skills."#school_n4_lil"But I usually prioritize those tasks most related to my goals? How often do u find"$S_S"overwhelming?"]')
-#stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
 #covid branch up to the onlinelearning
+df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_infected1,'<{"tested positive","coughing","i have it","headache","cough","loss of taste","loss of smell","body ache","cough","coughs","fever","fatigue","chills","pains"}>')
+df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_yes1,r'<[!#ONT(ontyes)]>')
+df.set_error_successor(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_err1)
+df.add_system_transition(State.PROMPT_oolcovidworry_infected1,State.PROMPT_oolcovidworry_severity1,r'[!"Oh no. Sorry to hear that! How bad is it?"]')
+df.add_user_transition(State.PROMPT_oolcovidworry_severity1,State.PROMPT_oolcovidworry_severityre1,r'</.*/>')
+df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think."]')
+#stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
 ############
 
 
