@@ -1198,15 +1198,19 @@ class State(Enum):
     PROMPT_oolcovidworry_severityre1 = auto()
     PROMPT_oolonline_well1 = auto()
     PROMPT_oolonline_bad1 = auto()
-    PROMPT_oolonlinereason_productivity1 =auto()
-    PROMPT_oolonlinereason_social1 = auto()
-    PROMPT_oolonlinereason_flexibility1 = auto()
+    PROMPT_oolonlinereason_prodgood1 =auto()
+    PROMPT_oolonlinereason_socialgood1 = auto()
+    PROMPT_oolonlinereason_flexgood1 = auto()
+    PROMPT_oolonlinereason_prodbad1 =auto()
+    PROMPT_oolonlinereason_socialbad1 = auto()
+    PROMPT_oolonlinereason_flexbad1 = auto()
     PROMPT_oolhelp_person_re1=auto()
     PROMPT_oolhelp_yes1 = auto()
     PROMPT_oolhelp_no1 = auto()
     PROMPT_oolstudyspot_bedroom1 = auto()
     PROMPT_oolstudyspot_livingroom1 = auto()
-    PROMPT_oolzoom_ =auto()
+    PROMPT_oolzoom_yes =auto()
+    PROMPT_oolzoom_no = auto()
     #####user states
 
 
@@ -2047,7 +2051,7 @@ stress_dict = {
                 "more written homework",
                 "more written assignments",
                 "more work",
-                "wordload"
+                "boring"
             ],
             'ontprodbad':[
                 "concentrate",
@@ -2061,7 +2065,6 @@ stress_dict = {
                 "self control",
                 "less motivated",
                 "no longer feel motivated",
-
             ],
             'ontflexgood': [
                 "sleepin",
@@ -2075,7 +2078,9 @@ stress_dict = {
                 "choice",
                 "choices",
                 "option",
-                "options"
+                "options",
+                "convenienet",
+                "saves time"
             ],
             'ontsocialgood': [
                 "social stress",
@@ -2281,21 +2286,23 @@ df.add_system_transition(State.PROMPT_oolhelp_yes1,State.PROMPT_oolonline1,r'[!"
 df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_bad1,r'<{[!#ONT(ontnegative)],"dislike","dont like","do not like","hate","depressed","depressing"}>')
 df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_well1,r'<{[!#ONT(ontpositive)],"like","love"}>')
 df.set_error_successor(State.PROMPT_oolonline1,State.PROMPT_oolonline_err1)
-df.add_system_transition(State.PROMPT_oolonline_bad1,State.PROMPT_oolonline_reasonbad1,r'[!"Right? I do not get how some people think listening to some recorded lectures as real education."#school_e2_online1_dislike"What do you not like about it?"]')
+df.add_system_transition(State.PROMPT_oolonline_bad1,State.PROMPT_oolonline_reasonbad1,r'[!"Cannot believe that I am saying this but I really wanna go back to school..."#school_e2_online1_dislike"What do you not like about it?"]')
 df.add_system_transition(State.PROMPT_oolonline_well1,State.PROMPT_oolonline_reasongood1,r'[!" Do you not miss your classmates? Are you heartless lol?."#school_e2_online1_like"jk. What do you enjoy the most about it?"]')
 df.add_system_transition(State.PROMPT_oolonline_err1,State.PROMPT_oolonlinereasonbad1,r'[!"Interesting! What part about online learning do you dislike then?"]')
 
-df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_flexibility1,r'<[!#ONT(ontflexbad)]>')
-df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_social1,r'<[!#ONT(ontsocialbad)]>')
-df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_productivity1,r'<[!#ONT(ontprodbad)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_flexbad1,r'<[!#ONT(ontflexbad)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_socialbad1,r'<[!#ONT(ontsocialbad)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_prodbad1,r'<[!#ONT(ontprodbad)]>')
 df.set_error_successor(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonline_dislike_err1)
-df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_flexibility1,r'<[!#ONT(ontflexgood)]>')
-df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_social1,r'<[!#ONT(ontsocialgood)]>')
-df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_productivity1,r'<[!#ONT(ontprodgood)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_flexgood1,r'<[!#ONT(ontflexgood)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_socialgood1,r'<[!#ONT(ontsocialgood)]>')
+df.add_user_transition(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonlinereason_prodgood1,r'<[!#ONT(ontprodgood)]>')
 df.set_error_successor(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonline_like_err1)
-df.add_system_transition(State.PROMPT_oolonlinereason_flexibility1,State.PROMPT_)
+df.add_system_transition(State.PROMPT_oolonlinereason_prodbad1,State.PROMPT_oolstudyspot1,r'["lol too much gaming and netflix?"#school_e2_online2_loprod"Where is your study area at home?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_socialbad1,State.PROMPT_oolstudyspot1,r'["Same."#school_e2_online2_lesssocial"I do not feel as connected to people even though I could see their faces. Where do you usually study at home?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_flexbad1,State.PROMPT_oolstudyspot1,r'["You cannot deny that more time to sleep-in is certainly nice. Where is your study area at home?"]')
+df.add_system_transition(State.PROMPT_oolonline_dislike_err1,State.PROMPT_oolstudyspot1,)
+df.add_system_transition(State.PROMPT_oolonline_like_err1,State.PROMPT_oolstudyspot1,)
 ############
-
-
 if __name__ == '__main__':
     df.run(debugging=False)
