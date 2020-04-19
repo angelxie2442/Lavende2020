@@ -2093,7 +2093,7 @@ df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolcovidwo
 
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfre_often1,State.PROMPT_ooleventstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#det_ss"stressful?"]')
-df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,)
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
 df.add_user_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_ooleventstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#det_ss"stressful? "]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,r'[!"Wow."#school_n1_never"Are you excited about doing"#det_ss"for the first time ?"]')
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
