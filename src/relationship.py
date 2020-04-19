@@ -17,12 +17,35 @@ class State(Enum):
     FAM1_ERR = auto()
     FAM1_yes = auto()
     FAM1_no = auto()
-    COVID = auto()
+    COVID0 = auto()
     FAM2 = auto()
     FAM2_ERR = auto()
     FAM2_abuse = auto()
     FAM3 = auto()
     FAM3_ERR = auto()
+    FAM2_work = auto()
+    FAM2_death = auto()
+    FAM2_divorce = auto()
+    FAM3_yes = auto()
+    FAM3_no = auto()
+    FAM4 = auto()
+    FAM4_ERR = auto()
+    FRIEND = auto()
+    FRIEND0 = auto()
+    FRIEND0_ERR = auto()
+    COVID0_yes = auto()
+    COVID0_no = auto()
+    COVID0_ERR = auto()
+    COVID1 = auto()
+    COVID1_ERR = auto()
+    COVID1_game = auto()
+    COVID1_food = auto()
+    COVID1_video = auto()
+    COVID1_socialApp = auto()
+    COVID1_class = auto()
+    COVID2 = auto()
+    COVID2_ERR = auto()
+    COVID1_music = auto()
 
 
 ontology = {
@@ -160,8 +183,207 @@ ontology = {
              'forcing',
              'neglect',
              'neglects',
-             'neglecting'
+             'neglecting',
+             'rape',
+             'rapes',
+             'alcoholic',
+             'drunk'
              ],
+        'ontwork':
+            [
+                'work',
+                'working',
+                'office',
+                'works',
+                'job',
+                'workload',
+                'unemployed',
+                'unemployment',
+                'company',
+                'financial',
+                'money',
+            ],
+        'ontdeath':
+            [
+                'death',
+                'die',
+                'died',
+                'passed away',
+                'dead',
+                'pass away'
+            ],
+        'ontdivorce':
+            [
+                'divorce',
+                'divorced'
+            ],
+        'ontfriend':
+            [
+                'friend',
+                'friends',
+                'classmate',
+                'classmates',
+                'roommate',
+                'roommates',
+                'housemate',
+                'housemates',
+                'friendship',
+                'friendships'
+            ],
+        'ontgames':
+            [
+                "video games",
+                "board games",
+                "game",
+                "lol",
+                'league',
+                'animal crossing',
+                'switch',
+                "League of Legends",
+                "VR games",
+                "VR Games",
+                "Games",
+                "VR Game",
+                "Game",
+                "video games",
+                "games",
+                "LOL",
+                "2K18",
+                "2K19",
+                "2K20",
+                "FIFA",
+                "PC",
+                "PS4",
+                "Play Station",
+                "Xbox",
+                "xbox",
+                "play station",
+                "pc",
+                "ps4",
+                'cs',
+                'call of duty',
+                'gta',
+                'GTA'
+            ],
+        'ontfood':
+            [
+                "eating",
+                "cooking",
+                "cook",
+                "eat",
+                "order takeouts",
+                "order takeout",
+                "snack",
+                "snacks",
+                "snacking on",
+                "frozen food",
+                "dining",
+                "restaurants",
+                "restaurant",
+                "eat out",
+                "potluck",
+                "food",
+                "order Chinese",
+                "order chinese",
+                "order Japanese",
+                "Order japanese",
+                "order Italian",
+                "Order italian",
+                "pasta",
+                "burger",
+                "pizza",
+                "sushi",
+                "rice",
+                "groceries",
+                "stress baking",
+                "bake",
+                "baking"
+            ],
+        'ontsocialApp':
+            ['fb',
+             'facebook',
+             'snapchat',
+             'tiktok',
+             'tik tok',
+             'instagram',
+             'ig',
+             'messenger',
+             'call',
+             'twitter',
+             'facetime',
+             'wechat',
+             'line',
+             'kakao talk',
+             'kakao',
+             'social'
+             ],
+        'ontclass':
+            ['online classes',
+             'online class',
+             'online',
+             'class',
+             'classes',
+             'school',
+             'zoom',
+             'recording',
+             'professor'],
+        'ontreadwatch':
+            [
+                "books",
+                "TV",
+                "netflix",
+                "television",
+                "Netflix",
+                'movie',
+                'movies',
+                'tv',
+                'book',
+                "Hulu",
+                "hulu",
+                "youtube",
+                "Youtube",
+                "Youtube videos",
+                "news",
+                "newspaper",
+                "online article",
+                "articles",
+                "research paper",
+                "scientific report",
+                'read',
+                'watch',
+                'reading',
+                'watching'
+            ],
+        'ontmusic':
+            [
+                "listening to music",
+                'listening',
+                'spotify',
+                "singing",
+                "composing",
+                "music composition",
+                "playing the piano",
+                "playing the guitar",
+                "playing the drum",
+                "singing",
+                "listen to music",
+                "music",
+                "hip hop",
+                "rock",
+                "pop music",
+                "pop culture",
+                "jazz",
+                "heavy metal",
+                "classical music",
+                "country music",
+                "rap",
+                "study music",
+                "studying music",
+                "sleep music",
+                "calm music",
+                "calming music"
+            ],
+
 
     }
 }
@@ -191,21 +413,69 @@ df.add_system_transition(State.FAM0_never, State.FAM1, r'[!"Oh...let me guess. I
 df.add_user_transition(State.FAM1, State.FAM1_yes, r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.FAM1, State.FAM1_no, r'<[!#ONT(ontno)]>')
 
-df.add_system_transition(State.FAM1_yes, State.COVID,
+df.add_system_transition(State.FAM1_yes, State.COVID0,
                          r'[!"Yeah...coronavirus is really messing up out lives in every aspect, you are not the only who suffer from it. Are you currently quarantine together with your"$F_M"?"]')
 df.add_system_transition(State.FAM1_no, State.FAM2,
                          r'[!"At least you have one less thing to worry about. Guess what, my mom is so worried about getting coronavirus, she literally refuses to talk to anyone in within 3 steps... Whats wrong with you and your"$F_M"then?"]')
 df.add_user_transition(State.FAM2, State.FAM2_abuse, r'[!#ONT(ontabuse)]')
+df.add_user_transition(State.FAM2, State.FAM2_work, r'[!#ONT(ontwork)]')
+df.add_user_transition(State.FAM2, State.FAM2_death, r'[!#ONT(ontdeath)]')
+df.add_user_transition(State.FAM2, State.FAM2_divorce, r'[!#ONT(ontdivorce)]')
 
-df.add_system_transition(State.FAM2_abuse, State.FAM3, r'[! Oh...I am so sorry...It must be very hard for you, I wish I could actually do something for you besides just talking like this. You should definetly seek help from other people that can handle this situation better. ]')
+df.add_system_transition(State.FAM2_abuse, State.FAM3,
+                         r'[! "Oh...I am so sorry...It must be very hard for you, I wish I could actually do something for you besides just talking like this. You should definetly seek help from other people that can handle this situation better. I will try my best to make you feel better. Just curious, are you currently in quarantine?"]')
+df.add_system_transition(State.FAM2_work, State.FAM3, r'[!"Oh...I am sorry. I know how that feels especially in this given time period. I experienced something similar but not exactly the same. My dad lost his job once and it was not only stressful but also depressing for the whole family. Lets just do our best on our part and hope things will get better. By the way, are you currently in quarantine?"]')
+df.add_system_transition(State.FAM2_death, State.FAM3, r'[!"Oh...I am so sorry, now is the worse timing for this to happen. I never experienced a close one passing away but I can imagine how overwhelimg it is... Time is the best healer and I am sure you will get over it soon. By the way, are you currently in quarantine? "]')
+df.add_system_transition(State.FAM2_divorce, State.FAM3, r'[!"Oh...I am sorry. You must be having a hard time. I am not entirely sure about your situation and I do not want to make any assumption, but I am always here to support you. By the way, are you currently in quarantine?"]')
+df.add_user_transition(State.FAM3, State.FAM3_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.FAM3, State.FAM3_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.FAM3_yes, State.FAM4, r'[!"Same! I am so bored and anxious while in quarantine. There are only three things in my life now, sleep, eat, and zoom. How about you? What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.FAM3_no, State.FAM4, r'[!"I am so jealous of you! You must be staying in a very safe country. I am so bored and anxious while in quarantine, what activity would you do if you were me?"]')
+
 
 ###Family ERROR###
 df.set_error_successor(State.FAM0, State.FAM0_ERR)
 df.set_error_successor(State.FAM1, State.FAM1_ERR)
 df.set_error_successor(State.FAM2, State.FAM2_ERR)
 df.set_error_successor(State.FAM3, State.FAM3_ERR)
+df.set_error_successor(State.FAM4, State.FAM4_ERR)
+
+'''Friend Branch'''
+df.add_user_transition(State.PROMPT, State.FRIEND, r'<$F=[!#ONT(ontfriend)]>')
+
+df.add_system_transition(State.FRIEND, State.FRIEND0, r'[!""]')
+
+
+###Friend ERROR###
+df.set_error_successor(State.FRIEND0, State.FRIEND0_ERR)
 
 '''Covid-19 Branch'''
+df.add_user_transition(State.COVID0, State.COVID0_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.COVID0, State.COVID0_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.COVID0_yes, State.COVID1, r'[!"It is nice to still be able to see each other! I think everyone must be super stressed under this chaotic situation... I really hope this crisis ends soon so our lives can get back to normal.  Honestly, I think doing things together might reduce some of your stress. What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.COVID0_no, State.COVID1, r'[!"Oh...I am guessing this stress is coming from the fact that you cannot see each other. I sometimes videocall my friend and my family when I miss them. It is a lot to handle when away from everyone, you are not alone. Doing some fun activities might help you relax! What activity do you like to do during quarantine?"]')
+
+df.add_user_transition(State.COVID1, State.COVID1_game, r'<[!#ONT(ontgame)]>')
+df.add_user_transition(State.COVID1, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.COVID1, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.COVID1, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.COVID1, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.COVID1, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+
+df.add_system_transition(State.COVID1_game, State.COVID2, r'[!"I do like to play games too! We should definetly play together sometimes! All of my friends are playing animal crossing, I am so jealous...  "]')
+df.add_system_transition(State.COVID1_food, State.COVID2, r'[!""]')
+df.add_system_transition(State.COVID1_video, State.COVID2, r'[!""]')
+df.add_system_transition(State.COVID1_socialApp, State.COVID2, r'[!""]')
+df.add_system_transition(State.COVID1_class, State.COVID2, r'[!""]')
+df.add_system_transition(State.COVID1_music, State.COVID2, r'[!""]')
+
+###COVID-19 ERROR###
+df.set_error_successor(State.COVID0, State.COVID0_ERR)
+df.set_error_successor(State.COVID1, State.COVID1_ERR)
+df.set_error_successor(State.COVID2, State.COVID2_ERR)
+
 
 if __name__ == '__main__':
     df.run(debugging=False)
