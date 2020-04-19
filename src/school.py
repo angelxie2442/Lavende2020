@@ -827,6 +827,15 @@ class det_ss(Macro):
             return 'an '+str(vars['S_S'])
         else:
             return 'a '+str(vars['S_S'])
+class ool_or_eer(Macro):
+    def run(self, ngrams, vars, args):
+        if str(vars['S_S']) == "job search" or str(vars['S_S']) == "internship application" or str(vars['S_S']) == "job application":
+            return 'in job application'
+        elif str(vars['S_S']) == "internship" or str(vars['S_S']) == "job" or str(vars['S_S']) == "research":
+            return 'in work'
+        else:
+            return 'in school'
+
 
 class pron_reason(Macro):
     def run(self, ngrams, vars, args):
@@ -1013,6 +1022,14 @@ class State(Enum):
     PROMPT0_schoolgeneral_savage = auto()
     PROMPT0_schooltime_savage = auto()
     PROMPT0_schoolcovid_savage = auto()
+    PROMPT0_schoolevent_agg = auto()
+    PROMPT0_schoolgeneral_agg = auto()
+    PROMPT0_schooltime_agg = auto()
+    PROMPT0_schoolcovid_agg= auto()
+    PROMPT0_schoolevent_opt= auto()
+    PROMPT0_schoolgeneral_opt = auto()
+    PROMPT0_schooltime_opt = auto()
+    PROMPT0_schoolcovid_opt = auto()
     PROMPT0_re = auto()
     PROMPT0_err = auto() #user is stressed about nothing/unsure
     PROMPT0_other = auto()
@@ -1064,31 +1081,44 @@ class State(Enum):
     PROMPT8_err = auto()
     PROMPT9 = auto()
     END = auto()
-    SCORE = auto() ###########
-    PRPOMT_ool_often =auto() ###these three freq user states will be shared with all freq user responses
-    PRPOMT_ool_sometimes = auto() ###
-    PRPOMT_ool_never = auto() ###
-    PROMPT_ooleventstressfr_sav = auto()#####
-    PROMPT_ooleventstressfr_agg = auto()
-    PROMPT_ooleventstressfr_opt = auto()
-    PROMPT_ooleventstressfr_err = auto()
-    PROMPT_oolgeneralstressfr_sav = auto()
-    PROMPT_oolgeneralstressfr_agg = auto()
-    PROMPT_oolgeneralstressfr_opt = auto()
-    PROMPT_oolgeneralstressfr_err = auto()
-    PROMPT_ooltimestressfr_sav = auto()
-    PROMPT_ooltimestressfr_agg = auto()
-    PROMPT_ooltimestressfr_opt = auto()
-    PROMPT_ooltimestressfr_err = auto() #####
-    PROMPT_oolfreq_sav =auto()#####
-    PROMPT_oolfreq_agg = auto()
-    PROMPT_oolfreq_opt = auto()
-    PROMPT_oolfreq_err = auto()
-    PROMPT_oolgoal = auto()
-    PROMPT_oolgoal_re = auto()
-    PROMPT_oolgoalalign = auto()
-    PROMPT_oolgoalalign_yes = auto()
-    PROMPT_oolgoalalign_no = auto()#####
+    SCORE = auto() ####################
+    PROMPT_ooleventstressfr1 = auto()##### 1: savage 2: aggreable 3:optimistic
+    PROMPT_oolgeneralstressfr1 = auto()
+    PROMPT_ooltimestressfr1= auto()
+    PROMPT_oolfreq1 =auto()
+    PROMPT_oolpast1 = auto()
+    PROMPT_oolgoal1 = auto()
+    PROMPT_oolgoalalign1 = auto()
+    PROMPT_oolcovidworry1 = auto()
+    #####user error states
+    PROMPT_ooleventstressfr_err1 = auto()
+    PROMPT_oolgeneralstressfr_err1 = auto()
+    PROMPT_ooltimestressfr_err1 = auto()
+    PROMPT_oolfreq_err1 = auto()
+    PROMPT_oolgoal_err1 = auto()
+    PROMPT_oolgoalalign_err1 = auto()
+    PROMPT_oolcovidworry_err1 = auto()
+    #####user states
+    PROMPT_ooleventstressfr_often1 = auto()
+    PROMPT_ooleventstressfr_sometimes1 = auto()
+    PROMPT_ooleventstressfr_never1 = auto()
+    PROMPT_oolgeneralstressfr_often1 = auto()
+    PROMPT_oolgeneralstressfr_sometimes1 = auto()
+    PROMPT_oolgeneralstressfr_never1 = auto()
+    PROMPT_ooltimestressfr_often1 = auto()
+    PROMPT_ooltimestressfr_sometimes1 = auto()
+    PROMPT_ooltimestressfr_never1 = auto()
+    PROMPT_oolfreq_often1 = auto()
+    PROMPT_oolfreq_sometimes1 = auto()
+    PROMPT_oolfreq_never1 = auto()
+    PROMPT_oolpast_well1 = auto()
+    PROMPT_oolpast_bad1 = auto()
+    PROMPT_oolgoal_re1 = auto()
+    PROMPT_oolgoalalign_yes1 = auto()
+    PROMPT_oolgoalalign_no1 = auto()
+    PROMPT_oolcovidworry_yes1 = auto()
+    PROMPT_oolcovidworry_infected1 = auto()
+    #####user states
 
 
 
@@ -1915,17 +1945,12 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'school_n2':school_n2(),'school_n3':school_n3(),'school_n4':school_n4(),
                           'school_e3_studyspot1':school_e3_studyspot1(),'school_e3_studyspot2':school_e3_studyspot2(),
                           'school_e2_online1':school_e2_online1(),'school_e2_online2':school_e2_online2(),
-                          'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2()})
+                          'school_e1_mentor1':school_e1_mentor1(),'school_e1_mentor2':school_e1_mentor2(),
+                          'ool_or_eer':ool_or_eer()})
 df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>')
-df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
-
-df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_eventfreq,r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]')
 
 
 df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
@@ -2024,6 +2049,40 @@ df.add_system_transition(State.PROMPT5_err, State.PROMPT6, r'[!"Great! What made
 df.add_system_transition(State.PROMPT6_err, State.PROMPT7,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err, State.PROMPT8,r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
 df.add_system_transition(State.PROMPT8_err, State.PROMPT9,r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+
+############School_Savage
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>')
+df.add_user_transition(State.PROMPT0, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>')
+df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1,r'[!"You only think of me when you have problems dont you？ Just Kidding. How often do you have a" $S_S "like that？"]')
+df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
+df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"personally i wonder if i will ever figure out a way to balance school with personal life by the time I graduate. What goals do have for yourself in college?"]')
+df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
+
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,)
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,)
+df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,)
+df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
+df.add_user_transition(State.PROMPT_oolfreq_err1,State.PROMPT_ooleventstressfr1,r'[!"I see I see. Just curious, how often do you feel stressed about"$S_S"?"]')
+
+
+
+############
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     df.run(debugging=False)
