@@ -889,6 +889,7 @@ class State(Enum):
     PROMPT5_err = auto()
     PROMPT6 = auto()
     PROMPT6_re = auto()
+    PROMPT6_re_ppl = auto()
     PROMPT6_other = auto()
     PROMPT6_err = auto()
     PROMPT7 = auto()
@@ -1698,8 +1699,6 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'e40': e40(), 'printS': printS(), 'result':result()})
 df.add_system_transition(State.START, State.PROMPT0,
                          r'[!"Hi! Tell me what social events you are stressed about."]')
-df.add_system_transition(State.START, State.PROMPT000,
-                         r'[!"Hi! Tell me."]')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_re, r'<$S_S=[!#ONT(ontsocial)]>')
 df.add_user_transition(State.PROMPT0, State.PROMPT0_other, r'<$S_S={[!#POS(noun)]}>')
 df.add_system_transition(State.PROMPT0_other, State.PROMPT3, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
@@ -1745,8 +1744,11 @@ df.add_system_transition(State.PROMPT5_no, State.PROMPT7,
                          r'[!"I am sorry that you have to go...but on the bright side, you might meet someone interesting there! This might sound weird but sometimes i enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time during"#det_ss". How about you, what else do you feel about the upcoming"$S_S"?"]')
 
 df.add_user_transition(State.PROMPT6, State.PROMPT6_re,
-                       '<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
+                       '<$reason={[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],[#POS(verb), "it"],[#POS(verb), "that"],[#POS(verb) #POS(part) #POS(verb) "it"],[!#POS(verb) #POS(part) #POS(verb) #POS(verb)],[!#POS(verb) #POS(part) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],[!#POS(verb) #POS(part) #POS(verb)], [!#POS(verb) #POS(verb) #POS(adj) #POS(noun)],[!#POS(verb) #POS(verb) #POS(adp) #POS(noun)],[!#POS(verb) #POS(verb) #POS(noun)],[!#POS(verb) #POS(verb)]}>')
+df.add_user_transition(State.PROMPT6, State.PROMPT6_re_ppl,'<$reason={[!#POS(noun),"will be there"], [!#POS(pron), #POS(noun),"will be there"], [!"there will be", #POS(noun)], [!"there will be", #POS(adj),#POS(noun)], [!"there will be", #POS(adv),#POS(adj),#POS(noun)]}>')
 df.add_user_transition(State.PROMPT6, State.PROMPT6_other, r'<$External={[!#ONT(ontexternal)]}>')
+df.add_system_transition(State.PROMPT6_re_ppl, State.PROMPT7,
+                         r'[!"I am glad that"$reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT6_re, State.PROMPT7,
                          r'[!"I am glad that you"$reason". This might sound weird but often I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. I feel nervous and excited at the same time. How about you, what else do you feel about the upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT6_other, State.PROMPT7,
