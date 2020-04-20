@@ -1209,8 +1209,8 @@ class State(Enum):
     PROMPT_oolhelp_no1 = auto()
     PROMPT_oolstudyspot_bedroom1 = auto()
     PROMPT_oolstudyspot_livingroom1 = auto()
-    PROMPT_oolzoom_yes =auto()
-    PROMPT_oolzoom_no = auto()
+    PROMPT_oolzoom_yes1 =auto()
+    PROMPT_oolzoom_no1 = auto()
     #####user states
 
 
@@ -2101,6 +2101,18 @@ stress_dict = {
                 "concentrate better",
                 "focus better"
             ],
+            'ontbedroom':[
+                "bedroom",
+                "study"
+            ],
+            'ontlivingroom':[
+                "dining area",
+                "dining room",
+                "kitchen",
+                "living room",
+                "garden",
+                "backyard"
+            ]
 
 
         }
@@ -2220,7 +2232,7 @@ df.add_system_transition(State.PROMPT4_err1, State.PROMPT5_1, r'[!"Mmhmm. Do you
 df.add_system_transition(State.PROMPT5_err1, State.PROMPT6_1, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT6_err1, State.PROMPT7_1,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err1, State.PROMPT8_1,r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
-df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally like to organize my rooms. Doing chores is so stress-relieving. Well I am gonna go help my friends wash some dishes right now. Later!"]')
+df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally like to organize my rooms. Doing chores is so therapeutic to me lol."]')
 
 ############School_Savage
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>')
@@ -2301,8 +2313,25 @@ df.set_error_successor(State.PROMPT_oolonline_reasongood1,State.PROMPT_oolonline
 df.add_system_transition(State.PROMPT_oolonlinereason_prodbad1,State.PROMPT_oolstudyspot1,r'["lol too much gaming and netflix?"#school_e2_online2_loprod"Where is your study area at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialbad1,State.PROMPT_oolstudyspot1,r'["Same."#school_e2_online2_lesssocial"I do not feel as connected to people even though I could see their faces. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexbad1,State.PROMPT_oolstudyspot1,r'["You cannot deny that more time to sleep-in is certainly nice. Where is your study area at home?"]')
-df.add_system_transition(State.PROMPT_oolonline_dislike_err1,State.PROMPT_oolstudyspot1,)
-df.add_system_transition(State.PROMPT_oolonline_like_err1,State.PROMPT_oolstudyspot1,)
+df.add_system_transition(State.PROMPT_oolonline_dislike_err1,State.PROMPT_oolstudyspot1,r'["I absolutely hate that about online learning too. Where do you usually study at home?"]')
+df.add_system_transition(State.PROMPT_oolonline_like_err1,State.PROMPT_oolstudyspot1,r'["I love that about online learning too. Where do you usually study at home?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_flexgood1,State.PROMPT_oolstudyspot1,r'["Do you have a hard time distinguishing weekdays from weekends? Morning from nights lol? Where is your study area at home? "]')
+df.add_system_transition(State.PROMPT_oolonlinereason_prodgood1,State.PROMPT_oolstudyspot1,r'["How is that possible?"#school_e2_online2_hiprod"Do you have a study are at home that helps you stay focused ?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_oolstudyspot1, r'[" Good for you!"##school_e2_online2_socialstress"I feel less motivated to study these days ughh...Where do you usually study at home?"]')
+
+df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
+df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_livingroom1,r'<$room=[!#ONT(ontlivingroom)]>')
+df.set_error_successor(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_err1)
+df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"The"$room "sounds like a good place to study. Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_livingroom1,State.PROMPT_oolzoom1,r'[!"I just love studying in the kitchen with a cup of coffee and music in the background pretending as if I am at Starcbucks. Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'[!"Interesting!Have you tried studying while having a zoom meeting with your friends?"]')
+
+df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_no1,r'<[!#ONT(ontno)]>')
+df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT(ontyes)]>')
+df.set_error_successor(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_err1)
+df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,)
+df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,)
+df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,)
 ############
 
 
