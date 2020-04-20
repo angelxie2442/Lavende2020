@@ -491,6 +491,22 @@ ontology = {
         'ontfake':
             ['fake',
              'not real', 'behind'],
+        'ontsingle':
+            [
+                'single',
+                'dont have boyfriend',
+                'dont have boy friend',
+                'dont have girlfriend',
+                'dont have girl friend',
+                'want a relationship',
+                'want to date',
+                'want a boyfriend',
+                'want a girlfriend',
+                'want a boy friend',
+                'want a girl friend',
+                'lonely',
+
+            ],
         'ontroman':
             [
                 'boyfriend',
@@ -625,9 +641,9 @@ df.add_user_transition(State.FRIEND0, State.FRIEND0_sometimes,
 df.add_user_transition(State.FRIEND0, State.FRIEND0_never, r'<{[!#ONT(ontnever)]}>')
 
 df.add_system_transition(State.FRIEND0_often, State.FRIEND1,
-                         r'[!"Yeah...sometimes dealing with"$f"can be really stressful... Is this stress caused by coronavirus?"]')
+                         r'[!"Yeah...sometimes dealing with"$F"can be really stressful... Is this stress caused by coronavirus?"]')
 df.add_system_transition(State.FRIEND0_sometimes, State.FRIEND1,
-                         r'[!"I think this is totally normal! Life gives you lemons sometimes, just make lemonade! You cannot imagine how many troubles my best friend casued me, he stress me out every once a month. Is this stress caused by coronavirus?"]')
+                         r'[!"I think this is totally normal! Life gives you lemons sometimes, just make lemonade! You cannot imagine how many troubles my best friend casued me, he stresses me out every once a month. Is this stress caused by coronavirus?"]')
 df.add_system_transition(State.FRIEND0_never, State.FRIEND1, r'[!"Oh...let me guess. Is your stress caused by coronavirus?"]')
 df.add_user_transition(State.FRIEND1, State.FRIEND1_yes, r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.FRIEND1, State.FRIEND1_no, r'<[!#ONT(ontno)]>')
@@ -657,7 +673,7 @@ df.set_error_successor(State.FRIEND1, State.FRIEND1_ERR)
 df.set_error_successor(State.FRIEND2, State.FRIEND2_ERR)
 df.set_error_successor(State.FRIEND3, State.FRIEND3_ERR)
 df.add_system_transition(State.FRIEND0_ERR, State.FRIEND1,
-                         r'[!"I think this is totally normal! Life gives you lemons sometimes, just make lemonade! You cannot imagine how many troubles my best friend casued me, he stress me out every once a month. Is this stress caused by coronavirus?"]')
+                         r'[!"I think this is totally normal! Life gives you lemons sometimes, just make lemonade! You cannot imagine how many troubles my best friend casued me, he stresses me out every once a month. Is this stress caused by coronavirus?"]')
 df.add_system_transition(State.FRIEND1_ERR, State.FRIEND2,
                          r'[!"At least you have one less thing to worry about. I am a little stressed now because I cant see my best friend and talk about how our life suck haha. Whats wrong with you and your"$F"then?"]')
 df.add_system_transition(State.FRIEND2_ERR, State.FRIEND3, r'[!"Ohh...I am sorry...Sometimes my firend just makes me super stressful and I do not know what to do either. I am sure you will get over it soon. By the way, are you in quarantine currently?"]')
@@ -666,7 +682,7 @@ df.add_system_transition(State.FRIEND2_ERR, State.FRIEND3, r'[!"Ohh...I am sorry
 '''Romantic Relationship Branch'''
 df.add_user_transition(State.PROMPT, State.ROMAN, r'<$RF=[!#ONT(ontroman)]>')
 
-df.add_system_transition(State.ROMAN, State.ROMAN0, r'[!"Aww I love to hear about love stories. Relationship is always stressful, right? That is why I enjoy being single despite having many admirers haha How often do you feel stressed about your"$RF"?"]')
+df.add_system_transition(State.ROMAN, State.ROMAN0, r'[!"Aww I love to hear about love stories. Relationship is always stressful, right? That is why I enjoy being single despite having many admirers haha. How often do you feel stressed about your"$RF"?"]')
 df.add_user_transition(State.ROMAN0, State.ROMAN0_often,
                        r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
 df.add_user_transition(State.ROMAN0, State.ROMAN0_sometimes,
@@ -684,7 +700,7 @@ df.add_user_transition(State.ROMAN1, State.ROMAN1_long, r'/.*([4-9]|[0]|four|fiv
 
 
 df.add_system_transition(State.ROMAN1_short, State.ROMAN2, r'[!"Just started dating? This is so exciting! I bet you are you guys are still in the honeymoon phase haha. I am not surprised if you fight a lot. Is this stress caused by coronavirus?"]')
-df.add_system_transition(State.ROMAN1_mid, State.ROMAN2, r'[!"Thats nice! Guess you guys are in a more steady phase. Is this stress caused by coronavirus?]')
+df.add_system_transition(State.ROMAN1_mid, State.ROMAN2, r'[!"Thats nice! Guess you guys are in a more steady phase. Is this stress caused by coronavirus?"]')
 df.add_system_transition(State.ROMAN1_long, State.ROMAN2, r'[!"Oh my god really? I am so happy for you! Let me guess, is this stress caused by coronavirus?"]')
 df.add_user_transition(State.ROMAN2, State.ROMAN2_yes, r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.ROMAN2, State.ROMAN2_no, r'<[!#ONT(ontno)]>')
@@ -718,8 +734,8 @@ df.set_error_successor(State.ROMAN3, State.ROMAN3_ERR)
 df.set_error_successor(State.ROMAN4, State.ROMAN4_ERR)
 df.add_system_transition(State.ROMAN0_ERR, State.ROMAN1,
                          r'[!"I think this is totally normal! Even the happiest and healthiest relationship is sometimes stressful. How long have you guys been together?"]')
-df.add_system_transition(State.State.ROMAN1_ERR, State.ROMAN2, r'[!"Thats nice! Guess you guys are in a more steady phase. Is this stress caused by coronavirus?]')
-df.add_system_transition(State.State.ROMAN2_ERR, State.ROMAN3,
+df.add_system_transition(State.ROMAN1_ERR, State.ROMAN2, r'[!"Thats nice! Guess you guys are in a more steady phase. Is this stress caused by coronavirus?]')
+df.add_system_transition(State.ROMAN2_ERR, State.ROMAN3,
                          r'[!"Glad coronavirus is not affecting your relationship. Whats wrong with you and your"$RF"then?"]')
 df.add_system_transition(State.ROMAN3_ERR, State.ROMAN4, r'[!"That sounds pretty stressful to me... Sorry I do not really know how to deal with this situation. Lets talk about other things, are you currently in quarantine?"]')
 df.add_system_transition(State.ROMAN4_ERR, State.ROMAN5, r'[!"Same! I am so bored and anxious while in quarantine. There are only three things in my life now, sleep, eat, and zoom. How about you? What activity do you like to do during quarantine?"]')
@@ -760,7 +776,7 @@ df.add_user_transition(State.COVID3, State.COVID3_dislike, r'<{[!#ONT(ontdislike
                 ###ENDING TODO
 df.add_system_transition(State.COVID2_no, State.COVIDEND, r'[!"I am so jealous of you! Taking online classes are just so awful. Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
 df.add_system_transition(State.COVID3_like, State.COVIDEND, r'[!"Wow you are the minority! Most of the students do not adjust well with this sudden change of learning mode. I personally hate is so much because of the timezone difference. Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
-df.add_system_transition(State.COVID3_dislike, State.COVIDEND, r'[!"Yeah right? I think there is no better option but I know I hate taking class super early and super late for sure. Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
+df.add_system_transition(State.COVID3_dislike, State.COVIDEND, r'[!"Yeah right? I hate taking classes at 4 am... You should join the zoom memes page on facebook if you havent! Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
 
 ###COVID-19 ERROR###
 df.set_error_successor(State.COVID0, State.COVID0_ERR)
@@ -776,7 +792,7 @@ df.add_system_transition(State.FAM4_ERR, State.COVID2, r'[!"That sounds super in
 df.add_system_transition(State.FRIEND4_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Oh by the way, are you also taking online classes?"]')
 df.add_system_transition(State.ROMAN5_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Oh by the way, are you also taking online classes?"]')
 df.add_system_transition(State.COVID2_ERR, State.COVID3, r'[!"Nice! Feels so good to know someone is also suffering with me haha. How are you feeling about this transition to remote learning?"]')
-df.add_system_transition(State.COVID3_ERR, State.COVIDEND, r'[!"Yeah right? I think there is no better option but I know I hate taking class super early and super late for sure. Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
+df.add_system_transition(State.COVID3_ERR, State.COVIDEND, r'[!"Yeah right? I hate taking classes at 4 am... You should join the zoom memes page on facebook if you havent! Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
 
 if __name__ == '__main__':
     df.run(debugging=False)
