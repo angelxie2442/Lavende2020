@@ -2340,8 +2340,8 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'ool_or_eer':ool_or_eer(),'help_ss':help_ss()})
 df.add_system_transition(State.START, State.PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other1, r'<$S_S={[!#POS(noun)],[!#POS(noun) #POS(noun)]}>',score=1.0)
-
+#df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other1, r'<$S_S={[!#POS(noun)],[!#POS(noun) #POS(noun)]}>',score=1.0)
+df.add_user_transition(State.PROMPT0_savage, State.BREAKUP, r'<{[!#ONT(ontbreakup)]}>')
 
 df.add_system_transition(State.PROMPT0_other1, State.PROMPT3_1, r'[!"Oh..."$S_S"? How often do you find"#det_ss"stressful?"]') ###added a new branch for nouns not predicted by our social event ontology
 df.add_system_transition(State.PROMPT0_re1, State.PROMPT1_1, r'[!"Oh..."$S_S"? How often do you participate in"#det_ss"?"]')
@@ -2414,7 +2414,7 @@ df.add_user_transition(State.PROMPT9_1, State.SCORE1, r'</.*/>')
 df.add_system_transition(State.SCORE1, State.END1, r'[!#result]')
 
 ###### error cases
-df.set_error_successor(State.PROMPT0_savage,State.PROMPT0_err1)
+#df.set_error_successor(State.PROMPT0_savage,State.PROMPT0_err1) what ii have originally before merging with relationship branch
 df.set_error_successor(State.PROMPT1_1, State.PROMPT1_err1)
 df.set_error_successor(State.PROMPT2_1, State.PROMPT2_err1)
 df.set_error_successor(State.PROMPT3_1, State.PROMPT3_err1)
@@ -2538,6 +2538,201 @@ df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"I find"#s
 df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!"I guess"#school_e3_studyspot2_zoom"we are quite similar in our study habits lol. I recently feel so stressed about many things. What do you do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. What do u do to destress during quarantine?"]')
 ############
+
+
+'''BREAK UP'''
+df.add_system_transition(State.BREAKUP, State.BREAKUP0, r'[!"Oh...I am so sorry. I know how heartbreaking it feels. How long had you guys been together?"]')
+df.add_user_transition(State.BREAKUP0, State.BREAKUP0_short, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
+df.add_user_transition(State.BREAKUP0, State.BREAKUP0_mid, r'/.*([2]|two)\s\b(year|years)\b.*/')
+df.add_user_transition(State.BREAKUP0, State.BREAKUP0_long, r'/.*([3-9]|[0]|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
+
+df.add_system_transition(State.BREAKUP0_short, State.BREAKUP1, r'[!"Less than a year? I think you will recover soon. My friend just broke up recently with her boyfriend and they had been dating for 7 years... Did this breakup happen because of the coronavirus? "]')
+df.add_system_transition(State.BREAKUP0_mid, State.BREAKUP1, r'[!"2 years is a lot of time, you must be feeling lost and empty. Did this breakup happen because of the coronavirus?"]')
+df.add_system_transition(State.BREAKUP0_long, State.BREAKUP1, r'[!"You guys broke up despite dated for this long? Oh, is it because of the coronavirus?"]')
+df.add_user_transition(State.BREAKUP1, State.COVID0, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.BREAKUP1, State.BREAKUP1_0, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.COVID0, State.COVID1, r'[!"Oh...I am guessing this stress is coming from the fact that you cannot see each other. It is a lot to handle when away from everyone, you are not alone. Doing some fun activities might help you relax! What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.BREAKUP1_0, State.BREAKUP2, r'[!"I guess the coronavirus is innocent. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_user_transition(State.BREAKUP2, State.BREAKUP2_intimacy, r'[intimacy]')
+df.add_user_transition(State.BREAKUP2, State.BREAKUP2_passion, r'[passion]')
+df.add_user_transition(State.BREAKUP2, State.BREAKUP2_commitment, r'[commitment]')
+
+df.add_system_transition(State.BREAKUP2_intimacy, State.BREAKUP3, r'[!"A relationship without intimacy is kinda similar to love at first sight, if I remember correctly. Prehaps sharing each stressful and joyful thing that happened can build the attachment to one another. Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP2_passion, State.BREAKUP3, r'[!"A relationship without passion is kinda similar to a long-term marriage, if I remember correctly. Having satisfying sex can actually help a lot. Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP2_commitment, State.BREAKUP3, r'[!"A relationship without commitment is kinda similar to a romantic affair, if I remember correctly. Making promises to each other is imporant to create a sense of belonging. Just curious, do you want to get back together?"]')
+df.add_user_transition(State.BREAKUP3, State.BREAKUP3_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.BREAKUP3, State.BREAKUP3_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.BREAKUP3_yes, State.BREAKUP4, r'[!"I wish you the best of luck! However, dont forget to love yourself. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+df.add_system_transition(State.BREAKUP3_no, State.BREAKUP4, r'[!"I think you are ready to move on! Time to focus on self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+
+
+'''LOVE'''
+df.add_user_transition(State.LOVE0, State.SINGLE, r'<[!#ONT(ontno)]>')
+df.add_user_transition(State.LOVE0, State.ROMAN, r'<[!#ONT(ontyes)]>')
+
+'''SINGLE'''
+df.add_system_transition(State.SINGLE, State.SINGLE0, r'[!"I mean sometimes being single is not a bad thing. You get to do whatever you want without needing to care about how your boyfriend or girlfriend might feel. How long have you been single?"]')
+df.add_user_transition(State.SINGLE0, State.SINGLE0_short, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
+df.add_user_transition(State.SINGLE0, State.SINGLE0_mid, r'/.*([2]|two)\s\b(year|years)\b.*/')
+df.add_user_transition(State.SINGLE0, State.SINGLE0_long, r'/.*([3-9]|[0]|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
+
+df.add_system_transition(State.SINGLE0_short, State.SINGLE1, r'[!"Oh recovering from your previous relationship huh? How often are you feeling stressed about being single?"]')
+df.add_system_transition(State.SINGLE0_mid, State.SINGLE1, r'[!"Yeah, its time to get into a relationship right? How often are you feeling stressed about being single?"]')
+df.add_system_transition(State.SINGLE0_long, State.SINGLE1, r'[!"Its okay you are not alone, I have been single for a while too. How often are you feeling stressed about being single?"]')
+df.add_user_transition(State.SINGLE1, State.SINGLE1_often, r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.SINGLE1, State.SINGLE1_sometimes, r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.SINGLE1, State.SINGLE1_never, r'<{[!#ONT(ontnever)]}>')
+
+df.add_system_transition(State.SINGLE1_often, State.SINGLE2, r'[!"Feeling stressed about it probably means you care about yourself a lot, but stressing too much is not good for your health. Do you think you have a high standard?"]')
+df.add_system_transition(State.SINGLE1_sometimes, State.SINGLE2, r'[!"A little of stress is actually helpful for self-development. Do you think you have a high standard?"]')
+df.add_system_transition(State.SINGLE1_never, State.SINGLE2, r'[!"Interesting, I guess something unexpected happened in your life. Do you think you have a high standard?"]')
+df.add_user_transition(State.SINGLE2, State.SINGLE2_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.SINGLE2, State.SINGLE2_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.SINGLE2_yes, State.SINGLE3, r'[!"Checkmate! It is not a bad thing to have a high standard honestly, but it reduces probablity that the other person also like you. In this case, self-development is important. What do you like to do during quarantine?"]')
+df.add_system_transition(State.SINGLE2_no, State.SINGLE3, r'[!"I guess you just need to wait for love come to you naturally. I was once very desperate for a relationship but ended up getting none. And after I gave up, it came to me unexpectedly. Stange huh? You should focus more on yourself, what do you like to do during quarantine?"]')
+
+
+'''IN RELATIONSHIP'''
+df.add_system_transition(State.ROMAN, State.ROMAN0, r'[!"Oh nice! How long have you guys been together?"]')
+df.add_user_transition(State.ROMAN0, State.ROMAN0_short, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
+df.add_user_transition(State.ROMAN0, State.ROMAN0_mid, r'/.*([2-3]|two|three)\s\b(year|years)\b.*/')
+df.add_user_transition(State.ROMAN0, State.ROMAN0_long, r'/.*([4-9]|[0]|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
+
+df.add_system_transition(State.ROMAN0_short, State.ROMAN1, r'[!"You just started dating? I am assuming you guys are still in the honeymoon phase. How often do you feel stressed about your relationship?"]')
+df.add_system_transition(State.ROMAN0_mid, State.ROMAN1, r'[!"That is quite a while! I am assuming you guys are in a more uncertain and unstable phase. How often do you feel stressed about your relationship?"]')
+df.add_system_transition(State.ROMAN0_long, State.ROMAN1, r'[!"Oh wow for real? I am surprised you guys can pull it off. How often do you feel stressed about your relationship?"]')
+df.add_user_transition(State.ROMAN1, State.ROMAN1_often,
+                       r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.ROMAN1, State.ROMAN1_sometimes,
+                       r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
+df.add_user_transition(State.ROMAN1, State.ROMAN1_never, r'<{[!#ONT(ontnever)]}>')
+
+df.add_system_transition(State.ROMAN1_often, State.ROMAN2, r'[!"Yeah...sometimes relationship can be pain in your ass. But constant stress is not a good sign... Is the coronavirus causing any stress in your relationship?"]')
+df.add_system_transition(State.ROMAN1_sometimes, State.ROMAN2, r'[!"It is totally normal to be stressed about relationship sometimes. Is the coronavirus causing any stress in your relationship?"]')
+df.add_system_transition(State.ROMAN1_never, State.ROMAN2, r'[!"Let me guess, is the stress in your relationship coming from the coronavirus??"]')
+df.add_user_transition(State.ROMAN2, State.COVID0, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.ROMAN2, State.ROMAN2_0, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.ROMAN2_0, State.ROMAN3, r'[!"I guess the coronavirus is innocent. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_user_transition(State.ROMAN3, State.ROMAN3_intimacy, r'[intimacy]')
+df.add_user_transition(State.ROMAN3, State.ROMAN3_passion, r'[passion]')
+df.add_user_transition(State.ROMAN3, State.ROMAN3_commitment, r'[commitment]')
+
+
+df.add_system_transition(State.ROMAN3_intimacy, State.ROMAN4, r'[!"A relationship without intimacy is kinda similar to love at first sight, if I remember correctly. Prehaps sharing each stressful and joyful thing that happened can build the attachment to one another. Have you ever talked about your stress with your boyfriend or girlfriend?"]')
+df.add_system_transition(State.ROMAN3_passion, State.ROMAN4, r'[!"A relationship without passion is kinda similar to a long-term marriage, if I remember correctly. Having satisfying sex can actually help a lot. Have you ever talked about your stress with your boyfriend or girlfriend?"]')
+df.add_system_transition(State.ROMAN3_commitment, State.ROMAN4, r'[!"A relationship without commitment is kinda similar to a romantic affair, if I remember correctly. Making promises to each other is imporant to create a sense of belonging. Have you ever talked about your stress with your boyfriend or girlfriend?"]')
+df.add_user_transition(State.ROMAN4, State.ROMAN4_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.ROMAN4, State.ROMAN4_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.ROMAN4_yes, State.ROMAN5, r'[!"Oh really? And it did not work out? Then I think you should do something relaxing to releive your stress. What activity do you like to do during quanrantine?"]')
+df.add_system_transition(State.ROMAN4_no, State.ROMAN5, r'[!"Maybe you should have a serious conversation with him or her. Telling each other whats on your mind can strengthen your relationship. You should do something to releive your stress. What activity do you like to do during quanrantine?"]')
+
+
+'''COVID'''
+df.add_user_transition(State.COVID0, State.COVID0_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.COVID0, State.COVID0_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.COVID0_yes, State.COVID1, r'[!"It is nice to still be able to see each other! I think everyone must be super stressed under this chaotic situation... Honestly, I think doing some fun activities might reduce some of your stress. What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.COVID0_no, State.COVID1, r'[!"Oh...I am guessing this stress is coming from the fact that you cannot see each other. Not able to see my friends and talk about how our life suck is stressing me out. But doing some fun activities help me relax a lot. What activity do you like to do during quarantine?"]')
+
+df.add_user_transition(State.COVID1, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.COVID1, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.COVID1, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.COVID1, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.COVID1, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.COVID1, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+
+
+
+df.add_user_transition(State.BREAKUP4, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.BREAKUP4, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.BREAKUP4, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.BREAKUP4, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.BREAKUP4, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.BREAKUP4, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.ROMAN5, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+
+df.add_system_transition(State.COVID1_game, State.COVID2, r'[!"I do like to play games too! Playing games are so stress releiving. All of my friends are playing animal crossing, and they even skip the online lecture just to play it... Speaking of that, are you also taking online classes?"]')
+df.add_system_transition(State.COVID1_food, State.COVID2, r'[!"You are a foodie huh? I do not know why but I feel so happy while eating. Cook, eat, sleep, taking online classes, that is bascially the summary of my life now. Are you also taking online classes?"]')
+df.add_system_transition(State.COVID1_video, State.COVID2, r'[!"Same! I have been reading a lot of books and watching a lot of shows besides taking online classes. Are you also taking online classes?"]')
+df.add_system_transition(State.COVID1_socialApp, State.COVID2, r'[!"Wow, even the coronavirus cannot stop you from socializing. I have not been texting with my friends a lot since school closed. Oh but I do see them on zoom. Are you also taking online classes?"]')
+df.add_system_transition(State.COVID1_music, State.COVID2, r'[!"I am also a music person! Listening to music is so soothing right? I have been listening a lot of Lauv and Post Malone lately. I love listening to them while doing my homework. Are you also taking online classes?"]')
+df.add_user_transition(State.COVID2, State.COVID2_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.COVID2, State.COVID2_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.COVID1_class, State.COVID3, r'[!"Oh really? I am taking online classes too! But I do not think taking online classes is a fun activity to do...How are you feeling about this transition to remote learning?"]')
+df.add_system_transition(State.COVID2_yes, State.COVID3, r'[!"Nice! Feels so good to know someone is also suffering with me. How are you feeling about this transition to remote learning?"]')
+df.add_user_transition(State.COVID3, State.COVID3_like, r'<{[!#ONT(ontlike)]}>')
+df.add_user_transition(State.COVID3, State.COVID3_dislike, r'<{[!#ONT(ontdislike)]}>')
+
+df.add_system_transition(State.COVID2_no, State.COVIDEND, r'[!"I am so jealous of you! Taking online classes are just so awful. Well, I have class in 5 minutes so I have to leave. It was so nice talking to you. Have a nice day!"]')
+df.add_system_transition(State.COVID3_like, State.COVIDEND, r'[!"Wow you are the minority! Most of the students do not adjust well with this sudden change of learning mode. I hate it so much because I have to take class at 4am. Well, I have class in 5 minutes... It was so nice talking to you!"]')
+df.add_system_transition(State.COVID3_dislike, State.COVIDEND, r'[!"Yeah right? I feel that too. I also hate taking classes at 4 am... You should join the zoom memes page on facebook if you havent! Well, I have class in 5 minutes... It was so nice talking to you!"]')
+
+
+
+################ ERROR ################
+df.set_error_successor(State.PROMPT0_savage, State.PROMPT_ERR)
+df.set_error_successor(State.LOVE0, State.LOVE0_ERR)
+df.set_error_successor(State.SINGLE0, State.SINGLE0_ERR)
+df.set_error_successor(State.SINGLE1, State.SINGLE1_ERR)
+df.set_error_successor(State.SINGLE2, State.SINGLE2_ERR)
+df.set_error_successor(State.SINGLE3, State.SINGLE3_ERR)
+df.add_system_transition(State.PROMPT_ERR, State.LOVE0, r'[!"You must be stressed about love somtimes right? Are you currently in a relationship?"]')
+df.add_system_transition(State.LOVE0_ERR, State.SINGLE0, r'[!"I mean sometimes being single is not a bad thing. You get to do whatever you want without needing to care about how your boyfriend or girlfriend might feel. How long have you been single?"]')
+df.add_system_transition(State.SINGLE0_ERR, State.SINGLE1, r'[!"Its okay you are not alone, I have been single for a while too. How often are you feeling stressed about being single?"]')
+df.add_system_transition(State.SINGLE1_ERR, State.SINGLE2, r'[!"Feeling stressed about it probably means you care about yourself a lot, but stressing too much is not good for your health. Do you think you have a high standard?"]')
+df.add_system_transition(State.SINGLE2_ERR, State.SINGLE3, r'[!"I was once very desperate for a relationship but ended up getting none. And after I gave up, it came to me unexpectedly. Stange huh? You should focus more on yourself, what do you like to do during quarantine?"]')
+df.add_system_transition(State.SINGLE3_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Are you also taking online classes?"]')
+df.set_error_successor(State.ROMAN0, State.ROMAN0_ERR)
+df.set_error_successor(State.ROMAN1, State.ROMAN1_ERR)
+df.set_error_successor(State.ROMAN2, State.ROMAN2_ERR)
+df.set_error_successor(State.ROMAN3, State.ROMAN3_ERR)
+df.set_error_successor(State.ROMAN4, State.ROMAN4_ERR)
+df.set_error_successor(State.ROMAN5, State.ROMAN5_ERR)
+df.add_system_transition(State.ROMAN0_ERR, State.ROMAN1, r'[!"That is quite a while! I am assuming you guys are in a more uncertain and unstable phase. How often do you feel stressed about your relationship?"]')
+df.add_system_transition(State.ROMAN1_ERR, State.ROMAN2, r'[!"It is totally normal to be stressed about relationship sometimes. Is the coronavirus causing any stress in your relationship?"]')
+df.add_system_transition(State.ROMAN2_ERR, State.ROMAN3, r'[!"I guess the coronavirus is innocent. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_system_transition(State.ROMAN3_ERR, State.ROMAN4, r'[!"Oh I see. Last year I felt like my girlfriend and I are losing passion because of long distance. Guess what safe our relationship? A lof of s...I think you know the answer. Have you ever talked about your stress with your boyfriend or girlfriend?"]')
+df.add_system_transition(State.ROMAN4_ERR, State.ROMAN5, r'[!"Maybe you should have a serious conversation with him or her. Telling each other whats on your mind can strengthen your relationship. You should do something to releive your stress. What activity do you like to do during quanrantine?"]')
+df.add_system_transition(State.ROMAN5_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Are you also taking online classes?"]')
+df.set_error_successor(State.BREAKUP0, State.BREAKUP0_ERR)
+df.set_error_successor(State.BREAKUP1, State.BREAKUP1_ERR)
+df.set_error_successor(State.BREAKUP2, State.BREAKUP2_ERR)
+df.set_error_successor(State.BREAKUP3, State.BREAKUP3_ERR)
+df.set_error_successor(State.BREAKUP4, State.BREAKUP4_ERR)
+df.add_system_transition(State.BREAKUP0_ERR, State.BREAKUP1, r'[!"I see...you must be feeling lost and empty. Did this breakup happen because of the coronavirus?"]')
+df.add_system_transition(State.BREAKUP1_ERR, State.BREAKUP2, r'[!"I guess the coronavirus is not the one to blame. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_system_transition(State.BREAKUP2_ERR, State.BREAKUP3, r'[!"Oh I see. Last year my girlfriend broke up with me because of the her insecurity caused by long distance and I learned the importance of committment. Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP3_ERR, State.BREAKUP4, r'[!"I think you are ready to move on! Time to focus self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+df.add_system_transition(State.BREAKUP4_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Are you also taking online classes?"]')
+df.set_error_successor(State.COVID0, State.COVID0_ERR)
+df.set_error_successor(State.COVID1, State.COVID1_ERR)
+df.set_error_successor(State.COVID2, State.COVID2_ERR)
+df.set_error_successor(State.COVID3, State.COVID3_ERR)
+df.add_system_transition(State.COVID0_ERR, State.COVID1, r'[!"Oh...I am guessing this stress is coming from the fact that you cannot see each other. It is a lot to handle when away from everyone, you are not alone. Doing some fun activities might help you relax! What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.COVID1_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Oh by the way, are you also taking online classes?"]')
+df.add_system_transition(State.COVID2_ERR, State.COVID3, r'[!"Nice! Feels so good to know someone is also suffering with me haha. How are you feeling about this transition to remote learning?"]')
+df.add_system_transition(State.COVID3_ERR, State.COVIDEND, r'[!"I personally hate it so much. Can you imagine taking classes at 4 am? Ugh... You should join the zoom memes page on facebook if you havent! Well, I have class in 5 minutes so I have to leave. It was so nice talking to you!"]')
+
+
+
+
 
 
 if __name__ == '__main__':
