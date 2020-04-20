@@ -1068,7 +1068,14 @@ class school_e2_online2_lesssocial(Macro):
         else:
             vars['extroversion'] = 20
         return ''
-class school_e3_studyspot1(Macro):
+class school_e3_studyspot1_liv(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 50
+        else:
+            vars['extroversion'] = 50
+        return ''
+class school_e3_studyspot1_bed(Macro):
     def run(self, ngrams, vars, args):
         if 'extroversion' in vars.keys():
             vars['extroversion'] += 20
@@ -1076,12 +1083,19 @@ class school_e3_studyspot1(Macro):
             vars['extroversion'] = 20
         return ''
 
-class school_e3_studyspot2(Macro):
+class school_e3_studyspot2_zoom(Macro):
     def run(self, ngrams, vars, args):
         if 'extroversion' in vars.keys():
-            vars['extroversion'] += 20
+            vars['extroversion'] += 40
         else:
-            vars['extroversion'] = 20
+            vars['extroversion'] = 40
+        return ''
+class school_e3_studyspot2_nozoom(Macro):
+    def run(self, ngrams, vars, args):
+        if 'extroversion' in vars.keys():
+            vars['extroversion'] += 10
+        else:
+            vars['extroversion'] = 10
         return ''
 
 ############################################### school macros end here
@@ -2126,7 +2140,8 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'e40': e40(), 'pron_reason': pron_reason(), 'printS': printS(), 'result':result(),'school_n1_never':school_n1_never(),'school_n1_often':school_n1_often(),'school_n1_sometimes':school_n1_sometimes(),
                           'school_n2_often':school_n2_often(), 'school_n2_sometimes':school_n2_sometimes(), 'school_n2_never':school_n2_never(),
                           'school_n3_well':school_n3_well(),'school_n3_bad':school_n3_bad(),'school_n4_much':school_n4_much(),'school_n4_lil':school_n4_lil(),
-                          'school_e3_studyspot1':school_e3_studyspot1(),'school_e3_studyspot2':school_e3_studyspot2(),
+                          'school_e3_studyspot1_liv':school_e3_studyspot1_liv(),'school_e3_studyspot1_bed':school_e3_studyspot1_bed(),
+                          'school_e3_studyspot2_zoom':school_e3_studyspot2_zoom(),'school_e3_studyspot2_nozoom':school_e3_studyspot2_nozoom(),
                           'school_e2_online1_like':school_e2_online1_like(),'school_e2_online1_dislike':school_e2_online1_dislike(),
                           'school_e2_online2_hiprod':school_e2_online2_hiprod(),'school_e2_online2_socialstress':school_e2_online2_socialstress(),
                           'school_e2_online2_loprod': school_e2_online2_loprod(),'school_e2_online2_lesssocial': school_e2_online2_lesssocial(),
@@ -2322,16 +2337,16 @@ df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_o
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_livingroom1,r'<$room=[!#ONT(ontlivingroom)]>')
 df.set_error_successor(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_err1)
-df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"The"$room "sounds like a good place to study. Have you tried studying while having a zoom meeting with your friends?"]')
-df.add_system_transition(State.PROMPT_oolstudyspot_livingroom1,State.PROMPT_oolzoom1,r'[!"I just love studying in the kitchen with a cup of coffee and music in the background pretending as if I am at Starcbucks. Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"The"$room "sounds like a good place to study."#school_e3_studyspot1_bed"Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_livingroom1,State.PROMPT_oolzoom1,r'[!"I just love studying in the dining area with a cup of coffee next to my laptop pretending as if I am at Starcbucks."#school_e3_studyspot1_liv"Have you tried studying while having a zoom meeting with your friends?"]')
 df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'[!"Interesting!Have you tried studying while having a zoom meeting with your friends?"]')
 
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_no1,r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT(ontyes)]>')
 df.set_error_successor(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_err1)
-df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,)
-df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,)
-df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,)
+df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"I find studying with my friends so stress-relieving. Perhaps we have different types of study habits. What do u do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!" guess we are quite similar in our study habits lol. I recently feel so stressed about many things. What do you do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. What do u do to destress during quarantine?"]')
 ############
 
 
