@@ -336,6 +336,13 @@ ontology = {
                 "never ever",
                 "first time"
             ],
+        'ontlike':
+            ['not bad',
+             'not that bad',
+             'not as bad',
+             'i like it',
+             'really like it',
+             'good'],
     }
 }
 
