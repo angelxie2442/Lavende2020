@@ -65,6 +65,10 @@ class State(Enum):
     SINGLE1_never = auto()
     SINGLE2 = auto()
     SINGLE2_ERR = auto()
+    SINGLE2_yes = auto()
+    SINGLE2_no = auto()
+    SINGLE3 = auto()
+    SINGLE3_ERR = auto()
 
 
 ontology = {
@@ -389,9 +393,14 @@ df.add_user_transition(State.SINGLE1, State.SINGLE1_often, r'<{[!#ONT(ontoften)]
 df.add_user_transition(State.SINGLE1, State.SINGLE1_sometimes, r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
 df.add_user_transition(State.SINGLE1, State.SINGLE1_never, r'<{[!#ONT(ontnever)]}>')
 
-df.add_system_transition(State.SINGLE1_often, State.SINGLE2, r'[!"Feeling stressed about it probably means you care about yourself a lot, but stressing too much is not good for your health. Do you have a high standard?"]')
-df.add_system_transition(State.SINGLE1_sometimes, State.SINGLE2, r'[!"A little of stress is actually helpful for self-development. Do you have a high standard?"]')
-df.add_system_transition(State.SINGLE1_never, State.SINGLE2, r'[!"Interesting, I guess something unexpected happened in your life. Do you have a high standard?"]')
+df.add_system_transition(State.SINGLE1_often, State.SINGLE2, r'[!"Feeling stressed about it probably means you care about yourself a lot, but stressing too much is not good for your health. Do you think you have a high standard?"]')
+df.add_system_transition(State.SINGLE1_sometimes, State.SINGLE2, r'[!"A little of stress is actually helpful for self-development. Do you think you have a high standard?"]')
+df.add_system_transition(State.SINGLE1_never, State.SINGLE2, r'[!"Interesting, I guess something unexpected happened in your life. Do you think you have a high standard?"]')
+df.add_user_transition(State.SINGLE2, State.SINGLE2_yes, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.SINGLE2, State.SINGLE2_no, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.SINGLE2_yes, State.SINGLE3, r'[!"Checkmate! It is not a bad thing to have a high standard honestly, but it reduces probablity that the other person also like you. In this case, self-development is important. What do you like to do during quarantine?"]')
+df.add_system_transition(State.SINGLE2_no, State.SINGLE3, r'[!"I guess you just need to wait for love come to you naturally. I was once very desperate for a relationship but ended up getting none. And after I gave up, it came to me unexpectedly. Stange huh? You should focus more on yourself, what do you like to do during quarantine?"]')
 
 
 
@@ -417,6 +426,12 @@ df.add_user_transition(State.BREAKUP4, State.COVID1_video, r'<[!#ONT(ontreadwatc
 df.add_user_transition(State.BREAKUP4, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
 df.add_user_transition(State.BREAKUP4, State.COVID1_class, r'<[!#ONT(ontclass)]>')
 df.add_user_transition(State.BREAKUP4, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.SINGLE3, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
 
 df.add_system_transition(State.COVID1_game, State.COVID2, r'[!"I do like to play games too! Playing games are so stress releiving. All of my friends are playing animal crossing, and they even skip the online lecture just to play it... Speaking of that, are you also taking online classes?"]')
 df.add_system_transition(State.COVID1_food, State.COVID2, r'[!"You are a foodie huh? I do not know why but I feel so happy while eating. Cook, eat, sleep, taking online classes, that is bascially the summary of my life now. Are you also taking online classes?"]')
@@ -443,6 +458,7 @@ df.set_error_successor(State.LOVE0, State.LOVE0_ERR)
 df.set_error_successor(State.SINGLE0, State.SINGLE0_ERR)
 df.set_error_successor(State.SINGLE1, State.SINGLE1_ERR)
 df.set_error_successor(State.SINGLE2, State.SINGLE2_ERR)
+df.set_error_successor(State.SINGLE3, State.SINGLE3_ERR)
 df.add_system_transition(State.PROMPT_ERR, State.LOVE0, r'[!"You must be stressed about love right? Are you currently in a relationship?"]')
 df.add_system_transition(State.LOVE0_ERR, State.SINGLE0, r'[!"I mean sometimes being single is not a bad thing. You get to do whatever you want without needing to care about your boyfriend or girlfriend might feel. How long have you been single?"]')
 df.set_error_successor(State.BREAKUP0, State.BREAKUP0_ERR)
