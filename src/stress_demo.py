@@ -2344,8 +2344,8 @@ df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_no1,r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT(ontyes)]>')
 df.set_error_successor(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_err1)
-df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"I find studying with my friends so stress-relieving. Perhaps we have different types of study habits. What do u do to destress during quarantine?"]')
-df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!" guess we are quite similar in our study habits lol. I recently feel so stressed about many things. What do you do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"I find"#school_e3_studyspot2_nozoom"studying with my friends so stress-relieving. Perhaps we have different types of study habits. What do u do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!"I guess"#school_e3_studyspot2_zoom"we are quite similar in our study habits lol. I recently feel so stressed about many things. What do you do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. What do u do to destress during quarantine?"]')
 ############
 
