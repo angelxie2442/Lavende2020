@@ -2020,7 +2020,8 @@ stress_dict = {
                 "quiz",
                 "exam",
                 "class",
-                "essay"
+                "essay",
+                "research"
             ],
             'ontschoolgeneral':
             [
@@ -2032,7 +2033,12 @@ stress_dict = {
                 "majors",
                 "jobs",
                 "work",
-                "research"
+                "exams",
+                "quizzes",
+                "papers",
+                "essays",
+                "projects",
+                "group projects"
             ],
             'ontschooltime':[
                 "time",
@@ -2048,7 +2054,8 @@ stress_dict = {
                 "responsibilities",
                 "multitasks",
                 "multitasking",
-                "multitask"
+                "multitask",
+                "multiple assignments"
             ],
             'ontschoolcovid':[
                 "covid19",
@@ -2280,7 +2287,7 @@ df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1,r'[!"You only think of me when you have problems dont you？ Just Kidding. How often do you have a" $S_S "like that？"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
-df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance schoolwork with personal life by the time I graduate. What goals do you have for yourself in college?"]')
+df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with personal life by the time I graduate. What is the most important goal you want to achieve in college?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
@@ -2301,7 +2308,7 @@ df.add_system_transition(State.PROMPT_oolpast_well1,State.PROMPT_oolstressfr1,r'
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_re1,'<{$goal=[!#POS(verb) #POS(adp) #POS(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(noun)],$goal=[!#POS(verb) {[!"a lot of"],[!"many"]} #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb)], $goal=[!#POS(verb) #POS(propn) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(verb)],$goal=[!"be" #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(adp) #POS(verb)]}>')
 df.set_error_successor(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_err1)
-df.add_system_transition(State.PROMPT_oolgoal_err1,State.PROMPT_oolgoalalign1,r'[!"My goals never fail to become broken promises...How much do you think your current priorities matter to your life after college then?"]')
+df.add_system_transition(State.PROMPT_oolgoal_err1,State.PROMPT_oolgoalalign1,r'[!"I never fail to turn goals into broken promises...How much do you think your current priorities matter to the goals you set for yourself?"]')
 df.add_system_transition(State.PROMPT_oolgoal_re1,State.PROMPT_oolgoalalign1,r'[!"OK."$goal"!How much do you think your current tasks align with that goal then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_no1,'<{"not much","slightly","not at all","unrelated","a little","very little"}>')
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_yes1,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
@@ -2317,7 +2324,7 @@ df.add_system_transition(State.PROMPT_oolcovidworry_err1,State.PROMPT_oolonline1
 df.add_system_transition(State.PROMPT_oolcovidworry_no1,State.PROMPT_oolonline1,r'[!"Someone is really confident with his immune system, huh?"#school_n_covidnotworr"How is your experience with online learning so far?"]')
 df.add_system_transition(State.PROMPT_oolcovidworry_infected1,State.PROMPT_oolcovidworry_severity1,r'[!"Oh no."#school_n_covidinfect"Sorry to hear that! How bad are your symptoms?"]')
 df.add_user_transition(State.PROMPT_oolcovidworry_severity1,State.PROMPT_oolcovidworry_severityre1,r'</.*/>')
-df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think.I will pray for you and your family! How do you destress from the coronavirus situation?"]')
+df.add_system_transition(State.PROMPT_oolcovidworry_severityre1,State.PROMPT8_1,r'[!"Hey things might not turn out to be as bad as you think.I will pray for you! How do you destress from the coronavirus situation?"]')
 #stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
 df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(hour+s?|day+s?|week+s?))|((every)\s(one|1|two|2|other)\s(month+s?))|((a|per)\s(month))(?:\s|,|\.|$)/}>')
 df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(once|twice|three\stimes|four\stimes|five\stimes|1\stimes|2\stimes|3\stimes|4\stimes|5\stimes)\s((every|per|a)(\s)?(one|1|two|2|three|3|four|4|five|5|six|6|seven|7|other)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((every\s)(three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10)\s(month+s?))(?:\s|,|\.|$)/}>')
