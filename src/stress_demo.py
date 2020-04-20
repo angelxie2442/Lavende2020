@@ -2011,7 +2011,7 @@ stress_dict = {
                     "model"
                 ],
             'ontschoolevent':
-            [
+                [
                 "group project",
                 "project",
                 "paper",
@@ -2022,9 +2022,9 @@ stress_dict = {
                 "class",
                 "essay",
                 "research"
-            ],
+                ],
             'ontschoolgeneral':
-            [
+                [
                 "school",
                 "grades",
                 "majors",
@@ -2039,8 +2039,9 @@ stress_dict = {
                 "essays",
                 "projects",
                 "group projects"
-            ],
-            'ontschooltime':[
+                ],
+            'ontschooltime':
+                [
                 "time",
                 "workload",
                 "too much work",
@@ -2056,8 +2057,9 @@ stress_dict = {
                 "multitasking",
                 "multitask",
                 "multiple assignments"
-            ],
-            'ontschoolcovid':[
+                ],
+            'ontschoolcovid':
+                [
                 "covid19",
                 "covid",
                 "corona",
@@ -2068,8 +2070,9 @@ stress_dict = {
                 "fever",
                 "sick",
                 "coughs"
-            ],
-            'ontflexbad':[
+                ],
+            'ontflexbad':
+                [
                 "self discipline",
                 "self control",
                 "too much freedom",
@@ -2080,8 +2083,9 @@ stress_dict = {
                 "too many choices",
                 "lazy",
                 "laziness"
-            ],
-            'ontsocialbad':[
+                ],
+            'ontsocialbad':
+                [
                 "participation",
                 "participate",
                 "connection",
@@ -2099,8 +2103,9 @@ stress_dict = {
                 "boring",
                 "lame",
                 "sucks"
-            ],
-            'ontprodbad':[
+                ],
+            'ontprodbad':
+                [
                 "concentrate",
                 "cencentration",
                 "focus",
@@ -2112,8 +2117,9 @@ stress_dict = {
                 "self control",
                 "less motivated",
                 "no longer feel motivated",
-            ],
-            'ontflexgood': [
+                ],
+            'ontflexgood':
+                [
                 "sleepin",
                 "sleep in",
                 "schedule",
@@ -2128,8 +2134,9 @@ stress_dict = {
                 "options",
                 "convenienet",
                 "saves time"
-            ],
-            'ontsocialgood': [
+                ],
+            'ontsocialgood':
+                [
                 "social stress",
                 "less participation",
                 "less discussion",
@@ -2137,8 +2144,9 @@ stress_dict = {
                 "more comfortable participating",
                 "more comfortable asking questions",
                 "learn less"
-            ],
-            'ontprodgood': [
+                ],
+            'ontprodgood':
+                [
                 "more effeciently",
                 "effeciency",
                 "productivity",
@@ -2147,13 +2155,15 @@ stress_dict = {
                 "focus better",
                 "concentrate better",
                 "focus better"
-            ],
-            'ontbedroom':[
+                ],
+            'ontbedroom':
+                [
                 "bedroom",
                 "study",
                 "room"
-            ],
-            'ontlivingroom':[
+                ],
+            'ontlivingroom':
+                [
                 "dining area",
                 "dining room",
                 "kitchen",
@@ -2161,7 +2171,64 @@ stress_dict = {
                 "livingroom",
                 "garden",
                 "backyard"
-            ]
+                ],
+            'ontbreakup':
+                [
+                'breakup',
+                'break up',
+                'brokeup',
+                'broke up',
+                'dumped',
+                'dump',
+                'break',
+                'breaks'
+                ],
+             'ontroman':
+                [
+                'love',
+                'boyfriend',
+                'girlfriend',
+                'relationship'
+                ],
+            'ontsocialApp':
+                ['fb',
+                'facebook',
+                'snapchat',
+                'tiktok',
+                'tik tok',
+                'instagram',
+                'ig',
+                'messenger',
+                'call',
+                'twitter',
+                'facetime',
+                'wechat',
+                'line',
+                'kakao talk',
+                'kakao',
+                'social'
+                ],
+            'ontclass':
+                ['online classes',
+                'online class',
+                'online',
+                'class',
+                'classes',
+                'school',
+                'zoom',
+                'recording',
+                'professor'
+                 ],
+
+            'ontlike':
+                ['not bad',
+                 'not that bad',
+                'not as bad',
+                'i like it',
+                'really like it',
+                'good'
+                'love'
+                 ],
         }
 }
 
