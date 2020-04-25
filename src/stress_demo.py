@@ -993,9 +993,9 @@ class school_n_covidinfect(Macro):
 
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 60
+            vars['neuroticsm'] += 40
         else:
-            vars['neuroticsm'] = 60
+            vars['neuroticsm'] = 40
         return ''
 
 class school_e1_mentor1_person(Macro):
@@ -1944,7 +1944,17 @@ stress_dict = {
                     "studying music",
                     "sleep music",
                     "calm music",
-                    "calming music"
+                    "calming music",
+                    "piano",
+                    "guitar",
+                    "violin",
+                    "cello",
+                    "banjo",
+                    "oboe",
+                    "recorder",
+                    "clarinet",
+                    "drum",
+                    "drums"
                 ],
             'ontfood':
                 [
@@ -2251,8 +2261,9 @@ stress_dict = {
             'ontbedroom':
                 [
                 "bedroom",
-                "study",
-                "room"
+                "room",
+                "bed",
+                "bathtub"
                 ],
             'ontlivingroom':
                 [
@@ -2262,7 +2273,9 @@ stress_dict = {
                 "living room",
                 "livingroom",
                 "garden",
-                "backyard"
+                "backyard",
+                "sofa",
+                "couch"
                 ],
             'ontbreakup':
                 [
@@ -2490,7 +2503,7 @@ df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_often1
 df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(((once|one\stime|thrice|two\stimes|twice|three\stimes|thrice|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sten|\s10|\sother)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((once|1\stime|one\stime)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sother)?\s(month+s?))|((once|1\stime|2\stimes|twice|thrice|3\stimes|three\stimes|one\stime|four\stimes|4\stimes)\s(every|a|per)(\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sseven|\s7|\seight|\s8|\sten|\s10)\s(month+s?)))(?:\s|,|\.|$)/}>')
 df.add_user_transition(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_never1,r'<[!#ONT(ontnever)]>')
 df.add_system_transition(State.PROMPT_oolstressfr_often1,State.PROMPT_oolhelp_person1,r'[!"You could be addicted to many others things but you choose to be addicted to stress? No judgment. I am a stress addict myself."#school_n2_often"Anyone you can ask for advice on"#help_ss"?"]')
-df.add_system_transition(State.PROMPT_oolstressfr_sometimes1,State.PROMPT_oolhelp_person1,r'[!"You will have to teach me how to not get stressed constantly about"$help_ss"."#school_n2_sometimes"Anyone you can ask for help or advice on"#help_ss"?"]')
+df.add_system_transition(State.PROMPT_oolstressfr_sometimes1,State.PROMPT_oolhelp_person1,r'[!"You will have to teach me how to not get stressed about"#help_ss"constantly."#school_n2_sometimes"Anyone you can ask for help or advice on"#help_ss"?"]')
 df.add_system_transition(State.PROMPT_oolstressfr_never1,State.PROMPT_oolhelp_person1,r'[!"Unfortunately life will keep getting harder."#school_n2_never"But hey you will also keep getting better at dealing with it.Anyone you can ask for help or advice on"#help_ss"?"]')
 df.set_error_successor(State.PROMPT_oolstressfr1,State.PROMPT_oolstressfr_err1)
 df.add_system_transition(State.PROMPT_oolstressfr_err1,State.PROMPT_oolhelp_person1,r'[!"I feel you."#school_n2_sometimes"Anyone you could ask to help you on"#help_ss"?"]')
@@ -2530,9 +2543,9 @@ df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_o
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_livingroom1,r'<$room=[!#ONT(ontlivingroom)]>')
 df.set_error_successor(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_err1)
-df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"Your"$room "sounds like a good place to study."#school_e3_studyspot1_bed"Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"Your"$room "sounds like a nice place to study."#school_e3_studyspot1_bed"Have you tried studying while having a zoom meeting with your friends?"]')
 df.add_system_transition(State.PROMPT_oolstudyspot_livingroom1,State.PROMPT_oolzoom1,r'[!"I just love studying in the dining area with a cup of coffee next to my laptop pretending as if I am at Starcbucks."#school_e3_studyspot1_liv"Have you tried studying while having a zoom meeting with your friends?"]')
-df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'[!"I miss studying with my friends.Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'[!"That sounds comfy and cozy. I miss studying with my friends.Have you tried studying while having a zoom meeting with your friends?"]')
 
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_no1,r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT(ontyes)]>')
