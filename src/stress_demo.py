@@ -883,6 +883,8 @@ class help_ss(Macro):
         for a_general_topic in ["school","grades", "majors","internships","classes","majors","jobs","work","research"]:
             if str(vars['S_S'])== a_general_topic:
                 return str(vars['S_S'])
+        if str(vars['S_S']).find("class")!=-1:
+            return "your"+str(vars['S_S'])
         if str(vars['S_S']) == 'wedding' or str(vars['S_S']) == "wedding" or str(vars['S_S']) == "gathering" or str(vars['S_S']) == 'gathering' or str(vars['S_S']) == 'meeting' or str(vars['S_S'])=="meeting":
             return 'that '+str(vars['S_S'])
         elif str(vars['S_S']).find("ing ")!=-1:
@@ -895,31 +897,31 @@ class help_ss(Macro):
 class school_n1_often(Macro):
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 40
+            vars['neuroticsm'] += 30
         else:
-            vars['neuroticsm'] = 40
+            vars['neuroticsm'] = 30
         return ''
 class school_n1_sometimes(Macro):
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 20
+            vars['neuroticsm'] += 10
         else:
-            vars['neuroticsm'] = 20
+            vars['neuroticsm'] = 10
         return ''
 class school_n1_never(Macro):
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 0
+            vars['neuroticsm'] += -10
         else:
-            vars['neuroticsm'] = 0
+            vars['neuroticsm'] = -10
         return ''
 
 class school_n2_often(Macro):
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
-            vars['neuroticsm'] += 40
+            vars['neuroticsm'] += 30
         else:
-            vars['neuroticsm'] = 40
+            vars['neuroticsm'] = 30
         return ''
 
 class school_n2_sometimes(Macro):
@@ -934,7 +936,7 @@ class school_n2_never(Macro):
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] -= 20
         else:
-            vars['neuroticsm'] =-20
+            vars['neuroticsm'] = -20
         return ''
 
 class school_n3_well(Macro):
@@ -963,14 +965,27 @@ class school_n4_much(Macro):
         return ''
 
 class school_n4_lil(Macro):
-
         def run(self, ngrams, vars, args):
             if 'neuroticsm' in vars.keys():
                 vars['neuroticsm'] += 20
             else:
                 vars['neuroticsm'] = 20
             return ''
+class school_n5_formajor(Macro):
+    def run(self, ngrams, vars, args):
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] -= 20
+        else:
+            vars['neuroticsm'] = -20
+        return ''
 
+class school_n5_notformajor(Macro):
+    def run(self, ngrams, vars, args):
+        if 'neuroticsm' in vars.keys():
+            vars['neuroticsm'] += 0
+        else:
+            vars['neuroticsm'] = 0
+        return ''
 
 class school_n_covidworried(Macro):
 
@@ -1203,14 +1218,7 @@ class State(Enum):
     PROMPT0_schoolgeneral_savage = auto()
     PROMPT0_schooltime_savage = auto()
     PROMPT0_schoolcovid_savage = auto()
-    PROMPT0_schoolevent_agg = auto()
-    PROMPT0_schoolgeneral_agg = auto()
-    PROMPT0_schooltime_agg = auto()
-    PROMPT0_schoolcovid_agg= auto()
-    PROMPT0_schoolevent_opt= auto()
-    PROMPT0_schoolgeneral_opt = auto()
-    PROMPT0_schooltime_opt = auto()
-    PROMPT0_schoolcovid_opt = auto()
+    PROMPT0_schoolcourse_savage = auto()
     PROMPT0_re1 = auto()
     PROMPT0_err1 = auto() #user is stressed about nothing/unsure
     PROMPT0_other1 = auto()
@@ -1263,7 +1271,9 @@ class State(Enum):
     PROMPT9_1 = auto()
     END1 = auto()
     SCORE1 = auto() ####################
-    PROMPT_oolstressfr1 = auto()##### 1: savage 2: aggreable 3:optimistic
+    PROMPT_oolstressfr1 = auto()
+    PROMPT_majorreq1= auto()
+    PROMPT_major1 = auto()
     PROMPT_oolfreq1 =auto()
     PROMPT_oolpast1 = auto()
     PROMPT_oolgoal1 = auto()
@@ -1279,6 +1289,8 @@ class State(Enum):
     PROMPT_oolzoom1=auto()
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
+    PROMPT_majorreq_err1 = auto()
+    PROMPT_major_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
     PROMPT_oolpast_err1 =auto()
     PROMPT_oolgoal_err1 = auto()
@@ -1298,6 +1310,9 @@ class State(Enum):
     PROMPT_oolfreq_often1 = auto()
     PROMPT_oolfreq_sometimes1 = auto()
     PROMPT_oolfreq_never1 = auto()
+    PROMPT_majorreq_yes1 = auto()
+    PROMPT_majorreq_yesmajor1 = auto()
+    PROMPT_major_re1 =auto()
     PROMPT_oolpast_well1 = auto()
     PROMPT_oolpast_bad1 = auto()
     PROMPT_oolgoal_re1 = auto()
@@ -2116,6 +2131,7 @@ stress_dict = {
                 [
                 "group project",
                 "project",
+                "internship",
                 "paper",
                 "research paper",
                 "assignment",
@@ -2125,15 +2141,133 @@ stress_dict = {
                 "research",
                 "lab"
                 ],
+            'ontschoolcourse':
+                [
+                 "accounting",
+                "anthropology",
+                "arabic",
+                "art",
+                "art history",
+                "astronomy",
+                "baptist studies",
+                "basic helath sciences",
+                "behavioral science",
+                "biblical interpretation",
+                "biblical languages",
+                "biochem",
+                "biochemistry",
+                "biology",
+                "biomedical engineering",
+                "biomedical informatics",
+                "biostatistics",
+                "black church studies",
+                "business",
+                "bschool",
+                "chem",
+                "chemistry",
+                "chinese",
+                "classics",
+                "comparative literature",
+                "cs",
+                "computer science",
+                "comp sci",
+                "creative writing",
+                "writing",
+                "dance",
+                "media",
+                "east asian studies",
+                "economics",
+                "educational studies",
+                "english",
+                "esl",
+                "english as a second language",
+                "environmental sciences",
+                "environmental health",
+                "environmental studies",
+                "epidemiology",
+                "ethical studies",
+                "ethics",
+                "film studies",
+                "film and media",
+                "finance",
+                "french",
+                "genetics",
+                "german",
+                "human health",
+                "hebrew",
+                "hindi",
+                "health",
+                "hispanic",
+                "history",
+                "human health",
+                "ids",
+                "interdisciplinary studies",
+                "italian",
+                "japanese",
+                "latin",
+                "jewish studies",
+                "law",
+                "linguistics",
+                "marketing",
+                "math",
+                "mathematics",
+                "medicine",
+                "middle eastern",
+                "asian studies",
+                "music",
+                "nbb",
+                "neuroscience",
+                "neuroscience behavioral science",
+                "nursing",
+                "pace",
+                "pe",
+                "philosophy",
+                "physics",
+                "poli sci",
+                "political science",
+                "portuguese",
+                "psychology",
+                "public health",
+                "qtm",
+                "quantitative theory and methods",
+                "religion",
+                "russian",
+                "sociology",
+                "psyc",
+                "theater",
+                "visual arts",
+                "gender studies",
+                "theological studies",
+                "theater studies",
+                "tibetan studies",
+                "continuous writing class"
+                "freshman seminar",
+                 "senior seminar",
+                "physical education"
+                ],
             'ontschoolgeneral':
                 [
                 "school",
                 "grades",
                 "majors",
+                "major",
                 "internships",
                 "classes",
-                "majors",
                 "jobs",
+                "grad school",
+                "graduate school",
+                "grad schools",
+                "graduate schools",
+                "internship hunting",
+                "job search",
+                "internships hunting",
+                "internship application",
+                "internships application",
+                "jobs application",
+                "job application",
+                "jobs hunting",
+                "jobs search",
+                "job hunting",
                 "work",
                 "exams",
                 "quizzes",
@@ -2345,6 +2479,7 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'e40': e40(), 'pron_reason': pron_reason(), 'printS': printS(), 'result':result(),'school_n1_never':school_n1_never(),'school_n1_often':school_n1_often(),'school_n1_sometimes':school_n1_sometimes(),
                           'school_n2_often':school_n2_often(), 'school_n2_sometimes':school_n2_sometimes(), 'school_n2_never':school_n2_never(),
                           'school_n3_well':school_n3_well(),'school_n3_bad':school_n3_bad(),'school_n4_much':school_n4_much(),'school_n4_lil':school_n4_lil(),
+                          'school_n5_formajor':school_n5_formajor(),'school_n5_notformajor':school_n5_notformajor(),
                           'school_e3_studyspot1_liv':school_e3_studyspot1_liv(),'school_e3_studyspot1_bed':school_e3_studyspot1_bed(),
                           'school_e3_studyspot2_zoom':school_e3_studyspot2_zoom(),'school_e3_studyspot2_nozoom':school_e3_studyspot2_nozoom(),
                           'school_e2_online1_like':school_e2_online1_like(),'school_e2_online1_dislike':school_e2_online1_dislike(),
@@ -2455,22 +2590,33 @@ df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally l
 
 ############School_Savage
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>',score=2.0)
+df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcourse_savage, r'<$S_S={[!#ONT(ontschoolcourse) "class"],[!#ONT(ontschoolcourse) "course"]}>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
-df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1,r'[!"You only think of me when you have problems dont you？ Just Kidding. How often do you have a" $S_S "like that？"]')
+df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_oolfreq1,r'[!"You only think of me when you have problems dont you？ Just Kidding. Is that"$S_S"for a class？"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with personal life by the time I graduate. What is the most important goal you want to achieve in college?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
-#schoolevent branch up to stress-freq prompt
+#schoolevent branch up to stress-freq prompt (or merge with schoolcourse branch)
+
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\sother|\ssix|\s6|\s7|\sseven|\seight|\s8|\s9|\snine|\sten|\s10)?\s(second+s?|sec+s?|min+s?|minute+s?|hour+s?|hr+s?|day+s?))|((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(week+s?))|((three\stimes|thrice|four\stimes|five\stimes|six\stimes|seven\stimes|3\stimes|4\stimes|5\stimes|6\stimes|7\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(month+s?))|((twice|two\stimes|2\stimes)\s(every|per|a)(\sone)?\s(month)))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfreq_often1,State.PROMPT_oolstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#help_ss"stressful?"]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(((once|one\stime|two\stimes|twice|three\stimes|thrice|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sten|\s10|\sother)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((once|1\stime|one\stime)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sother)?\s(month+s?))|((once|1\stime|2\stimes|twice|thrice|3\stimes|three\stimes|one\stime|four\stimes|4\stimes)\s(every|a|per)(\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sseven|\s7|\seight|\s8|\sten|\s10)\s(month+s?)))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_oolstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#help_ss"stressful? "]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,r'<[!#ONT(ontnever)]>')
-df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolstressfr1,r'[!"Wow."#school_n1_never"First time? Are you excited? How often do you find"#help_ss"stressful?"]')
+df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolstressfr1,r'[!"Wow."#school_n1_never"First time? Are you excited? Anyone you can ask for advice on"#help_ss"?"]')
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
 df.add_system_transition(State.PROMPT_oolfreq_err1,State.PROMPT_oolstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#help_ss"?"]')
+#schoolcourse branch up to stress-freq prompt
+df.add_system_transition(State.PROMPT0_schoolcourse_savage,State.PROMPT_majorreq1,r'[!"Bruhh are you trying to torture yourself by taking a"$S_S"? Is it a requirement for your major?"]')
+df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yes1,r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yesmajor1,r'<[[!#ONT(ontyes)],$major=[!#ONT(ontschoolcourse)]]>')
+df.set_error_successor(State.PROMPT_majorreq1,State.PROMPT_majorreq_err1)
+df.add_system_transition(State.PROMPT_majorreq_err1,State.PROMPT)
+df.add_system_transition(State.PROMPT_majorreq_yes1,State.PROMPT_major1,r'[!"What major are you?"]')
+df.add_user_transition()
+df.add_system_transition(State.PROMPT_majorreq_yesmajor1,State.PROMPT_oolstressfr1,r'[!"Well someone has to tolerate the struggle and become a professional in"$major"for the greater good of our society haha."How often do you find your"$S_S"stressful?"]')
 #schoolgeneral branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<[!#ONT(ontnegative)]>')
 df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<[!#ONT(ontpositive)]>')
@@ -2543,14 +2689,14 @@ df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_o
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_livingroom1,r'<$room=[!#ONT(ontlivingroom)]>')
 df.set_error_successor(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_err1)
-df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"Your"$room "sounds like a nice place to study."#school_e3_studyspot1_bed"Have you tried studying while having a zoom meeting with your friends?"]')
+df.add_system_transition(State.PROMPT_oolstudyspot_bedroom1,State.PROMPT_oolzoom1,r'[!"Your"$room "sounds like such a comfy place to study. I find it hard to concentrate in my"$room"though."#school_e3_studyspot1_bed"Have you tried studying while having a zoom meeting with your friends?"]')
 df.add_system_transition(State.PROMPT_oolstudyspot_livingroom1,State.PROMPT_oolzoom1,r'[!"I just love studying in the dining area with a cup of coffee next to my laptop pretending as if I am at Starcbucks."#school_e3_studyspot1_liv"Have you tried studying while having a zoom meeting with your friends?"]')
 df.add_system_transition(State.PROMPT_oolstudyspot_err1,State.PROMPT_oolzoom1,r'[!"That sounds comfy and cozy. I miss studying with my friends.Have you tried studying while having a zoom meeting with your friends?"]')
 
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_no1,r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT(ontyes)]>')
 df.set_error_successor(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_err1)
-df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"I find"#school_e3_studyspot2_nozoom"studying with my friends so stress-relieving. Perhaps we have different types of study habits. What do u do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"When I am at school"#school_e3_studyspot2_nozoom"I often study with a group of friends. Perhaps we have different study habits. What do u do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!"I guess"#school_e3_studyspot2_zoom"we are quite similar in our study habits lol. I recently feel so stressed about many things. What do you do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. What do u do to destress during quarantine?"]')
 ############
