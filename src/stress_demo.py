@@ -831,7 +831,7 @@ class ool_or_eer(Macro):
     def run(self, ngrams, vars, args):
         if str(vars['S_S']) == "job search" or str(vars['S_S']) == "internship application" or str(vars['S_S']) == "job application":
             return 'in job application'
-        elif str(vars['S_S']) == "internship" or str(vars['S_S']) == "job" or str(vars['S_S']) == "research":
+        elif str(vars['S_S']) == "research":
             return 'in work'
         else:
             return 'in school'
@@ -865,11 +865,11 @@ class result(Macro):
         if vars['neuroticsm'] > 50 and vars['extroversion'] > 50:
             return 'You have such a bubbly personality. I am sure you will succeed at anything you do. Let me know how it goes!'
         if vars['neuroticsm'] > 50 and vars['extroversion'] <= 50:
-            return 'I think you are a bit sensitive to stress, but I know you love stepping out of your comfort zone a lot. I am sure people will love that side of you when they get to know you . Let me know how it goes!'
+            return 'I know you love stepping out of your comfort zone. I am sure people will love that side of you when they get to know you . Bye for real this time!'
         if vars['neuroticsm'] <= 50 and vars['extroversion'] <= 50:
-            return 'I feel so composed after talking to you. I am so lucky to meet you and learn about your perspective on things. Best of luck with '+ str(vars['S_S'])
+            return 'I feel so composed after talking to you. So lucky to learn about your perspective on things. Best of luck with school and life in general!')
         if vars['neuroticsm'] <= 50 and vars['extroversion'] > 50:
-            return 'I know you will not only enjoy the upcoming '+ str(vars['S_S']) +' but also naturally help everyone else to have a great time at the upcoming '+ str(vars['S_S']) +'! Let me know how it goes!'
+            return 'Your ability to handle stress is beyond impressive. Bye for real this time!'
 
 
 
@@ -882,7 +882,7 @@ class help_ss(Macro):
                 return "time management"
         for a_major_related_topic in ["major","majors"]:
             if str(vars['S_S']) == a_major_related_topic:
-                return "classes for your current"+str(vars['S_S'])
+                return "classes for your current "+str(vars['S_S'])
         for a_future_related_topic in ["jobs","internships","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
             if str(vars['S_S']) == a_future_related_topic:
                 return "interviews"
@@ -900,7 +900,7 @@ class help_ss(Macro):
 
 class class_ss(Macro):
     def run(self, ngrams, vars, args):
-        vars['S_S']=vars['class']
+        vars['S_S']=vars['class']+" class"
         if str(vars['S_S'])[0] == 'a' or str(vars['S_S'])[0] == "a" or str(vars['S_S'])[0] == 'e' or str(vars['S_S'])[0] == "e" or str(vars['S_S'])[0] == 'i' or str(vars['S_S'])[0] ==  "i" or str(vars['S_S'])[0] == 'o' or str(vars['S_S'])[0] == "o" or str(vars['S_S'])[0] == 'x' or str(vars['S_S'])[0] == "x":
             return 'an '+str(vars['S_S'])
         else:
@@ -1374,6 +1374,7 @@ stress_dict = {
                     "weekly",
                     "biweekly",
                     "every day",
+                    "all the time",
                     "everyday",
                     "every hour",
                     "every second",
@@ -2390,7 +2391,9 @@ stress_dict = {
                 "option",
                 "options",
                 "convenienet",
-                "saves time"
+                "saves time",
+                "whenever",
+                "wherever"
                 ],
             'ontsocialgood':
                 [
@@ -2571,7 +2574,7 @@ df.add_system_transition(State.PROMPT8_art1, State.PROMPT9_1,r'[!"I did not know
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_food1, r'<$activity={[!#ONT(ontfood)]}>')
 df.add_system_transition(State.PROMPT8_food1, State.PROMPT9_1,r'[!"Are you a professional foodie haha? You need to give me some recommendations for restaurants next time!"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_sports1, r'<$activity={[!#ONT(ontsports)]}>')
-df.add_system_transition(State.PROMPT8_sports1, State.PROMPT9_1,r'[!"Oh what a coincidence, my friend just ask me if I want to play"$activity"this weekend. You should join us!"]')
+df.add_system_transition(State.PROMPT8_sports1, State.PROMPT9_1,r'[!"Oh what a coincidence, my friend just ask me if I want to play basketball this weekend. You should join us!"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_dance1, r'<$activity={[!#ONT(ontdance)]}>')
 df.add_system_transition(State.PROMPT8_dance1, State.PROMPT9_1,r'[!"Hey I am a dancer too! I am choreographing the song "Rewrite the Star"!"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_shopping1, r'<$activity={[!#ONT(ontshopping)]}>')
@@ -2616,7 +2619,7 @@ df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolgeneral_savage,
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_forclass1,r'[!"You only think of me when you have problems dont you？ Just Kidding. Is that"$S_S"for a class that you are taking？"]')
-df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
+df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do in"#help_ss"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with personal life by the time I graduate. What is the most important goal you want to achieve in college?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
 #schoolevent branch up to stress-freq prompt
@@ -2624,7 +2627,7 @@ df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yes1,r'<[!#O
 df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yesclass1,r'<$class=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_forclass_yes1,State.PROMPT_whichclass1,r'[!"What class is it?"]')
 df.add_user_transition(State.PROMPT_whichclass1,State.PROMPT_forclass_yesclass1,r'<$class=[!#ONT(ontschoolcourse)]>')
-df.add_system_transition(State.PROMPT_forclass_yesclass1,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"#class_ss"? Is it a requirement for your major?"]')
+df.add_system_transition(State.PROMPT_forclass_yesclass1,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking"#class_ss"? Is it a requirement for your major?"]')
 df.set_error_successor(State.PROMPT_forclass1,State.PROMPT_forclass_err1)
 df.set_error_successor(State.PROMPT_whichclass1,State.PROMPT_forclass_err1)
 df.add_system_transition(State.PROMPT_forclass_err1,State.PROMPT_oolfreq1,r'[!"Are you trying to raise your stress tolerance with that"$S_S"lol? How often do you have"#det_ss"like that?"]')
@@ -2644,7 +2647,7 @@ df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yesmajor1,r'
 df.set_error_successor(State.PROMPT_majorreq1,State.PROMPT_forclass_err1)
 df.add_system_transition(State.PROMPT_majorreq_yes1,State.PROMPT_major1,r'[!"What major are you?"]')
 df.add_user_transition(State.PROMPT_major1,State.PROMPT_majorreq_yesmajor1,r'<$major=[!#ONT(ontschoolcourse)]>')
-df.add_system_transition(State.PROMPT_majorreq_yesmajor1,State.PROMPT_oolstressfr1,r'[!"Well someone has to tolerate the struggle and become a professional in"$major"for the greater good of our society haha."How often do you find your"$S_S"stressful?"]')
+df.add_system_transition(State.PROMPT_majorreq_yesmajor1,State.PROMPT_oolstressfr1,r'[!"Well someone has to tolerate the struggle and become a professional in"$major"for the greater good of our society haha.How often do you find your"$S_S"stressful?"]')
 #schoolgeneral branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<[!#ONT(ontnegative)]>')
 df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<[!#ONT(ontpositive)]>')
@@ -2694,7 +2697,7 @@ df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_bad1,r'<{[
 df.add_user_transition(State.PROMPT_oolonline1,State.PROMPT_oolonline_well1,r'<{[!#ONT(ontpositive)],"like","love"}>')
 df.set_error_successor(State.PROMPT_oolonline1,State.PROMPT_oolonline_err1)
 df.add_system_transition(State.PROMPT_oolonline_bad1,State.PROMPT_oolonline_reasonbad1,r'[!"Cannot believe that I am saying this but I really wanna go back to school..."#school_e2_online1_dislike"What do you not like about it?"]')
-df.add_system_transition(State.PROMPT_oolonline_well1,State.PROMPT_oolonline_reasongood1,r'[!" Do you not miss your classmates? Are you heartless lol?."#school_e2_online1_like"jk. What do you enjoy the most about it?"]')
+df.add_system_transition(State.PROMPT_oolonline_well1,State.PROMPT_oolonline_reasongood1,r'[!" Do you not miss your classmates? Are you heartless lol?."#school_e2_online1_like"just kidding. What do you enjoy the most about it?"]')
 df.add_system_transition(State.PROMPT_oolonline_err1,State.PROMPT_oolonline_reasonbad1,r'[!"Interesting! What do you not like about online learning?"]')
 
 df.add_user_transition(State.PROMPT_oolonline_reasonbad1,State.PROMPT_oolonlinereason_flexbad1,r'<[!#ONT(ontflexbad)]>')
