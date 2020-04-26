@@ -863,13 +863,13 @@ class result(Macro):
             vars['extroversion'] = 0
 
         if vars['neuroticsm'] > 50 and vars['extroversion'] > 50:
-            return 'You have such a bubbly personality. I am sure you will succeed at anything you do. Let me know how it goes!'
+            return 'You have such a bubbly personality. I am sure you will succeed at anything you do. Talk to you later!'
         if vars['neuroticsm'] > 50 and vars['extroversion'] <= 50:
-            return 'I know you love stepping out of your comfort zone. I am sure people will love that side of you when they get to know you . Bye for real this time!'
+            return 'I know you love stepping out of your comfort zone. I love that side of you. Talk to you later!'
         if vars['neuroticsm'] <= 50 and vars['extroversion'] <= 50:
-            return 'I feel so composed after talking to you. So lucky to learn about your perspective on things. Best of luck with school and life in general!')
+            return 'I feel so composed after talking to you. So lucky to learn about your perspective on things. Best of luck with your college life!'
         if vars['neuroticsm'] <= 50 and vars['extroversion'] > 50:
-            return 'Your ability to handle stress is beyond impressive. Bye for real this time!'
+            return 'Your ability to handle stress is beyond impressive. See you!'
 
 
 
@@ -2566,7 +2566,7 @@ df.add_system_transition(State.PROMPT7_in1, State.PROMPT8_1,r'[!"I guess we are 
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_chores1, r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores1, State.PROMPT9_1,r'[!"Same! It feels so good when things are clean and organized, right?"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_games1, r'<$activity={[!#ONT(ontgames)]}>')
-df.add_system_transition(State.PROMPT8_games1, State.PROMPT9_1,r'[!"Oh I did not know you are a gamer! We should definetely play"$activity"together sometime!"]')
+df.add_system_transition(State.PROMPT8_games1, State.PROMPT9_1,r'[!"Oh I did not know you are a gamer! We have to play"$activity"together sometime!"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_music1, r'<$activity={[!#ONT(ontmusic)]}>')
 df.add_system_transition(State.PROMPT8_music1, State.PROMPT9_1,r'[!"Of course, listening to music is so stress-relieving, right? I love listening to pop music, do you?"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_art1, r'<$activity={[!#ONT(ontart)]}>')
