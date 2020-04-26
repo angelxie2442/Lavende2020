@@ -829,9 +829,10 @@ class det_ss(Macro):
             return 'a '+str(vars['S_S'])
 class ool_or_eer(Macro):
     def run(self, ngrams, vars, args):
-        if str(vars['S_S']) == "job search" or str(vars['S_S']) == "internship application" or str(vars['S_S']) == "job application":
-            return 'in job application'
-        elif str(vars['S_S']) == "research":
+        for a in ["school","grades","majors",""]
+            if str(vars['S_S']) == a:
+                return 'in job application'
+             elif str(vars['S_S']) == "research":
             return 'in work'
         else:
             return 'in school'
@@ -885,7 +886,7 @@ class help_ss(Macro):
                 return "classes for your current "+str(vars['S_S'])
         for a_future_related_topic in ["jobs","internships","internship","job","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
             if str(vars['S_S']) == a_future_related_topic:
-                return "interviews"
+                return "interviews in general"
         for a_general_topic in ["school","grades","classes","work","research","exams","quizzes","assignments","papers","essays","projects","group projects"]:
             if str(vars['S_S'])== a_general_topic:
                 return str(vars['S_S'])
