@@ -901,6 +901,7 @@ class help_ss(Macro):
 class class_ss(Macro):
     def run(self, ngrams, vars, args):
         vars['S_S']=vars['class']
+
         return str(vars['S_S'])
 
 class school_n1_often(Macro):
@@ -2624,7 +2625,7 @@ df.add_user_transition(State.PROMPT_whichclass1,State.PROMPT_forclass_yesclass1,
 df.add_system_transition(State.PROMPT_forclass_yesclass1,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"#class_ss"? Is it a requirement for your major?"]')
 df.set_error_successor(State.PROMPT_forclass1,State.PROMPT_forclass_err1)
 df.set_error_successor(State.PROMPT_whichclass1,State.PROMPT_forclass_err1)
-df.add_system_transition(State.PROMPT_forclass_err1,State.PROMPT_oolfreq1,r'[!"Are you trying to raise your stress tolerance with that"$S_S"lol? How often do you have"#help_ss"like that?"]')
+df.add_system_transition(State.PROMPT_forclass_err1,State.PROMPT_oolfreq1,r'[!"Are you trying to raise your stress tolerance with that"$S_S"lol? How often do you have"#det_ss"like that?"]')
 ###schoolevent that does not merge with schoolcourse branch
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\sother|\ssix|\s6|\s7|\sseven|\seight|\s8|\s9|\snine|\sten|\s10)?\s(second+s?|sec+s?|min+s?|minute+s?|hour+s?|hr+s?|day+s?))|((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(week+s?))|((three\stimes|thrice|four\stimes|five\stimes|six\stimes|seven\stimes|3\stimes|4\stimes|5\stimes|6\stimes|7\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(month+s?))|((twice|two\stimes|2\stimes)\s(every|per|a)(\sone)?\s(month)))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfreq_often1,State.PROMPT_oolstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#help_ss"stressful?"]')
