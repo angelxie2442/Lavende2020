@@ -864,7 +864,7 @@ class result(Macro):
         if vars['neuroticsm'] > 50 and vars['extroversion'] > 50:
             return 'You have such a bubbly personality. I am sure you will succeed at anything you do. Talk to you later!'
         if vars['neuroticsm'] > 50 and vars['extroversion'] <= 50:
-            return 'I know you love stepping out of your comfort zone. Love that side of you. Talk to you later!'
+            return 'I can tell that you love stepping out of your comfort zone. Love that side of you. Talk to you later!'
         if vars['neuroticsm'] <= 50 and vars['extroversion'] <= 50:
             return 'I feel so composed after talking to you. So lucky to learn about your perspective on things. Best of luck with your college life!'
         if vars['neuroticsm'] <= 50 and vars['extroversion'] > 50:
