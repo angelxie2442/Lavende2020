@@ -900,6 +900,11 @@ class help_ss(Macro):
         else:
             return 'that '+str(vars['S_S'])
 
+class class_ss(Macro):
+    def run(self, ngrams, vars, args):
+        vars['S_S']=vars['class']
+        return str(vars['S_S'])
+
 class school_n1_often(Macro):
     def run(self, ngrams, vars, args):
         if 'neuroticsm' in vars.keys():
@@ -1126,6 +1131,8 @@ class school_e3_studyspot2_nozoom(Macro):
             vars['extroversion'] = 10
         return ''
 
+
+
 ############################################### school macros end here
 
 class State(Enum):
@@ -1297,7 +1304,6 @@ class State(Enum):
     PROMPT_oolzoom1=auto()
     #####user error states
     PROMPT_oolstressfr_err1 = auto()
-    PROMPT_majorreq_err1 = auto()
     PROMPT_major_err1 = auto()
     PROMPT_oolfreq_err1 = auto()
     PROMPT_oolpast_err1 =auto()
@@ -1325,7 +1331,6 @@ class State(Enum):
     PROMPT_major_re1 =auto()
     PROMPT_forclass_yes1 =auto()
     PROMPT_forclass_yesclass1 =auto()
-    PROMPT_whichclass_re1 =auto()
     PROMPT_oolpast_well1 = auto()
     PROMPT_oolpast_bad1 = auto()
     PROMPT_oolgoal_re1 = auto()
@@ -2503,7 +2508,7 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
                           'school_e1_mentor1_person':school_e1_mentor1_person(),'school_e1_mentor1_err':school_e1_mentor1_err(),
                           'school_e1_mentor2_yes':school_e1_mentor2_yes(),'school_e1_mentor2_no':school_e1_mentor2_no(),
                           'school_n_covidworried':school_n_covidworried(),'school_n_covidinfect':school_n_covidinfect,'school_n_covidnotworr':school_n_covidnotworr,
-                          'ool_or_eer':ool_or_eer(),'help_ss':help_ss()})
+                          'ool_or_eer':ool_or_eer(),'help_ss':help_ss(),'class_ss':class_ss()})
 df.add_system_transition(State.START, State.PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
 #df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_other1, r'<$S_S={[!#POS(noun)],[!#POS(noun) #POS(noun)]}>',score=1.0)
@@ -2613,29 +2618,29 @@ df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_forclass
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do" #ool_or_eer"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with personal life by the time I graduate. What is the most important goal you want to achieve in college?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected?"]')
-#schoolevent branch up to stress-freq prompt (or merge with schoolcourse branch)
+#schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yes1,r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yesclass1,r'<$class=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_forclass_yes1,State.PROMPT_whichclass1,r'[!"What class is it?"]')
-df.add_user_transition(State.PROMPT_whichclass1,State.PROMPT_whichclass_re1,r'<$class=[!#ONT(ontschoolcourse)]>')
-df.set_error_successor(State.PROMPT_whichclass1,State.PROMPT_forclass_err1)
-df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yesclass1,r'<$major=[!#ONT(ontschoolcourse)]>')
-df.add_system_transition(State.PROMPT_forclass_yesclass1,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"$S_S"? Is it a requirement for your major?"]')
+df.add_user_transition(State.PROMPT_whichclass1,State.PROMPT_forclass_yesclass1,r'<$class=[!#ONT(ontschoolcourse)]>')
+df.add_system_transition(State.PROMPT_forclass_yesclass1,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"#class_ss"? Is it a requirement for your major?"]')
 df.set_error_successor(State.PROMPT_forclass1,State.PROMPT_forclass_err1)
+df.set_error_successor(State.PROMPT_whichclass1,State.PROMPT_forclass_err1)
 df.add_system_transition(State.PROMPT_forclass_err1,State.PROMPT_oolfreq1,r'[!"Are you trying to raise your stress tolerance with that"$S_S"lol? How often do you have"#help_ss"like that?"]')
+###schoolevent that does not merge with schoolcourse branch
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_often1,r'<{[!#ONT(ontoften)],/(?:\s|^)(((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\sother|\ssix|\s6|\s7|\sseven|\seight|\s8|\s9|\snine|\sten|\s10)?\s(second+s?|sec+s?|min+s?|minute+s?|hour+s?|hr+s?|day+s?))|((once|twice|thrice|three\stimes|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(week+s?))|((three\stimes|thrice|four\stimes|five\stimes|six\stimes|seven\stimes|3\stimes|4\stimes|5\stimes|6\stimes|7\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sother)?\s(month+s?))|((twice|two\stimes|2\stimes)\s(every|per|a)(\sone)?\s(month)))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfreq_often1,State.PROMPT_oolstressfr1,r'[!"Do you have"#det_ss"so often that"#school_n1_often"getting stressed about"#det_ss"has become a habit of yours lol? How often do you find"#help_ss"stressful?"]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_sometimes1,r'<{[!#ONT(ontsometimes)],/(?:\s|^)(((once|one\stime|two\stimes|twice|three\stimes|thrice|four\stimes|five\stimes|1\stime|2\stimes|3\stimes|4\stimes|5\stimes)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sten|\s10|\sother)?\s(semester+s?|term+s?|quarter+s?|year+s?|decade+s?))|((once|1\stime|one\stime)\s(every|per|a)(\sone|\s1|\stwo|\s2|\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sother)?\s(month+s?))|((once|1\stime|2\stimes|twice|thrice|3\stimes|three\stimes|one\stime|four\stimes|4\stimes)\s(every|a|per)(\sthree|\s3|\sfour|\s4|\sfive|\s5|\ssix|\s6|\sseven|\s7|\seight|\s8|\sten|\s10)\s(month+s?)))(?:\s|,|\.|$)/}>')
 df.add_system_transition(State.PROMPT_oolfreq_sometimes1,State.PROMPT_oolstressfr1,r'[!"Hey you are luckier than me."#school_n1_sometimes"I have"#det_ss"so often that I already stop caring. How often do you find"#help_ss"stressful? "]')
 df.add_user_transition(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_never1,r'<[!#ONT(ontnever)]>')
-df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolstressfr1,r'[!"Wow."#school_n1_never"First time? Are you excited? Anyone you can ask for advice on"#help_ss"?"]')
+df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolhelp_person1,r'[!"Wow."#school_n1_never"First time? Are you excited? Anyone you can ask for advice on"#help_ss"?"]')
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
 df.add_system_transition(State.PROMPT_oolfreq_err1,State.PROMPT_oolstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#help_ss"?"]')
 #schoolcourse branch up to stress-freq prompt
 df.add_system_transition(State.PROMPT0_schoolcourse_savage,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"$S_S"? Is it a requirement for your major?"]')
 df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yes1,r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yesmajor1,r'<$major=[!#ONT(ontschoolcourse)]>')
-df.set_error_successor(State.PROMPT_majorreq1,State.PROMPT_majorreq_err1)
-df.add_system_transition(State.PROMPT_majorreq_err1,State.PROMPT)
+df.set_error_successor(State.PROMPT_majorreq1,State.PROMPT_forclass_err1)
 df.add_system_transition(State.PROMPT_majorreq_yes1,State.PROMPT_major1,r'[!"What major are you?"]')
 df.add_user_transition(State.PROMPT_major1,State.PROMPT_majorreq_yesmajor1,r'<$major=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_majorreq_yesmajor1,State.PROMPT_oolstressfr1,r'[!"Well someone has to tolerate the struggle and become a professional in"$major"for the greater good of our society haha."How often do you find your"$S_S"stressful?"]')
