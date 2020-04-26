@@ -883,7 +883,7 @@ class help_ss(Macro):
         for a_major_related_topic in ["major","majors"]:
             if str(vars['S_S']) == a_major_related_topic:
                 return "classes for your current "+str(vars['S_S'])
-        for a_future_related_topic in ["jobs","internships","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
+        for a_future_related_topic in ["jobs","internships","internship","job","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
             if str(vars['S_S']) == a_future_related_topic:
                 return "interviews"
         for a_general_topic in ["school","grades","classes","work","research","exams","quizzes","assignments","papers","essays","projects","group projects"]:
@@ -2151,7 +2151,6 @@ stress_dict = {
                 [
                 "group project",
                 "project",
-                "internship",
                 "paper",
                 "research paper",
                 "assignment",
@@ -2275,6 +2274,8 @@ stress_dict = {
                 "internships",
                 "classes",
                 "jobs",
+                "job",
+                "internship",
                 "grad school",
                 "graduate school",
                 "grad schools",
@@ -2653,7 +2654,7 @@ df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<[!#ONT
 df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<[!#ONT(ontpositive)]>')
 df.set_error_successor(State.PROMPT_oolpast1,State.PROMPT_oolpast_err1)
 df.add_system_transition(State.PROMPT_oolpast_err1,State.PROMPT_oolstressfr1,r'[!"Gotchu!"#school_n3_well"How often do you find"#help_ss"stressful?"]')
-df.add_system_transition(State.PROMPT_oolpast_bad1,State.PROMPT_oolstressfr1,r'[!"It is possible that you are too unique to be in the current education system."#school_n3_bad"How often do you feel stressed about"#help_ss"?"]')
+df.add_system_transition(State.PROMPT_oolpast_bad1,State.PROMPT_oolstressfr1,r'[!"It is possible that you are too unique to be in the current"#ool_or_eer"."#school_n3_bad"How often do you feel stressed about"#help_ss"?"]')
 df.add_system_transition(State.PROMPT_oolpast_well1,State.PROMPT_oolstressfr1,r'[!"So you have been on a hot winning streak?"#school_n3_well"Life is more fun with ups and downs though. Kidding.How often do you feel stressed about"#help_ss"?"]')
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_re1,'<{$goal=[!#POS(verb) #POS(adp) #POS(noun)],$goal=[!"be" #POS(adj)],$goal=[!"be" #POS(adj) #POS(adp) #POS(noun)],$goal=[!"be" #POS(adj) #POS(adp) #POS(verb)],$goal=[!"be" #POS(adj) #POS(adp) #POS(verb) #POS(adp) #POS(noun)], $goal=[!"do" #pos(adv)], $goal=[!#pos(verb) #pos(adv)],$goal=[!"do" #pos(adv) "in" #pos(noun)],$goal=[!#pos(verb) #pos(adv) "in" #pos(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(noun)],$goal=[!#POS(verb) {[!"a lot of"],[!"many"]} #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb)], $goal=[!#POS(verb) #POS(propn) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(verb)],$goal=[!"be" #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(adp) #POS(verb)]}>')
