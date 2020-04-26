@@ -889,8 +889,6 @@ class help_ss(Macro):
         for a_general_topic in ["school","grades","classes","work","research","exams","quizzes","assignments","papers","essays","projects","group projects"]:
             if str(vars['S_S'])== a_general_topic:
                 return str(vars['S_S'])
-        if str(vars['S_S']).find("class")!=-1:
-            return "your"+str(vars['S_S'])
         if str(vars['S_S']) == 'wedding' or str(vars['S_S']) == "wedding" or str(vars['S_S']) == "gathering" or str(vars['S_S']) == 'gathering' or str(vars['S_S']) == 'meeting' or str(vars['S_S'])=="meeting":
             return 'that '+str(vars['S_S'])
         elif str(vars['S_S']).find("ing ")!=-1:
@@ -2637,7 +2635,7 @@ df.add_system_transition(State.PROMPT_oolfreq_never1,State.PROMPT_oolhelp_person
 df.set_error_successor(State.PROMPT_oolfreq1,State.PROMPT_oolfreq_err1)
 df.add_system_transition(State.PROMPT_oolfreq_err1,State.PROMPT_oolstressfr1,r'[!"I see I see."#school_n1_sometimes"Just curious, how often do you feel stressed about"#help_ss"?"]')
 #schoolcourse branch up to stress-freq prompt
-df.add_system_transition(State.PROMPT0_schoolcourse_savage,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking a"$S_S"? Is it a requirement for your major?"]')
+df.add_system_transition(State.PROMPT0_schoolcourse_savage,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking"#help_ss"? Is it a requirement for your major?"]')
 df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yes1,r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.PROMPT_majorreq1,State.PROMPT_majorreq_yesmajor1,r'<$major=[!#ONT(ontschoolcourse)]>')
 df.set_error_successor(State.PROMPT_majorreq1,State.PROMPT_forclass_err1)
