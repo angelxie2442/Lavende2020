@@ -901,8 +901,10 @@ class help_ss(Macro):
 class class_ss(Macro):
     def run(self, ngrams, vars, args):
         vars['S_S']=vars['class']
-
-        return str(vars['S_S'])
+        if str(vars['S_S'])[0] == 'a' or str(vars['S_S'])[0] == "a" or str(vars['S_S'])[0] == 'e' or str(vars['S_S'])[0] == "e" or str(vars['S_S'])[0] == 'i' or str(vars['S_S'])[0] ==  "i" or str(vars['S_S'])[0] == 'o' or str(vars['S_S'])[0] == "o" or str(vars['S_S'])[0] == 'x' or str(vars['S_S'])[0] == "x":
+            return 'an '+str(vars['S_S'])
+        else:
+            return 'a '+str(vars['S_S'])
 
 class school_n1_often(Macro):
     def run(self, ngrams, vars, args):
