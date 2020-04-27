@@ -2719,7 +2719,7 @@ df.add_user_transition(State.PROMPT1_1, State.PROMPT1_sometimes1,r'<{[!#ONT(onts
 df.add_user_transition(State.PROMPT1_1, State.PROMPT1_never1, r'[!#o40]')  # opennes +20  V
 df.add_system_transition(State.PROMPT1_often1, State.PROMPT2_1,r'[!"It must be really hard for you... I get stressed about"#det_ss"sometimes, but the stress gradually decreases every time. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT1_sometimes1, State.PROMPT2_1,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
-df.add_system_transition(State.PROMPT1_never1, State.PROMPT4_1,r'[!"Wow. Your first time ever? Trying new things can be scary sometimes, but you got this! Is this"$S_S"mandatory?"]')
+df.add_system_transition(State.PROMPT1_never1, State.PROMPT5_1,r'[!"Wow. Your first time ever? Trying new things can be scary sometimes, but you got this! Do you wanna participate in this"$S_S"?"]')
 
 df.add_user_transition(State.PROMPT2_1, State.PROMPT2_notbad1, r'<{[!#n20]}>')  # neuroticism +20  V
 df.add_user_transition(State.PROMPT2_1, State.PROMPT2_bad1, r'<{[!#n_n20]}>')  # neuroticism -20  V
@@ -2729,9 +2729,9 @@ df.add_system_transition(State.PROMPT2_bad1, State.PROMPT3_1,r'[!"Yeah...sometim
 df.add_user_transition(State.PROMPT3_1, State.PROMPT3_often1, r'<{[!#n70]}>')  # neuroticism +70  V
 df.add_user_transition(State.PROMPT3_1, State.PROMPT3_sometimes1, r'<{[!#n40]}>')  # neuroticism +40  V
 df.add_user_transition(State.PROMPT3_1, State.PROMPT3_never1, r'<{[!#n10]}>')  # neuroticism +10  V
-df.add_system_transition(State.PROMPT3_often1, State.PROMPT4_1,r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Is this"$S_S"mandatory for you?"]')
-df.add_system_transition(State.PROMPT3_sometimes1, State.PROMPT4_1,r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more efficient and motivated. Is this"$S_S"mandatory for you?"]')
-df.add_system_transition(State.PROMPT3_never1, State.PROMPT4_1, r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_often1, State.PROMPT5_1,r'[!"I see...but no pain no gain right? The stress could bring out your best performance. Do you wanna participate in this"$S_S"then?"]')
+df.add_system_transition(State.PROMPT3_sometimes1, State.PROMPT5_1,r'[!"You know some amount of stress is helpful, believe it or not. It can help you be more efficient and motivated. Do you wanna participate in this"$S_S"then?"]')
+df.add_system_transition(State.PROMPT3_never1, State.PROMPT5_1, r'[!"Oh really? This upcoming"$S_S" must mean a lot to you. Just treat it the same way you did before and you will do just fine! Do you wanna participate in this"$S_S"then?"]')
 
 df.add_user_transition(State.PROMPT4_1, State.PROMPT4_yes1, r'<{[!#o_n20]}>')  # openness-20  V
 df.add_user_transition(State.PROMPT4_1, State.PROMPT4_no1, r'<{[!#o_20]}>')  # openness+60  V
@@ -2799,7 +2799,7 @@ df.add_system_transition(State.PROMPT0_b1,State.PROMPT8_1,r'[!"You know what? Ta
 ######
 df.add_system_transition(State.PROMPT1_err1, State.PROMPT2_1,r'[!"That is totally normal! I sometimes feel stressed about"#det_ss"too. How did your most recent"$S_S"go?"]')
 df.add_system_transition(State.PROMPT2_err1, State.PROMPT3_1,r'[!"I see I see. Just curious, how often do you feel stressed about it?"]')
-df.add_system_transition(State.PROMPT3_err1, State.PROMPT4_1, r'[!"Yeah. I feel you. Is this"$S_S"mandatory for you?"]')
+df.add_system_transition(State.PROMPT3_err1, State.PROMPT5_1, r'[!"Yeah. Do you want to participate in this"$S_S"then?"]')
 df.add_system_transition(State.PROMPT4_err1, State.PROMPT5_1, r'[!"Mmhmm. Do you want to participate in this"$S_S"then?"]')
 df.add_system_transition(State.PROMPT5_err1, State.PROMPT6_1, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT6_err1, State.PROMPT7_1,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
