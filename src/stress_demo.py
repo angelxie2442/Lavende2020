@@ -2927,7 +2927,7 @@ df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interest
 ############
 
 
-'''BREAK UP'''
+'''BREAK UP AGG'''
 df.add_system_transition(State.BREAKUP, State.BREAKUP0, r'[!"Oh...I am so sorry. I know how heartbreaking it feels. How long had you guys been together?"]')
 df.add_user_transition(State.BREAKUP0, State.BREAKUP0_short, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
 df.add_user_transition(State.BREAKUP0, State.BREAKUP0_mid, r'/.*([2]|two)\s\b(year|years)\b.*/')
@@ -2953,6 +2953,33 @@ df.add_user_transition(State.BREAKUP3, State.BREAKUP3_no, r'<[!#ONT(ontno)]>')
 
 df.add_system_transition(State.BREAKUP3_yes, State.BREAKUP4, r'[!"I wish you the best of luck! However, dont forget to love yourself. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
 df.add_system_transition(State.BREAKUP3_no, State.BREAKUP4, r'[!"I think you are ready to move on! Time to focus on self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+
+'''BREAK UP OPT'''
+df.add_system_transition(State.BREAKUP, State.BREAKUP01, r'[!"You will find someone better! How long had you guys been together?"]')
+df.add_user_transition(State.BREAKUP01, State.BREAKUP0_short1, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
+df.add_user_transition(State.BREAKUP01, State.BREAKUP0_mid1, r'/.*([2]|two)\s\b(year|years)\b.*/')
+df.add_user_transition(State.BREAKUP01, State.BREAKUP0_long1, r'/.*([3-9]|[0]|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
+
+df.add_system_transition(State.BREAKUP0_short1, State.BREAKUP11, r'[!"Less than a year? You can find another one pretty soon! Did this breakup happen because of the coronavirus? "]')
+df.add_system_transition(State.BREAKUP0_mid1, State.BREAKUP11, r'[!"2 years is a lot of time, but how long you had been together is not important fs you are not suitable for each other. Did this breakup happen because of the coronavirus?"]')
+df.add_system_transition(State.BREAKUP0_long1, State.BREAKUP11, r'[!"Sometimes you just gotta end a story and start another one! Did this breakup happen because of the coronavirus?"]')
+df.add_user_transition(State.BREAKUP11, State.COVID01, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.BREAKUP11, State.BREAKUP1_01, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.COVID01, State.COVID1, r'[!"If a virus can destroy your relationship, then you probably do not want this relationship. Doing some fun activities might help you relax! What activity do you like to do during quarantine?"]')
+df.add_system_transition(State.BREAKUP1_01, State.BREAKUP21, r'[!"I guess the coronavirus is innocent. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_user_transition(State.BREAKUP21, State.BREAKUP2_intimacy1, r'[intimacy]')
+df.add_user_transition(State.BREAKUP21, State.BREAKUP2_passion1, r'[passion]')
+df.add_user_transition(State.BREAKUP21, State.BREAKUP2_commitment1, r'[commitment]')
+
+df.add_system_transition(State.BREAKUP2_intimacy1, State.BREAKUP31, r'[!"A relationship without intimacy is kinda similar to love at first sight. At least you know what to do in your next relationship! Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP2_passion1, State.BREAKUP31, r'[!"A relationship without passion is kinda similar to a long-term marriage. At least you know what to do in your next relationship! Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP2_commitment1, State.BREAKUP31, r'[!"A relationship without commitment is kinda similar to a romantic affair. At least you know what to do in your next relationship! Just curious, do you want to get back together?"]')
+df.add_user_transition(State.BREAKUP31, State.BREAKUP3_yes1, r'<[!#ONT(ontyes)]>')
+df.add_user_transition(State.BREAKUP31, State.BREAKUP3_no1, r'<[!#ONT(ontno)]>')
+
+df.add_system_transition(State.BREAKUP3_yes1, State.BREAKUP41, r'[!"I wish you the best of luck! However, dont forget to love yourself. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+df.add_system_transition(State.BREAKUP3_no1, State.BREAKUP41, r'[!"I think you are ready to move on! Time to focus on self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
 
 
 '''LOVE'''
@@ -3104,6 +3131,12 @@ df.add_user_transition(State.BREAKUP4, State.COVID1_video, r'<[!#ONT(ontreadwatc
 df.add_user_transition(State.BREAKUP4, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
 df.add_user_transition(State.BREAKUP4, State.COVID1_class, r'<[!#ONT(ontclass)]>')
 df.add_user_transition(State.BREAKUP4, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_game, r'<[!#ONT(ontgames)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_food, r'<[!#ONT(ontfood)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_socialApp, r'<[!#ONT(ontsocialApp)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_class, r'<[!#ONT(ontclass)]>')
+df.add_user_transition(State.BREAKUP41, State.COVID1_music, r'<[!#ONT(ontmusic)]>')
 df.add_user_transition(State.SINGLE3, State.COVID1_game, r'<[!#ONT(ontgames)]>')
 df.add_user_transition(State.SINGLE3, State.COVID1_food, r'<[!#ONT(ontfood)]>')
 df.add_user_transition(State.SINGLE3, State.COVID1_video, r'<[!#ONT(ontreadwatch)]>')
@@ -3199,11 +3232,21 @@ df.set_error_successor(State.BREAKUP1, State.BREAKUP1_ERR)
 df.set_error_successor(State.BREAKUP2, State.BREAKUP2_ERR)
 df.set_error_successor(State.BREAKUP3, State.BREAKUP3_ERR)
 df.set_error_successor(State.BREAKUP4, State.BREAKUP4_ERR)
+df.set_error_successor(State.BREAKUP01, State.BREAKUP0_ERR1)
+df.set_error_successor(State.BREAKUP11, State.BREAKUP1_ERR1)
+df.set_error_successor(State.BREAKUP21, State.BREAKUP2_ERR1)
+df.set_error_successor(State.BREAKUP31, State.BREAKUP3_ERR1)
+df.set_error_successor(State.BREAKUP41, State.BREAKUP4_ERR1)
 df.add_system_transition(State.BREAKUP0_ERR, State.BREAKUP1, r'[!"I see...you must be feeling lost and empty. Did this breakup happen because of the coronavirus?"]')
 df.add_system_transition(State.BREAKUP1_ERR, State.BREAKUP2, r'[!"I guess the coronavirus is not the one to blame. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
 df.add_system_transition(State.BREAKUP2_ERR, State.BREAKUP3, r'[!"Oh I see. Last year my girlfriend broke up with me because of the her insecurity caused by long distance and I learned the importance of committment. Just curious, do you want to get back together?"]')
 df.add_system_transition(State.BREAKUP3_ERR, State.BREAKUP4, r'[!"I think you are ready to move on! Time to focus self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
 df.add_system_transition(State.BREAKUP4_ERR, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Are you also taking online classes?"]')
+df.add_system_transition(State.BREAKUP0_ERR1, State.BREAKUP11, r'[!"Did this breakup happen because of the coronavirus?"]')
+df.add_system_transition(State.BREAKUP1_ERR1, State.BREAKUP21, r'[!"I guess the coronavirus is not the one to blame. Let me try to make use of what I learned from my psychology class. The theory of love suggests that love in composed by intimacy, passion, and commitment. Which one do you think is lacking from your relationship?"]')
+df.add_system_transition(State.BREAKUP2_ERR1, State.BREAKUP31, r'[!"Last year my girlfriend broke up with me because of the her insecurity caused by long distance and I learned the importance of committment. Just curious, do you want to get back together?"]')
+df.add_system_transition(State.BREAKUP3_ERR1, State.BREAKUP41, r'[!"I think you are ready to move on! Time to focus self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
+df.add_system_transition(State.BREAKUP4_ERR1, State.COVID2, r'[!"That sounds super interesting! I should try that next time when I have less homework. I guess sleeping is my only destress activity... Are you also taking online classes?"]')
 df.set_error_successor(State.COVID0, State.COVID0_ERR)
 df.set_error_successor(State.COVID1, State.COVID1_ERR)
 df.set_error_successor(State.COVID2, State.COVID2_ERR)
