@@ -340,6 +340,19 @@ class n70(Macro):
             "every day",
             "everyday",
             "every hour"
+            "always",
+            "constantly",
+            "frequently",
+            "regularly",
+            "often",
+            "hourly",
+            "daily",
+            "weekly",
+            "biweekly",
+            "all the time",
+            "every second",
+            "every minute",
+            "every week",
         }
         if 'neuroticsm' in vars.keys():
             vars['neuroticsm'] += 70
@@ -356,6 +369,7 @@ class n40(Macro):
             "occasionally",
             "infrequently",
             "seldom",
+            "every month",
             "not often",
             "rarely",
             "hardly ever",
@@ -894,7 +908,7 @@ class help_ss(Macro):
             return "social situations"
         if str(vars['S_S']) == 'wedding' or str(vars['S_S']) == "wedding" or str(vars['S_S']) == "gathering" or str(vars['S_S']) == 'gathering' or str(vars['S_S']) == 'meeting' or str(vars['S_S'])=="meeting":
             return 'that '+str(vars['S_S'])
-        elif str(vars['S_S']).find("ing ")!=-1:
+        elif str(vars['S_S'])[-3:] == 'ing' or str(vars['S_S'])[-3:] == "ing":
             return str(vars['S_S'])
         elif str(vars['S_S'])[0] == 'a' or str(vars['S_S'])[0] == "a" or str(vars['S_S'])[0] == 'e' or str(vars['S_S'])[0] == "e" or str(vars['S_S'])[0] == 'i' or str(vars['S_S'])[0] ==  "i" or str(vars['S_S'])[0] == 'o' or str(vars['S_S'])[0] == "o" or str(vars['S_S'])[0] == 'x' or str(vars['S_S'])[0] == "x":
             return 'that '+str(vars['S_S'])
@@ -1381,7 +1395,8 @@ stress_dict = {
                     "everyday",
                     "every hour",
                     "every second",
-                    "every minute"
+                    "every minute",
+                    "every week",
                 ],
             "ontsometimes":
                 [
@@ -2643,7 +2658,7 @@ df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_forclass1,r'[!"You only think of me when you have problems dont you？ Just Kidding. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do in"#help_ss"in the past?"]')
-df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with personal life by the time I graduate. What is the most important goal you want to achieve in college?"]')
+df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with social life by the time I graduate. What is the most important goal you want to achieve in college?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected by coronavirus?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass1,State.PROMPT_forclass_yes1,r'<[!#ONT(ontyes)]>')
@@ -2681,7 +2696,7 @@ df.add_system_transition(State.PROMPT_oolpast_well1,State.PROMPT_oolstressfr1,r'
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_re1,'<{$goal=[!#POS(verb) #POS(adp) #POS(noun)],$goal=[!"be" #POS(adj)],$goal=[!"be" #POS(adj) #POS(adp) #POS(noun)],$goal=[!"be" #POS(adj) #POS(adp) #POS(verb)],$goal=[!"be" #POS(adj) #POS(adp) #POS(verb) #POS(adp) #POS(noun)], $goal=[!"do" #pos(adv)], $goal=[!#pos(verb) #pos(adv)],$goal=[!"do" #pos(adv) "in" #pos(noun)],$goal=[!#pos(verb) #pos(adv) "in" #pos(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(noun)],$goal=[!#POS(verb) {"a lot of","many","lots of"} #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb)], $goal=[!#POS(verb) #POS(propn) #POS(noun)],$goal=[!#POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(noun)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(noun)],$goal=[!#POS(verb) #POS(adj) #POS(adp) #POS(verb)],$goal=[!"be" #POS(adj)],$goal=[!#POS(verb) #POS(part) #POS(verb) #POS(adj) #POS(adp) #POS(verb)]}>')
 df.set_error_successor(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_err1)
-df.add_system_transition(State.PROMPT_oolgoal_err1,State.PROMPT_oolgoalalign1,r'[!"I never fail to turn goals into broken promises...How much do you think your current priorities matter to that goal?"]')
+df.add_system_transition(State.PROMPT_oolgoal_err1,State.PROMPT_oolgoalalign1,r'[!"I often turn goals into broken promises...How much do you think your current priorities matter for that goal?"]')
 df.add_system_transition(State.PROMPT_oolgoal_re1,State.PROMPT_oolgoalalign1,r'[!"So you want to"$goal"!How much do you think your current tasks align with that goal then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_no1,'<{"not much","slightly","not at all","unrelated","a little","very little"}>')
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_yes1,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
