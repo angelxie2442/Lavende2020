@@ -829,11 +829,13 @@ class det_ss(Macro):
             return 'a '+str(vars['S_S'])
 class ool_or_eer(Macro):
     def run(self, ngrams, vars, args):
-        for a in ["school","grades","majors","major","grad school","classes","graduate school","grad schools","graduate schools","exams","quizzes","papers","essays","assignments","projects","group projects"]:
+        for a in ["school","grades","grade","majors","major","grad school","classes","graduate school","grad schools","graduate schools","exams","quizzes","papers","essays","assignments","projects","group projects"]:
             if str(vars['S_S']) == a:
                 return 'be in the current education system'
+        if str(vars['S_S'])=="social anxiety" or str(vars['S_S'])=="social phobia" or str(vars['S_S'])=="interviews" or str(vars['S_S'])=="interview":
+                return 'be appreciated by average people'
         else:
-            return 'be a follower instead of a leader in the industry'
+            return 'be a follower instead of a leader in your field'
 
 
 class pron_reason(Macro):
@@ -876,18 +878,20 @@ class result(Macro):
 
 class help_ss(Macro):
     def run(self, ngrams, vars, args):
-        for a_time_topic in ["time","workload","too much work","balance","tight schedule","busy","little time","busy schedule","schoolwork","balancing","duties","responsibilities","multitasks","multitasking","multitask","multiple assignments"]:
+        for a_time_topic in ["time","workload","everything","too much work","balance","tight schedule","busy","little time","busy schedule","schoolwork","balancing","duties","responsibilities","multitasks","multitasking","multitask","multiple assignments"]:
             if str(vars['S_S']) == a_time_topic:
                 return "time management"
         for a_major_related_topic in ["major","majors"]:
             if str(vars['S_S']) == a_major_related_topic:
                 return "classes for your current "+str(vars['S_S'])
-        for a_future_related_topic in ["jobs","internships","internship","job","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
+        for a_future_related_topic in ["jobs","internships","career","interviews","interview","internship","job","graduate school","grad school","grad schools","graduate schools","internships hunting","internship hunting","jobs hunting","job hunting","jobs search","job search","internship search","internships search","internship application","internships application","internship applications","internships application","job applications","job application"]:
             if str(vars['S_S']) == a_future_related_topic:
                 return "interviews in general"
-        for a_general_topic in ["school","grades","classes","work","research","exams","quizzes","assignments","papers","essays","projects","group projects"]:
+        for a_general_topic in ["school","grades","grade","classes","work","research","exams","quizzes","assignments","papers","essays","projects","group projects"]:
             if str(vars['S_S'])== a_general_topic:
                 return str(vars['S_S'])
+        if str(vars['S_S'])=="social anxiety" or str(vars['S_S'])=="social phobia":
+            return "social situations"
         if str(vars['S_S']) == 'wedding' or str(vars['S_S']) == "wedding" or str(vars['S_S']) == "gathering" or str(vars['S_S']) == 'gathering' or str(vars['S_S']) == 'meeting' or str(vars['S_S'])=="meeting":
             return 'that '+str(vars['S_S'])
         elif str(vars['S_S']).find("ing ")!=-1:
@@ -2264,11 +2268,23 @@ stress_dict = {
                 "continuous writing class"
                 "freshman seminar",
                  "senior seminar",
-                "physical education"
+                "physical education",
+                "tourism",
+                "graphic design",
+                "fashion design",
+                "ams",
+                "applied math",
+                "data science",
+                "stats",
+                "digital media"
                 ],
             'ontschoolgeneral':
                 [
+                "interviews",
+                "interview",
+                "career",
                 "school",
+                "grade",
                 "grades",
                 "majors",
                 "major",
@@ -2298,10 +2314,13 @@ stress_dict = {
                 "essays",
                 "projects",
                 "group projects",
-                "assignments"
+                "assignments",
+                "social phobia",
+                "social anxiety"###even tho does not belong to school stressor same set of questions are applicable
                 ],
             'ontschooltime':
                 [
+                "everything",
                 "time",
                 "workload",
                 "too much work",
@@ -2312,6 +2331,7 @@ stress_dict = {
                 "schoolwork",
                 "balancing",
                 "duties",
+                "busy",
                 "responsibilities",
                 "multitasks",
                 "multitasking",
