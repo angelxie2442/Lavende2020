@@ -3099,7 +3099,7 @@ df.add_system_transition(State.PROMPT_oolonlinereason_flexbad1,State.PROMPT_ools
 df.add_system_transition(State.PROMPT_oolonline_dislike_err1,State.PROMPT_oolstudyspot1,r'[!"I absolutely hate that about online learning too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_like_err1,State.PROMPT_oolstudyspot1,r'[!"I love that about online learning too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood1,State.PROMPT_oolstudyspot1,r'[!"Do you have a hard time distinguishing weekdays from weekends? Morning from nights lol? Where is your study area at home? "]')
-df.add_system_transition(State.PROMPT_oolonlinereason_prodgood1,State.PROMPT_oolstudyspot1,r'[!"How is that possible?"#school_e2_online2_hiprod"Do you have a study area at home that helps you stay focused ?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_prodgood1,State.PROMPT_oolstudyspot1,r'[!"How is that possible?"#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_oolstudyspot1, r'[!" Good for you!"##school_e2_online2_socialstress"I feel less motivated to study these days ughh...Where do you usually study at home?"]')
 
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
@@ -3222,7 +3222,7 @@ df.add_system_transition(State.PROMPT_oolonlinereason_flexbad2,State.PROMPT_ools
 df.add_system_transition(State.PROMPT_oolonline_dislike_err2,State.PROMPT_oolstudyspot2,r'[!"I know. I miss hanging out with my friends in school. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_like_err2,State.PROMPT_oolstudyspot2,r'[!"I think that part about online learning is great too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood2,State.PROMPT_oolstudyspot2,r'[!"I do manage my time a lot better now that I can listen to lectures whenever I want. Where is your study area at home? "]')
-df.add_system_transition(State.PROMPT_oolonlinereason_prodgood2,State.PROMPT_oolstudyspot2,r'[!"There are indeed fewer sources of distractions at home."#school_e2_online2_hiprod"Do you have a study area at home that helps you stay focused ?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_prodgood2,State.PROMPT_oolstudyspot2,r'[!"There are indeed fewer sources of distractions at home."#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialgood2,State.PROMPT_oolstudyspot2, r'[!"As an introvert,"##school_e2_online2_socialstress"I am so glad that I do not need to feel stressed about participation in class anymore...Where do you usually study at home?"]')
 
 df.add_user_transition(State.PROMPT_oolstudyspot2,State.PROMPT_oolstudyspot_bedroom2,r'<$room=[!#ONT(ontbedroom)]>')
@@ -3290,7 +3290,7 @@ df.add_system_transition(State.PROMPT_oolpast_well3,State.PROMPT_oolstressfr3,r'
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_re3,'<{[!"future"]}>')
 df.set_error_successor(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_err3)
-df.add_system_transition(State.PROMPT_oolgoal_re3,State.PROMPT_oolgoalalign3,r'[!"Do you think you are stressed because you have high expectation of yourself?"#school_n4_future"How much do you think your current priorities are related to your future goals?"]')
+df.add_system_transition(State.PROMPT_oolgoal_re3,State.PROMPT_oolgoalalign3,r'[!"I feel like you might be stressed because your expectation of yourself is a lil too high."#school_n4_future"How much do you think your current priorities are related to your future goals?"]')
 df.add_system_transition(State.PROMPT_oolgoal_err3,State.PROMPT_oolgoalalign3,r'[!#school_n4_present"The truth is future is way beyond our control. Thinking too much about the future stresses one out. How much do you think your current tasks align with your future goals then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_no3,'<{"not much","slightly","not at all","unrelated","a little","very little","somewhat"}>')
 df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_yes3,'<{"a lot","to a large degree","totally","related","more or less","to some extent"}>')
@@ -3346,7 +3346,7 @@ df.add_system_transition(State.PROMPT_oolonlinereason_flexbad3,State.PROMPT_ools
 df.add_system_transition(State.PROMPT_oolonline_dislike_err3,State.PROMPT_oolstudyspot3,r'[!"I know. I miss hanging out with my friends in school. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_like_err3,State.PROMPT_oolstudyspot3,r'[!"I think that part about online learning is great too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood3,State.PROMPT_oolstudyspot3,r'[!"I do manage my time a lot better now that I can listen to lectures whenever I want. Where is your study area at home? "]')
-df.add_system_transition(State.PROMPT_oolonlinereason_prodgood3,State.PROMPT_oolstudyspot3,r'[!"There are indeed fewer sources of distractions at home."#school_e2_online2_hiprod"Do you have a study area at home that helps you stay focused ?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_prodgood3,State.PROMPT_oolstudyspot3,r'[!"There are indeed fewer sources of distractions at home."#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialgood3,State.PROMPT_oolstudyspot3, r'[!"I actually feel"##school_e2_online2_socialstress"more comfortable participating in class and going to office hours these days...Where do you usually study at home?"]')
 
 df.add_user_transition(State.PROMPT_oolstudyspot3,State.PROMPT_oolstudyspot_bedroom3,r'<$room=[!#ONT(ontbedroom)]>')
