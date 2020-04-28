@@ -1223,7 +1223,9 @@ class State(Enum):
     START = auto()
     PROMPT = auto()
     PROMPT_ERR = auto()
-    BREAKUP = auto()
+    BREAKUP_OPT= auto()
+    BREAKUP_AGG = auto()
+    BREAKUP_SAV = auto()
     ROMAN = auto()
     LOVE = auto()
     SINGLE = auto()
@@ -1826,7 +1828,7 @@ stress_dict = {
                 ],
             'ontpositive':
                 [
-                    'admirable', 'energetic', 'lucky',
+                    'admirable', 'energetic', 'lucky',"excellent",
                     'affable', 'enjoyable', 'magnificent',
                     'affectionate', 'enthusiastic', 'marvelous',
                     'agreeable', 'euphoric', 'meritorious',
@@ -2697,7 +2699,12 @@ stress_dict = {
                 "laziness",
                 "coffee",
                 "stay up late",
-                "sleep schedule"
+                "sleep schedule",
+                "procrastinate",
+                "procrastinating",
+                "too much time",
+                "no goal",
+                "no goals"
                 ],
             'ontsocialbad':
                 [
@@ -2717,7 +2724,12 @@ stress_dict = {
                 "more work",
                 "boring",
                 "lame",
-                "sucks"
+                "sucks",
+                "lonely",
+                "alone",
+                "bored",
+                "involved",
+                "involvement"
                 ],
             'ontprodbad':
                 [
@@ -2732,6 +2744,9 @@ stress_dict = {
                 "self control",
                 "less motivated",
                 "no longer feel motivated",
+                "nothing done",
+                "not efficient",
+                "low effeciency"
                 ],
             'ontflexgood':
                 [
@@ -2751,7 +2766,8 @@ stress_dict = {
                 "saves time",
                 "whenever",
                 "wherever",
-                "free"
+                "free",
+                "quality plans"
                 ],
             'ontsocialgood':
                 [
@@ -2761,7 +2777,10 @@ stress_dict = {
                 "participate",
                 "more comfortable participating",
                 "more comfortable asking questions",
-                "learn less"
+                "learn less",
+                "not judging",
+                "group call",
+                "zoom"
                 ],
             'ontprodgood':
                 [
@@ -2772,7 +2791,9 @@ stress_dict = {
                 "focus more",
                 "focus better",
                 "concentrate better",
-                "focus better"
+                "focus better",
+                "more time",
+                "more efficient"
                 ],
             'ontbedroom':
                 [
@@ -2874,7 +2895,7 @@ df = DialogueFlow(State.START, initial_speaker=DialogueFlow.Speaker.SYSTEM, kb=k
 #######FirstPrompt######
 df.add_system_transition(State.START, State.PROMPT0_savage,r'[!"Hi! Tell me what you are stressed about."]')
 df.add_system_transition(State.START, State.PROMPT0_agg,r'[!"Hi! Tell me what you are stressed about."]')
-df.add_system_transition(State.START, State.PROMPT0_opt,r'[!"Hi! Tell me what you are stressed about."]',score=3.0)
+df.add_system_transition(State.START, State.PROMPT0_opt,r'[!"Hi! Tell me what you are stressed about."]')
 ########Randomized Done#######
 
 
@@ -2979,12 +3000,12 @@ df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolgeneral_savage,
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcovid_savage, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_savage, State.BREAKUP, r'<{[!#ONT(ontbreakup)]}>')
+df.add_user_transition(State.PROMPT0_savage, State.BREAKUP_AGG, r'<{[!#ONT(ontbreakup)]}>')
 df.set_error_successor(State.PROMPT0_savage, State.PROMPT_ERR)
 
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_forclass1,r'[!"You only think of me when you have problems dont you？ Just Kidding. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_savage,State.PROMPT_majorreq1,r'[!"Bruhh why would you torture yourself by taking"#help_ss"? Is it a requirement for your major?"]')
-df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do in"#help_ss"in the past?"]')
+df.add_system_transition(State.PROMPT0_schoolgeneral_savage, State.PROMPT_oolpast1,r'[!"Hey that is ok. Are you even living a real college life if you are not struggling lol? How did you do in terms of"#help_ss"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_savage,State.PROMPT_oolgoal1,r'[!"I wonder if i will ever figure out a way to balance work with social life by the time I graduate. Present happiness and future happiness, which one matters more to you?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_savage,State.PROMPT_oolcovidworry1,r'[!"Are you worried about getting infected by coronavirus?"]')
 #schoolevent branch up to stress-freq prompt
@@ -3013,8 +3034,8 @@ df.add_system_transition(State.PROMPT_majorreq_yes1,State.PROMPT_major1,r'[!#sch
 df.add_user_transition(State.PROMPT_major1,State.PROMPT_majorreq_yesmajor1,r'<$major=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_majorreq_yesmajor1,State.PROMPT_oolstressfr1,r'[!#school_n5_formajor"Well someone has to tolerate the struggle and become a professional in"$major"for the greater good of our society.How often do you find your"$S_S"stressful?"]')
 #schoolgeneral branch up to stress-freq prompt
-df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<{[-"not" #ONT(ontnegative)],[!"not" #ONT(ontpositive)]}>')
-df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<{[-"not" #ONT(ontpositive)],[!"not" #ONT(ontnegative)]}>')
+df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_bad1,r'<{[!"not" #ONT(ontpositive)],[!#ONT(ontnegative)]}>')
+df.add_user_transition(State.PROMPT_oolpast1,State.PROMPT_oolpast_well1,r'<{[!"not" #ONT(ontnegative)],[!#ONT(ontpositive)]}>')
 df.set_error_successor(State.PROMPT_oolpast1,State.PROMPT_oolpast_err1)
 df.add_system_transition(State.PROMPT_oolpast_err1,State.PROMPT_oolstressfr1,r'[!"Gotchu!"#school_n3_well"How often do you find"#help_ss"stressful?"]')
 df.add_system_transition(State.PROMPT_oolpast_bad1,State.PROMPT_oolstressfr1,r'[!"It is possible that you are just too unique to"#ool_or_eer"."#school_n3_bad"How often do you feel stressed about"#help_ss"?"]')
@@ -3025,11 +3046,11 @@ df.set_error_successor(State.PROMPT_oolgoal1,State.PROMPT_oolgoal_err1)
 df.add_system_transition(State.PROMPT_oolgoal_err1,State.PROMPT_oolgoalalign1,r'[!"It is too hard for me to control the future so I focus on the present..."#school_n4_present"How much do you think your current priorities matter for your life after college?"]')
 df.add_system_transition(State.PROMPT_oolgoal_re1,State.PROMPT_oolgoalalign1,r'[!"You want to be the author of your own life story huh."#school_n4_future"How much do you think your current tasks align with your future goals then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_no1,'<{"not much","slightly","not at all","unrelated","a little","very little","somewhat"}>')
-df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_yes1,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
+df.add_user_transition(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_yes1,'<{"a lot","to a large degree","totally","related","more or less","to some extent"}>')
 df.set_error_successor(State.PROMPT_oolgoalalign1,State.PROMPT_oolgoalalign_err1)
 df.add_system_transition(State.PROMPT_oolgoalalign_err1,State.PROMPT_oolstressfr1,r'[!"That is ok."#school_n4_lil"How often do you find"#help_ss"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes1,State.PROMPT_oolstressfr1,r'[!"Do not forget to stop and smell the flowers too!"#school_n4_much"You put too much pressure on yourself!  How often do you find"#help_ss"overwhelming?"]')
-df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I gave up on my time management skills."#school_n4_lil"But I usually prioritize those tasks most related to my future goals. How often do u find"#help_ss"overwhelming?"]')
+df.add_system_transition(State.PROMPT_oolgoalalign_no1,State.PROMPT_oolstressfr1,r'[!"I manage my time differently."#school_n4_lil"I usually prioritize those tasks most related to my future goals. How often do u find"#help_ss"overwhelming?"]')
 #covid branch up to the onlinelearning
 df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_infected1,'<{"tested positive","coughing","i have it","headache","cough","loss of taste","loss of smell","body ache","cough","coughs","fever","fatigue","chills","pains"}>')
 df.add_user_transition(State.PROMPT_oolcovidworry1,State.PROMPT_oolcovidworry_no1,r'<[!#ONT(ontno)]>')
@@ -3102,6 +3123,9 @@ df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schoolcourse_agg, r'<$S_
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schoolgeneral_agg, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schooltime_agg, r'<$S_S=[!#ONT(ontschooltime)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schoolcovid_agg, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
+df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
+df.add_user_transition(State.PROMPT0_agg, State.BREAKUP_AGG, r'<{[!#ONT(ontbreakup)]}>')
+df.set_error_successor(State.PROMPT0_agg, State.PROMPT_ERR)
 df.add_system_transition(State.PROMPT0_schoolevent_agg, State.PROMPT_forclass2,r'[!"I glad that I am not the only one thinking that school is very demanding. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_agg,State.PROMPT_majorreq2,r'[!"oof I hope that"$S_S" is worth your time and effort. Is it a requirement for your major?"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_agg, State.PROMPT_oolpast2,r'[!"I can relate to your struggle with"$S_S".How did you do in"#help_ss"in the past?"]')
@@ -3133,8 +3157,8 @@ df.add_system_transition(State.PROMPT_majorreq_yes2,State.PROMPT_major2,r'[!#sch
 df.add_user_transition(State.PROMPT_major2,State.PROMPT_majorreq_yesmajor2,r'<$major=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_majorreq_yesmajor2,State.PROMPT_oolstressfr2,r'[!#school_n5_formajor"Wait I have always wanted to become a"$major"major! But I never have the encourage to try... How often do you find your"$S_S"stressful?"]')
 #schoolgeneral branch up to stress-freq prompt
-df.add_user_transition(State.PROMPT_oolpast2,State.PROMPT_oolpast_bad2,r'<{[-"not" #ONT(ontnegative)],[!"not" #ONT(ontpositive)]}>')
-df.add_user_transition(State.PROMPT_oolpast2,State.PROMPT_oolpast_well2,r'<{[-"not" #ONT(ontpositive)],[!"not" #ONT(ontnegative)]}>')
+df.add_user_transition(State.PROMPT_oolpast2,State.PROMPT_oolpast_bad2,r'<{[!#ONT(ontnegative)],[!"not" #ONT(ontpositive)]}>')
+df.add_user_transition(State.PROMPT_oolpast2,State.PROMPT_oolpast_well2,r'<{[!#ONT(ontpositive)],[!"not" #ONT(ontnegative)]}>')
 df.set_error_successor(State.PROMPT_oolpast2,State.PROMPT_oolpast_err2)
 df.add_system_transition(State.PROMPT_oolpast_err2,State.PROMPT_oolstressfr2,r'[!"Gotchu!"#school_n3_well"How often do you find"#help_ss"stressful?"]')
 df.add_system_transition(State.PROMPT_oolpast_bad2,State.PROMPT_oolstressfr2,r'[!"It is possible that you are just too unique to"#ool_or_eer"."#school_n3_bad"How often do you feel stressed about"#help_ss"?"]')
@@ -3145,7 +3169,7 @@ df.set_error_successor(State.PROMPT_oolgoal2,State.PROMPT_oolgoal_err2)
 df.add_system_transition(State.PROMPT_oolgoal_re2,State.PROMPT_oolgoalalign2,r'[!"Very Ambitious!"#school_n4_future"How much do you think your current priorities are related to your life after college then?"]')
 df.add_system_transition(State.PROMPT_oolgoal_err2,State.PROMPT_oolgoalalign2,r'[!"Yeah I do feel more peaceful to just focus on the present"#school_n4_present"How much do you think your current tasks align with your future goals then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign2,State.PROMPT_oolgoalalign_no2,'<{"not much","slightly","not at all","unrelated","a little","very little","somewhat"}>')
-df.add_user_transition(State.PROMPT_oolgoalalign2,State.PROMPT_oolgoalalign_yes2,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
+df.add_user_transition(State.PROMPT_oolgoalalign2,State.PROMPT_oolgoalalign_yes2,'<{"a lot","to a large degree","totally","related","more or less","to some extent"}>')
 df.set_error_successor(State.PROMPT_oolgoalalign2,State.PROMPT_oolgoalalign_err2)
 df.add_system_transition(State.PROMPT_oolgoalalign_err2,State.PROMPT_oolstressfr2,r'[!"That is ok."#school_n4_lil"How often do you find"#help_ss"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes2,State.PROMPT_oolstressfr2,r'[!"It is nice that you push yourself to stay focused on your goals"#school_n4_much"How often do you find"#help_ss"overwhelming?"]')
@@ -3222,10 +3246,13 @@ df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schoolcourse_opt, r'<$S_
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schoolgeneral_opt, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schooltime_opt, r'<$S_S=[!#ONT(ontschooltime)]>',score=2.0)
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schoolcovid_opt, r'<$S_S=[!#ONT(ontschoolcovid)]>',score=2.0)
+df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
+df.add_user_transition(State.PROMPT0_opt, State.BREAKUP_OPT, r'<{[!#ONT(ontbreakup)]}>')
+df.set_error_successor(State.PROMPT0_opt, State.PROMPT_ERR)
 df.add_system_transition(State.PROMPT0_schoolevent_opt, State.PROMPT_forclass3,r'[!"I am sure it will not be as bad as you think. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_opt,State.PROMPT_majorreq3,r'[!"Hey no pain no gain! The fact that you find this"$S_S"hard probably means that you are learning a lot. Is it a requirement for your major?"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_opt, State.PROMPT_oolpast3,r'[!"Hey I know you are smart enough to handle"$S_S" if you put enough effort in."$S_S"How did you do in"#help_ss"in the past?"]')
-df.add_system_transition(State.PROMPT0_schooltime_opt,State.PROMPT_oolgoal3,r'[!"It is good that now you get to think about how to prioritize things. Present happiness and future happiness, which one matters more to you?"]')
+df.add_system_transition(State.PROMPT0_schooltime_opt,State.PROMPT_oolgoal3,r'[!"Now you get to sort out what is important to you and what not. Present happiness and future happiness, which one matters more to you?"]')
 df.add_system_transition(State.PROMPT0_schoolcovid_opt,State.PROMPT_oolcovidworry3,r'[!"Are you worried about getting infected by coronavirus?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass3,State.PROMPT_forclass_yes3,r'<[!#ONT(ontyes)]>')
@@ -3254,8 +3281,8 @@ df.add_system_transition(State.PROMPT_majorreq_yes3,State.PROMPT_major3,r'[!#sch
 df.add_user_transition(State.PROMPT_major3,State.PROMPT_majorreq_yesmajor3,r'<$major=[!#ONT(ontschoolcourse)]>')
 df.add_system_transition(State.PROMPT_majorreq_yesmajor3,State.PROMPT_oolstressfr3,r'[!#school_n5_formajor"Being an expert in the field of "$major"will lead you to so many great options for future career! How often do you find your"$S_S"stressful?"]')
 #schoolgeneral branch up to stress-freq prompt
-df.add_user_transition(State.PROMPT_oolpast3,State.PROMPT_oolpast_bad3,r'<{[-"not" #ONT(ontnegative)],[!"not" #ONT(ontpositive)]}>')
-df.add_user_transition(State.PROMPT_oolpast3,State.PROMPT_oolpast_well3,r'<{[-"not" #ONT(ontpositive)],[!"not" #ONT(ontnegative)]}>')
+df.add_user_transition(State.PROMPT_oolpast3,State.PROMPT_oolpast_bad3,r'<{[!#ONT(ontnegative)],[!"not" #ONT(ontpositive)]}>')
+df.add_user_transition(State.PROMPT_oolpast3,State.PROMPT_oolpast_well3,r'<{[!#ONT(ontpositive)],[!"not" #ONT(ontnegative)]}>')
 df.set_error_successor(State.PROMPT_oolpast3,State.PROMPT_oolpast_err3)
 df.add_system_transition(State.PROMPT_oolpast_err3,State.PROMPT_oolstressfr3,r'[!"Whatever happened in the past is just a starting point for you to reach your dreams. Hang in there!"#school_n3_well"How often do you find"#help_ss"stressful?"]')
 df.add_system_transition(State.PROMPT_oolpast_bad3,State.PROMPT_oolstressfr3,r'[!"Failures are painful yet precious opportunities to help you know how to improve youreself more!"#school_n3_bad"How often do you feel stressed about"#help_ss"?"]')
@@ -3263,10 +3290,10 @@ df.add_system_transition(State.PROMPT_oolpast_well3,State.PROMPT_oolstressfr3,r'
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_re3,'<{[!"future"]}>')
 df.set_error_successor(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_err3)
-df.add_system_transition(State.PROMPT_oolgoal_re3,State.PROMPT_oolgoalalign3,r'[!"You are probably stressed because you have high expectation of yourself and ambitious plans for your future."#school_n4_future"How much do you think your current priorities are related to your future goals?"]')
+df.add_system_transition(State.PROMPT_oolgoal_re3,State.PROMPT_oolgoalalign3,r'[!"Do you think you are stressed because you have high expectation of yourself?"#school_n4_future"How much do you think your current priorities are related to your future goals?"]')
 df.add_system_transition(State.PROMPT_oolgoal_err3,State.PROMPT_oolgoalalign3,r'[!#school_n4_present"The truth is future is way beyond our control. Thinking too much about the future stresses one out. How much do you think your current tasks align with your future goals then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_no3,'<{"not much","slightly","not at all","unrelated","a little","very little","somewhat"}>')
-df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_yes3,'<{"much","a lot","to a large degree","totally","related","more or less","to some extent"}>')
+df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_yes3,'<{"a lot","to a large degree","totally","related","more or less","to some extent"}>')
 df.set_error_successor(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_err3)
 df.add_system_transition(State.PROMPT_oolgoalalign_err3,State.PROMPT_oolstressfr3,r'[!"Interesting."#school_n4_lil"How often do you find"#help_ss"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes3,State.PROMPT_oolstressfr3,r'[!"I am impressed by how you push yourself to stay focused on your goals"#school_n4_much"How often do you find"#help_ss"overwhelming?"]')
@@ -3519,7 +3546,7 @@ df.add_system_transition(State.PROMPT_oolzoom_err3,State.PROMPT8_1,r'[!"Interest
 
 
 '''BREAK UP AGG'''
-df.add_system_transition(State.BREAKUP, State.BREAKUP0, r'[!"Oh...I am so sorry. I know how heartbreaking it feels. How long had you guys been together?"]')
+df.add_system_transition(State.BREAKUP_AGG, State.BREAKUP0, r'[!"Oh...I am so sorry. I know how heartbreaking it feels. How long had you guys been together?"]')
 df.add_user_transition(State.BREAKUP0, State.BREAKUP0_short, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
 df.add_user_transition(State.BREAKUP0, State.BREAKUP0_mid, r'/.*([2]|two)\s\b(year|years)\b.*/')
 df.add_user_transition(State.BREAKUP0, State.BREAKUP0_long, r'/.*([3-9]|[0]|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
@@ -3546,7 +3573,7 @@ df.add_system_transition(State.BREAKUP3_yes, State.BREAKUP4, r'[!"I wish you the
 df.add_system_transition(State.BREAKUP3_no, State.BREAKUP4, r'[!"I think you are ready to move on! Time to focus on self-development, and dont forget to love yourself more. During quarantine, I really enjoy trying new stuff. What activity do you like to do while in quarantine?"]')
 
 '''BREAK UP OPT'''
-df.add_system_transition(State.BREAKUP, State.BREAKUP01, r'[!"You will find someone better! How long had you guys been together?"]')
+df.add_system_transition(State.BREAKUP_OPT, State.BREAKUP01, r'[!"You will find someone better! How long had you guys been together?"]')
 df.add_user_transition(State.BREAKUP01, State.BREAKUP0_short1, r'/.*(1|a|one)\s\byear\b.*|.*(month|months|day|days).*((?!year|years).)*/')
 df.add_user_transition(State.BREAKUP01, State.BREAKUP0_mid1, r'/.*([2]|two)\s\b(year|years)\b.*/')
 df.add_user_transition(State.BREAKUP01, State.BREAKUP0_long1, r'/.*([3-9]|[0]|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\s\b(year|years)\b.*/')
