@@ -3248,11 +3248,14 @@ df.add_system_transition(State.PROMPT_oolzoom_err3,State.PROMPT8_1,r'[!"Interest
 ############END OF SCHOOL OPT######################################################################
 ###################################################################################################
 
-###TODO
+
+###############################################version savage of love
 
 
 
-###############################################UNTIL HERE########################################################
+
+
+###############################################version agreeable of love
 '''LOVE AGREE'''
 df.add_user_transition(State.LOVE0, State.SINGLE, r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.LOVE0, State.ROMAN, r'<[!#ONT(ontyes)]>')
@@ -3381,7 +3384,7 @@ df.add_user_transition(State.COVID0, State.COVID0_no, r'<[!#ONT(ontno)]>')
 df.add_system_transition(State.COVID0_yes, State.COVID1, r'[!"It is nice to still be able to see each other! I think everyone must be super stressed under this chaotic situation... Honestly, I think doing some fun activities might reduce some of your stress. What activity do you like to do during quarantine?"]')
 df.add_system_transition(State.COVID0_no, State.COVID1, r'[!"Oh...I am guessing this stress is coming from the fact that you cannot see each other. Not able to see my friends and talk about how our life suck is stressing me out. But doing some fun activities help me relax a lot. What activity do you like to do during quarantine?"]')
 
-###################################love version 2
+###################################version optimistic of love
 '''LOVE OPT'''
 df.add_user_transition(State.LOVE0, State.SINGLEo1, r'<[!#ONT(ontno)]>')
 df.add_user_transition(State.LOVE0, State.ROMANo1, r'<[!#ONT(ontyes)]>')
