@@ -2926,7 +2926,7 @@ df.add_system_transition(State.PROMPT7_in1, State.PROMPT8_1,r'[!"I guess we are 
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_chores1, r'<$activity={[!#ONT(ontchores)]}>')
 df.add_system_transition(State.PROMPT8_chores1, State.PROMPT9_1,r'[!"Same! It feels so good when things are clean and organized, right?"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_games1, r'<$activity={[!#ONT(ontgames)]}>')
-df.add_system_transition(State.PROMPT8_games1, State.PROMPT9_1,r'[!"Oh I did not know you are a gamer! Wanna play"$activity"together sometime!"]')
+df.add_system_transition(State.PROMPT8_games1, State.PROMPT9_1,r'[!"Oh I did not know you are a gamer! Wanna play"$activity"together sometime?"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_music1, r'<$activity={[!#ONT(ontmusic)]}>')
 df.add_system_transition(State.PROMPT8_music1, State.PROMPT9_1,r'[!"Of course, listening to music is so stress relieving. Do you like rock music?"]')
 df.add_user_transition(State.PROMPT8_1, State.PROMPT8_art1, r'<$activity={[!#ONT(ontart)]}>')
@@ -2947,7 +2947,7 @@ df.add_user_transition(State.PROMPT8_1, State.PROMPT8_social1, r'<$activity={[!#
 df.add_system_transition(State.PROMPT8_social1, State.PROMPT9_1,r'[!"You are such a social butterfly! Wanna come to a dance party near my house next weekend?"]')
 df.add_user_transition(State.PROMPT9_1, State.SCORE1_pos, r'{[!#ONT(ontyes)],[!#ONT(ontpositive)],[!#ONT(ontlike)]}')
 df.set_error_successor(State.PROMPT9_1, State.SCORE1_neg)
-df.add_system_transition(State.SCORE1_pos, State.END1, r'[!"Awesome! We have very similar hobbies!"#result]')
+df.add_system_transition(State.SCORE1_pos, State.END1, r'[!"Awesome! Glad we use similar ways to destress!"#result]')
 df.add_system_transition(State.SCORE1_neg, State.END1, r'[!#result]')
 
 ###### error cases
@@ -2972,7 +2972,7 @@ df.add_system_transition(State.PROMPT4_err1, State.PROMPT5_1, r'[!"Mmhmm. Do you
 df.add_system_transition(State.PROMPT5_err1, State.PROMPT6_1, r'[!"Great! What made you wanna attend this event?"]')
 df.add_system_transition(State.PROMPT6_err1, State.PROMPT7_1,r'[!"Oh! That is very interesting! This might sound weird but sometimes I enjoy"#det_ss"when everyone is focusing on me. Fo...fo...focus on me. Okay that was a little too much of Ariana. What else do you feel about this upcoming"$S_S"?"]')
 df.add_system_transition(State.PROMPT7_err1, State.PROMPT8_1,r'[!"Interesting! Hey shall we stop talking about stressful things? What is your favorite destress activity?"]')
-df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally like to organize my rooms. Doing chores is so therapeutic to me! Gotta go wash some dishes for my roommates. Later!"]')
+df.add_system_transition(State.PROMPT8_err1, State.PROMPT9_1,r'[!"I personally like to organize my rooms. Doing chores is so therapeutic! Gotta go wash some dishes for my roommates."]')
 ################################################################################################################
 ############School_Savage#######################################################################################
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolevent_savage, r'<$S_S=[!#ONT(ontschoolevent)]>',score=1.0)
@@ -2980,7 +2980,7 @@ df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolcourse_savage, 
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schoolgeneral_savage, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_schooltime_savage, r'<$S_S=[!#ONT(ontschooltime)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_savage, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_savage, State.BREAKUP_SAV, r'<{[!#ONT(ontbreakup)]}>')
+df.add_user_transition(State.PROMPT0_savage, State.BREAKUP_SAV, r'<{[!#ONT(ontbreakup)]}>',score=1.0)
 df.set_error_successor(State.PROMPT0_savage, State.PROMPT_ERR)
 
 df.add_system_transition(State.PROMPT0_schoolevent_savage, State.PROMPT_forclass1,r'[!"You only think of me when you have problems dont you？ Just Kidding. Is that"$S_S"for a class that you are taking？"]')
@@ -3092,7 +3092,7 @@ df.add_user_transition(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_yes1,r'<[!#ONT
 df.set_error_successor(State.PROMPT_oolzoom1,State.PROMPT_oolzoom_err1)
 df.add_system_transition(State.PROMPT_oolzoom_no1,State.PROMPT8_1,r'[!"When I am at school"#school_e3_studyspot2_nozoom"I often study with a group of friends. Perhaps we have different study habits. What do you do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_yes1,State.PROMPT8_1,r'[!"I guess"#school_e3_studyspot2_zoom"we are quite similar in our study habits. I have been feeling so stressed about many things recently. What do you do to destress during quarantine?"]')
-df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. What do u do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_err1,State.PROMPT8_1,r'[!"Interesting. I miss studying with my friends at the library. What do u do to destress during quarantine?"]')
 ############END OF SCHOOL SAVAGE###################################################################
 
 ############School_AGR#####################################################
@@ -3101,11 +3101,11 @@ df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schoolcourse_agg, r'<$S_
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schoolgeneral_agg, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_schooltime_agg, r'<$S_S=[!#ONT(ontschooltime)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_agg, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_agg, State.BREAKUP_AGG, r'<{[!#ONT(ontbreakup)]}>')
+df.add_user_transition(State.PROMPT0_agg, State.BREAKUP_AGG, r'<{[!#ONT(ontbreakup)]}>',score=1.0)
 df.set_error_successor(State.PROMPT0_agg, State.PROMPT_ERR)
 df.add_system_transition(State.PROMPT0_schoolevent_agg, State.PROMPT_forclass2,r'[!"I glad that I am not the only one thinking that school is very demanding. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_agg,State.PROMPT_majorreq2,r'[!"oof I hope that"$S_S" is worth your time and effort. Is it a requirement for your major?"]')
-df.add_system_transition(State.PROMPT0_schoolgeneral_agg, State.PROMPT_oolpast2,r'[!"I can relate to your struggle with"$S_S".How did you do in"#help_ss"in the past?"]')
+df.add_system_transition(State.PROMPT0_schoolgeneral_agg, State.PROMPT_oolpast2,r'[!"I can relate to your struggle with"$S_S".How did you do in terms of"#help_ss"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_agg,State.PROMPT_oolgoal2,r'[!"It is always really challenging for me to figure out what I should prioritize the most in my life. The present and the future, which one matters more to you?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass2,State.PROMPT_forclass_yes2,r'<[!#ONT(ontyes)]>')
@@ -3139,7 +3139,7 @@ df.add_user_transition(State.PROMPT_oolpast2,State.PROMPT_oolpast_well2,r'<{[!#O
 df.set_error_successor(State.PROMPT_oolpast2,State.PROMPT_oolpast_err2)
 df.add_system_transition(State.PROMPT_oolpast_err2,State.PROMPT_oolstressfr2,r'[!"I see. I tend to extrapolate what happened in the past to the future."#help_ss"How often"#school_n3_well"did you find"#help_ss"stressful?"]')
 df.add_system_transition(State.PROMPT_oolpast_bad2,State.PROMPT_oolstressfr2,r'[!"Perhaps your past experience might have made you too scared to"#ool_or_eer"."#school_n3_bad"How often did you feel stressed about"#help_ss"?"]')
-df.add_system_transition(State.PROMPT_oolpast_well2,State.PROMPT_oolstressfr2,r'[!"It is totally understandable that"#school_n3_well"you want to keep your winning streak in"#help_ss"How often did you feel stressed about"#help_ss"?"]')
+df.add_system_transition(State.PROMPT_oolpast_well2,State.PROMPT_oolstressfr2,r'[!"It is totally understandable that"#school_n3_well"you want to keep your winning streak in"#help_ss".How often did you feel stressed about"#help_ss"?"]')
 #schooltime branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_oolgoal2,State.PROMPT_oolgoal_re2,'<{[!"future"]}>')
 df.set_error_successor(State.PROMPT_oolgoal2,State.PROMPT_oolgoal_err2)
@@ -3194,7 +3194,7 @@ df.set_error_successor(State.PROMPT_oolonline_reasongood2,State.PROMPT_oolonline
 df.add_system_transition(State.PROMPT_oolonlinereason_prodbad2,State.PROMPT_oolstudyspot2,r'[!"I can relate to that. Oh I really miss studying at coffee shops where I can focus better."#school_e2_online2_loprod"Where is your study area at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialbad2,State.PROMPT_oolstudyspot2,r'[!"Same."#school_e2_online2_lesssocial"I do not feel as connected to people even though I could see their faces. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexbad2,State.PROMPT_oolstudyspot2,r'[!"Honestly I do think more flexibility in schedules is bad. I struggle with time management more now.Where is your study area at home?"]')
-df.add_system_transition(State.PROMPT_oolonline_dislike_err2,State.PROMPT_oolstudyspot2,r'[!"Finger crossed. I really hope that we can go back to school this fall. Where do you usually study at home?"]')
+df.add_system_transition(State.PROMPT_oolonline_dislike_err2,State.PROMPT_oolstudyspot2,r'[!"I feel you. Finger crossed. I really hope that we can go back to school this fall. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_like_err2,State.PROMPT_oolstudyspot2,r'[!"I think that part about online learning is great too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood2,State.PROMPT_oolstudyspot2,r'[!"True. Listening to lectures on a two times speed saves me a lot of time these days. Where is your study area at home? "]')
 df.add_system_transition(State.PROMPT_oolonlinereason_prodgood2,State.PROMPT_oolstudyspot2,r'[!"Indeed. I feel the same way about working and studying from home."#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
@@ -3212,7 +3212,7 @@ df.add_user_transition(State.PROMPT_oolzoom2,State.PROMPT_oolzoom_yes2,r'<[!#ONT
 df.set_error_successor(State.PROMPT_oolzoom2,State.PROMPT_oolzoom_err2)
 df.add_system_transition(State.PROMPT_oolzoom_no2,State.PROMPT8_1,r'[!"When I am at school"#school_e3_studyspot2_nozoom"I often study with a group of friends. Perhaps we have different study habits. What do you do to destress during quarantine?"]')
 df.add_system_transition(State.PROMPT_oolzoom_yes2,State.PROMPT8_1,r'[!"I guess"#school_e3_studyspot2_zoom"we are quite similar in our study habits. I have been feeling stressed about many things recently. What do you do to destress during quarantine?"]')
-df.add_system_transition(State.PROMPT_oolzoom_err2,State.PROMPT8_1,r'[!"Interesting. What do you do to destress during quarantine?"]')
+df.add_system_transition(State.PROMPT_oolzoom_err2,State.PROMPT8_1,r'[!"Interesting. I miss studying with a bunch of classmates in the library. What do you do to destress during quarantine?"]')
 ############END OF SCHOOL AGG###################################################################
 
 ############SCHOOL OPT#####################################################################
@@ -3221,11 +3221,11 @@ df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schoolcourse_opt, r'<$S_
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schoolgeneral_opt, r'<$S_S=[!#ONT(ontschoolgeneral)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_schooltime_opt, r'<$S_S=[!#ONT(ontschooltime)]>',score=1.0)
 df.add_user_transition(State.PROMPT0_opt, State.PROMPT0_re1, r'<$S_S=[!#ONT(ontsocial)]>')
-df.add_user_transition(State.PROMPT0_opt, State.BREAKUP_OPT, r'<{[!#ONT(ontbreakup)]}>')
+df.add_user_transition(State.PROMPT0_opt, State.BREAKUP_OPT, r'<{[!#ONT(ontbreakup)]}>',score=1.0)
 df.set_error_successor(State.PROMPT0_opt, State.PROMPT_ERR)
 df.add_system_transition(State.PROMPT0_schoolevent_opt, State.PROMPT_forclass3,r'[!"I am sure it will not be as bad as you think. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_opt,State.PROMPT_majorreq3,r'[!"Hey no pain no gain! The fact that you find this"$S_S"hard probably means that you are learning a lot. Is it a requirement for your major?"]')
-df.add_system_transition(State.PROMPT0_schoolgeneral_opt, State.PROMPT_oolpast3,r'[!"Hey I know you are smart enough to handle it if you put enough effort into"$S_S"How did you do in"#help_ss"in the past?"]')
+df.add_system_transition(State.PROMPT0_schoolgeneral_opt, State.PROMPT_oolpast3,r'[!"Hey I know you are smart enough to handle it if you put enough effort into"$S_S"How did you do in terms of"#help_ss"in the past?"]')
 df.add_system_transition(State.PROMPT0_schooltime_opt,State.PROMPT_oolgoal3,r'[!"Now is a perfect opportunity for you to become better at time management. Do you worry more about the present or the future?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass3,State.PROMPT_forclass_yes3,r'<[!#ONT(ontyes)]>')
