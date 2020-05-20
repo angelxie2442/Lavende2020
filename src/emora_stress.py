@@ -2769,7 +2769,9 @@ stress_dict = {
                 "concentrate better",
                 "focus better",
                 "more time",
-                "more efficient"
+                "more efficient",
+                "faster",
+                "two times speed"
                 ],
             'ontbedroom':
                 [
@@ -3085,7 +3087,7 @@ df.add_system_transition(State.PROMPT_oolonlinereason_flexbad1,State.PROMPT_ools
 df.add_system_transition(State.PROMPT_oolonline_dislike_err1,State.PROMPT_oolstudyspot1,r'[!"I absolutely hate that about online learning too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_like_err1,State.PROMPT_oolstudyspot1,r'[!"I love that about online learning too. Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood1,State.PROMPT_oolstudyspot1,r'[!"You must be having a hard time distinguishing weekdays from weekends? Morning from nights? Where is your study area at home? "]')
-df.add_system_transition(State.PROMPT_oolonlinereason_prodgood1,State.PROMPT_oolstudyspot1,r'[!"How is that possible?"#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_prodgood1,State.PROMPT_oolstudyspot1,r'[!"How is that possible?"#school_e2_online2_hiprod"Where is your study area at home? I find it hard to stay focused at home."]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialgood1,State.PROMPT_oolstudyspot1, r'[!" Good for you!"##school_e2_online2_socialstress"I feel less motivated to study these days ughh...Where do you usually study at home?"]')
 
 df.add_user_transition(State.PROMPT_oolstudyspot1,State.PROMPT_oolstudyspot_bedroom1,r'<$room=[!#ONT(ontbedroom)]>')
@@ -3234,7 +3236,7 @@ df.set_error_successor(State.PROMPT0_opt, State.PROMPT_ERR)
 df.add_system_transition(State.PROMPT0_schoolevent_opt, State.PROMPT_forclass3,r'[!"I am sure it will not be as bad as you think. Is that"$S_S"for a class that you are taking？"]')
 df.add_system_transition(State.PROMPT0_schoolcourse_opt,State.PROMPT_majorreq3,r'[!"Hey no pain no gain! The fact that you find this"$S_S"hard probably means that you are learning a lot. Is it a requirement for your major?"]')
 df.add_system_transition(State.PROMPT0_schoolgeneral_opt, State.PROMPT_oolpast3,r'[!"Hey I know you are smart enough to handle it if you put enough effort into"$S_S"How did you do in terms of"#help_ss"in the past?"]')
-df.add_system_transition(State.PROMPT0_schooltime_opt,State.PROMPT_oolgoal3,r'[!"Now is a perfect opportunity for you to become better at time management. Do you worry more about the present or the future?"]')
+df.add_system_transition(State.PROMPT0_schooltime_opt,State.PROMPT_oolgoal3,r'[!"I believe this is a perfect opportunity for you to become better at time management. Do you worry more about the present or the future?"]')
 #schoolevent branch up to stress-freq prompt
 df.add_user_transition(State.PROMPT_forclass3,State.PROMPT_forclass_yes3,r'<[!#ONT(ontyes)]>')
 df.add_user_transition(State.PROMPT_forclass3,State.PROMPT_forclass_yesclass3,r'<$class=[!#ONT(ontschoolcourse)]>')
@@ -3272,11 +3274,11 @@ df.add_system_transition(State.PROMPT_oolpast_well3,State.PROMPT_oolstressfr3,r'
 df.add_user_transition(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_re3,'<{[!"future"]}>')
 df.set_error_successor(State.PROMPT_oolgoal3,State.PROMPT_oolgoal_err3)
 df.add_system_transition(State.PROMPT_oolgoal_re3,State.PROMPT_oolgoalalign3,r'[!"Envisioning the future can always inspired one to be a better self."#school_n4_future"How much do you think your current priorities are related to your future goals?"]')
-df.add_system_transition(State.PROMPT_oolgoal_err3,State.PROMPT_oolgoalalign3,r'[!#school_n4_present"Too much anticipation often leads to frustration. How much do you think your current tasks align with your future goals then ?"]')
+df.add_system_transition(State.PROMPT_oolgoal_err3,State.PROMPT_oolgoalalign3,r'[!#school_n4_present"I think the present is just as important as the future too. Plus, anticipation often leads to frustration. How much do you think your current tasks align with your future goals then ?"]')
 df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_no3,'<{"not much","slightly","not at all","unrelated","a little","very little","somewhat"}>')
 df.add_user_transition(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_yes3,'<{"a lot","to a large degree","totally","related","more or less","to some extent"}>')
 df.set_error_successor(State.PROMPT_oolgoalalign3,State.PROMPT_oolgoalalign_err3)
-df.add_system_transition(State.PROMPT_oolgoalalign_err3,State.PROMPT_oolstressfr3,r'[!"It sounds like you already have a good time management strategy. That is a great place to start!"#school_n4_lil"How often did you find"#help_ss"overwhelming?"]')
+df.add_system_transition(State.PROMPT_oolgoalalign_err3,State.PROMPT_oolstressfr3,r'[!"It sounds like you already have a time management strategy. That is a great place to start!"#school_n4_lil"How often did you find"#help_ss"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_yes3,State.PROMPT_oolstressfr3,r'[!"I am impressed by how you push yourself to stay focused on your goals"#school_n4_much"How often did you find"#help_ss"overwhelming?"]')
 df.add_system_transition(State.PROMPT_oolgoalalign_no3,State.PROMPT_oolstressfr3,r'[!"I am quite spontaneous too. That is what makes us flexible and creative!"#school_n4_lil"How often did you find"#help_ss"overwhelming?"]')
 #stressfreq->help1->help2->onlinelearning1->onelinelearning2->studyspot1->studyspot2->destress
@@ -3285,7 +3287,7 @@ df.add_user_transition(State.PROMPT_oolstressfr3,State.PROMPT_oolstressfr_someti
 df.add_user_transition(State.PROMPT_oolstressfr3,State.PROMPT_oolstressfr_never3,r'<[!#ONT(ontnever)]>')
 df.add_system_transition(State.PROMPT_oolstressfr_often3,State.PROMPT_oolhelp_person3,r'[!"It is good that you are becoming increasingly resilient!"#school_n2_often"Anyone you can ask for advice on"#help_ss"?"]')
 df.add_system_transition(State.PROMPT_oolstressfr_sometimes3,State.PROMPT_oolhelp_person3,r'[!"A little stress once in a while can make you more productive."#school_n2_sometimes"Anyone you can ask for help or advice on"#help_ss"?"]')
-df.add_system_transition(State.PROMPT_oolstressfr_never3,State.PROMPT_oolhelp_person3,r'[!"For real"#school_n2_never"?"#help_ss"must matter a lot to you this time.Anyone you can ask for help or advice on"#help_ss"?"]')
+df.add_system_transition(State.PROMPT_oolstressfr_never3,State.PROMPT_oolhelp_person3,r'[!"For real"#school_n2_never"?The challenge of"#help_ss"must be new to you.Anyone you can ask for help or advice on"#help_ss"?"]')
 df.set_error_successor(State.PROMPT_oolstressfr3,State.PROMPT_oolstressfr_err3)
 df.add_system_transition(State.PROMPT_oolstressfr_err3,State.PROMPT_oolhelp_person3,r'[!"I have faith in you!"#school_n2_sometimes"Anyone you could ask to help you on"#help_ss"?"]')
 
@@ -3320,9 +3322,9 @@ df.add_user_transition(State.PROMPT_oolonline_reasongood3,State.PROMPT_oolonline
 df.set_error_successor(State.PROMPT_oolonline_reasongood3,State.PROMPT_oolonline_like_err3)
 df.add_system_transition(State.PROMPT_oolonlinereason_prodbad3,State.PROMPT_oolstudyspot3,r'[!"True. I like that it is training us to become more self disciplined though"#school_e2_online2_loprod"Where is your study area at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialbad3,State.PROMPT_oolstudyspot3,r'[!"Right. I am still thankful that technology allows us to stay somewhat connected to each other."#school_e2_online2_lesssocial"Where do you usually study at home?"]')
-df.add_system_transition(State.PROMPT_oolonlinereason_flexbad3,State.PROMPT_oolstudyspot3,r'[!"That is a fair point. I do feel like the freedom to decide my own schedule everyday is quite nice though. Where is your study area at home?"]')
+df.add_system_transition(State.PROMPT_oolonlinereason_flexbad3,State.PROMPT_oolstudyspot3,r'[!"Fair point. I do feel like the freedom to decide my own schedule everyday is quite nice though. Where is your study area at home?"]')
 df.add_system_transition(State.PROMPT_oolonline_dislike_err3,State.PROMPT_oolstudyspot3,r'[!"I know. I miss studying with my friends in school, but I guess I have learned to appreciate my friends more now that we are apart. Where do you usually study at home?"]')
-df.add_system_transition(State.PROMPT_oolonline_like_err3,State.PROMPT_oolstudyspot3,r'[!"I think that part about online learning is great too. Where do you usually study at home?"]')
+df.add_system_transition(State.PROMPT_oolonline_like_err3,State.PROMPT_oolstudyspot3,r'[!"I agree. What I like the most about online learning is that I get to watch lectures on a two times speed. That saves me a lot of time.Where do you usually study at home?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_flexgood3,State.PROMPT_oolstudyspot3,r'[!"I do manage my time a lot better now that I can listen to lectures whenever I want. Where is your study area at home? "]')
 df.add_system_transition(State.PROMPT_oolonlinereason_prodgood3,State.PROMPT_oolstudyspot3,r'[!"There are indeed fewer sources of distractions at home."#school_e2_online2_hiprod"Where is your study area at home that helps you stay focused ?"]')
 df.add_system_transition(State.PROMPT_oolonlinereason_socialgood3,State.PROMPT_oolstudyspot3, r'[!"Right.I actually feel"##school_e2_online2_socialstress"more comfortable participating in class and going to office hours these days.Where do you usually study at home?"]')
